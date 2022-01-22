@@ -1515,6 +1515,9 @@ MonoBehaviour:
   bgmText: {fileID: 508121003}
   sfxText: {fileID: 152758339}
   fullscreenToggle: {fileID: 1439016189}
+  defaultBGMVolume: 4
+  defaultSFXVolume: 5
+  defaultIsFullscreen: 1
 --- !u!4 &783715142
 Transform:
   m_ObjectHideFlags: 0
@@ -2193,7 +2196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c24d84040166b4d8e8a9cba3eed23b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgmVolume: 5
+  bgmVolume: 4
   bgmMax: 10
   sfxVolume: 5
   sfxMax: 10

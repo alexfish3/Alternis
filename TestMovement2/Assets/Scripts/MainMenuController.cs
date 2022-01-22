@@ -26,6 +26,11 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] TMP_Text sfxText;
     [SerializeField] GameObject fullscreenToggle;
 
+    [Header("Default Settings")]
+    [SerializeField] int defaultBGMVolume;
+    [SerializeField] int defaultSFXVolume;
+    [SerializeField] bool defaultIsFullscreen;
+
     bool loadFile = false;
     EssentialGameObjects essentialGameObjects;
 
@@ -108,25 +113,25 @@ public class MainMenuController : MonoBehaviour
             else if (canScrollY == true)
             {
                 // Controller Controls
-                if ((Input.GetAxis("Vertical") > 0) && position > 0)
+                if ((Input.GetAxis("Vertical") > 0.5) && position > 0)
                 {
                     canScrollY = false;
                     position--;
                     selector.transform.position = positions[position].transform.position;
                 }
-                else if ((Input.GetAxis("Vertical") > 0) && position == 0)
+                else if ((Input.GetAxis("Vertical") > 0.5) && position == 0)
                 {
                     canScrollY = false;
                     position = positions.Length - 1;
                     selector.transform.position = positions[position].transform.position;
                 }
-                else if ((Input.GetAxis("Vertical") < 0) && position < positions.Length - 1)
+                else if ((Input.GetAxis("Vertical") < -0.5) && position < positions.Length - 1)
                 {
                     canScrollY = false;
                     position++;
                     selector.transform.position = positions[position].transform.position;
                 }
-                else if ((Input.GetAxis("Vertical") < 0) && position == positions.Length - 1)
+                else if ((Input.GetAxis("Vertical") < -0.5) && position == positions.Length - 1)
                 {
                     canScrollY = false;
                     position = 0;
@@ -152,13 +157,13 @@ public class MainMenuController : MonoBehaviour
                 // Change BGM Volume
                 if(settingsPosition == 0)
                 {
-                    if (Input.GetAxis("Horizontal") > 0 && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
+                    if (Input.GetAxis("Horizontal") > 0.5 && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
                     {
                         canScrollX = false;
                         essentialGameObjects.bgmVolume++;
                         bgmText.text = essentialGameObjects.bgmVolume.ToString();
                     }
-                    else if (Input.GetAxis("Horizontal") < 0 && essentialGameObjects.bgmVolume > 0)
+                    else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.bgmVolume > 0)
                     {
                         canScrollX = false;
                         essentialGameObjects.bgmVolume--;
@@ -168,13 +173,13 @@ public class MainMenuController : MonoBehaviour
                 // Change SFX Volume
                 if (settingsPosition == 1)
                 {
-                    if (Input.GetAxis("Horizontal") > 0 && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
+                    if (Input.GetAxis("Horizontal") > 0.5 && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
                     {
                         canScrollX = false;
                         essentialGameObjects.sfxVolume++;
                         sfxText.text = essentialGameObjects.sfxVolume.ToString();
                     }
-                    else if (Input.GetAxis("Horizontal") < 0 && essentialGameObjects.sfxVolume > 0)
+                    else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.sfxVolume > 0)
                     {
                         canScrollX = false;
                         essentialGameObjects.sfxVolume--;
@@ -184,7 +189,7 @@ public class MainMenuController : MonoBehaviour
                 // Change Fullscreen
                 if(settingsPosition == 2)
                 {
-                    if (Input.GetAxis("Horizontal") > 0)
+                    if (Input.GetAxis("Horizontal") > 0.5)
                     {
                         canScrollX = false;
                         if (essentialGameObjects.isFullscreen == true)
@@ -199,7 +204,7 @@ public class MainMenuController : MonoBehaviour
                         Screen.fullScreen = essentialGameObjects.isFullscreen;
 
                     }
-                    else if (Input.GetAxis("Horizontal") < 0)
+                    else if (Input.GetAxis("Horizontal") < -0.5)
                     {
                         canScrollX = false;
                         if (essentialGameObjects.isFullscreen == true)
@@ -216,6 +221,27 @@ public class MainMenuController : MonoBehaviour
                     }
                 }
 
+            }
+            // Restore To Defaults
+            if (settingsPosition == 3)
+            {
+                if (Input.GetButtonDown("Return"))
+                {
+                    Debug.Log("Restore");
+
+                    // Restore BGM Volume
+                    essentialGameObjects.bgmVolume = defaultBGMVolume;
+                    bgmText.text = essentialGameObjects.bgmVolume.ToString();
+
+                    // Restore SFX Volume
+                    essentialGameObjects.sfxVolume = defaultSFXVolume;
+                    sfxText.text = essentialGameObjects.sfxVolume.ToString();
+
+                    // Restore Fullscreen
+                    essentialGameObjects.isFullscreen = defaultIsFullscreen;
+                    fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
+
+                }
             }
 
             if ((Input.GetAxis("Vertical") == 0))
@@ -225,25 +251,25 @@ public class MainMenuController : MonoBehaviour
             else if (canScrollY == true)
             {
                 // Controller Controls
-                if ((Input.GetAxis("Vertical") > 0) && settingsPosition > 0)
+                if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition > 0)
                 {
                     canScrollY = false;
                     settingsPosition--;
                     settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
                 }
-                else if ((Input.GetAxis("Vertical") > 0) && settingsPosition == 0)
+                else if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition == 0)
                 {
                     canScrollY = false;
                     settingsPosition = settingsPositions.Length - 1;
                     settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
                 }
-                else if ((Input.GetAxis("Vertical") < 0) && settingsPosition < settingsPositions.Length - 1)
+                else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition < settingsPositions.Length - 1)
                 {
                     canScrollY = false;
                     settingsPosition++;
                     settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
                 }
-                else if ((Input.GetAxis("Vertical") < 0) && settingsPosition == settingsPositions.Length - 1)
+                else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition == settingsPositions.Length - 1)
                 {
                     canScrollY = false;
                     settingsPosition = 0;
