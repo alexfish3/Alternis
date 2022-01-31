@@ -97,6 +97,7 @@ public class WorldSwap : MonoBehaviour
         switchText.text = (cooldown * 10).ToString();
         for (float i = cooldown; i >= 0; i = i - 0.1f)
         {
+            Debug.Log("E");
             yield return new WaitForSeconds(0.1f);
             int roundedCounter = (int)(i * 10);
 
@@ -109,10 +110,8 @@ public class WorldSwap : MonoBehaviour
     public IEnumerator looseOxygen()
     {
         changingLevel = true;
-        Debug.Log("A2w");
         for (int i = oxygen; i > 0; i--)
         {
-            Debug.Log("-");
             if (stopOxygenChange == true)
             {
                 stopOxygenChange = false;
@@ -128,10 +127,8 @@ public class WorldSwap : MonoBehaviour
     public IEnumerator gainOxygen()
     {
         changingLevel = true;
-        Debug.Log("Aw");
         for (int i = oxygen; i < 100; i++)
         {
-            Debug.Log("+");
             if (stopOxygenChange == true)
             {
                 stopOxygenChange = false;
@@ -141,7 +138,6 @@ public class WorldSwap : MonoBehaviour
             oxygen++;
             yield return new WaitForSeconds(speed);
         }
-        Debug.Log("At Max Oxy");
         changingLevel = false;
     }
 }

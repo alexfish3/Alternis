@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1647,6 +1647,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6612362450584727579, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: UICanvas
+      value: 
+      objectReference: {fileID: 1387706250}
+    - target: {fileID: 6612362450584727579, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: oxygenBar
+      value: 
+      objectReference: {fileID: 370641854}
+    - target: {fileID: 6612362450584727579, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: switchText
+      value: 
+      objectReference: {fileID: 2065276748}
+    - target: {fileID: 6612362450584727579, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: canSwitchSignier
+      value: 
+      objectReference: {fileID: 742879316}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b8095bcd6b4ef8749b64a00a89d29a16, type: 3}
 --- !u!1 &1048857763
@@ -2438,7 +2458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967f0c693b60e694a98c302820f737cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1687207750}
   cooldown: 0
   lightWorld: {fileID: 1479296344}
   darkWorld: {fileID: 506943413}
@@ -2862,6 +2882,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1638201373}
   m_CullTransparentMesh: 1
+--- !u!1 &1687207750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6612362450584727571, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+    type: 3}
+  m_PrefabInstance: {fileID: 1008979131}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1694655863
 GameObject:
   m_ObjectHideFlags: 0
