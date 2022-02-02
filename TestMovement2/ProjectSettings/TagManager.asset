@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Dont Destroy
+  - Death
+  - Checkpoints
   layers:
   - Default
   - TransparentFX

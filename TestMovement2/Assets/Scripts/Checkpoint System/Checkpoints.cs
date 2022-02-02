@@ -8,9 +8,8 @@ public class Checkpoints : MonoBehaviour
     [SerializeField] private Transform[] checkpoints;
     [SerializeField] private Transform curCheck;
     // Start is called before the first frame update
-    void Start()
+    void CheckpointMaker()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         int counter = 0;
         int counter2 = 0;
         foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawn"))
@@ -25,25 +24,22 @@ public class Checkpoints : MonoBehaviour
             checkpoints = new Transform[counter];
             foreach (GameObject go in GameObject.FindGameObjectsWithTag("Respawn"))
             {
-                
-                checkpoints[counter2]=go.transform;
+
+                checkpoints[counter2] = go.transform;
                 counter2++;
             }
 
         }
-        
+    }
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        CheckpointMaker();
         curCheck = checkpoints[0];
         //if player touches a new checkpoint it should make the currespawn the new checkpoint
 
     }
-    void curChecker()
-    {
-        if (player.transform.position.y <= -30)
-        {
-            player.transform.position = curCheck.transform.position;
-        }
-        
-    }
+
     void curUpdater()
     {
         for (int i = 0; i < checkpoints.Length; i++)
@@ -58,10 +54,8 @@ public class Checkpoints : MonoBehaviour
     {
         return curCheck;
     }
-    // Update is called once per frame
     void Update()
     {
-        curChecker();
         player = GameObject.FindGameObjectWithTag("Player");
         curUpdater();
     }
