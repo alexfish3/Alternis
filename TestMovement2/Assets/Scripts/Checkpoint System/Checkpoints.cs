@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Checkpoints : MonoBehaviour
@@ -7,7 +5,8 @@ public class Checkpoints : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Transform[] checkpoints;
     [SerializeField] private Transform curCheck;
-    // Start is called before the first frame update
+    public bool debug;
+
     void CheckpointMaker()
     {
         int counter = 0;
@@ -44,10 +43,14 @@ public class Checkpoints : MonoBehaviour
     {
         for (int i = 0; i < checkpoints.Length; i++)
         {
-            Debug.Log("CurUpdaterIterator:" + i);
-            if ((int)player.transform.position.x ==(int) checkpoints[i].position.x) curCheck=checkpoints[i]; 
-            Debug.Log("Current Player Position X:"+player.transform.position.x);
-            Debug.Log("Current Iterator Checkpoint Position X:" + checkpoints[i].position.x);
+            if ((int)player.transform.position.x ==(int) checkpoints[i].position.x) curCheck=checkpoints[i];
+
+            if(debug)
+            {
+                Debug.Log("CurUpdaterIterator:" + i);
+                Debug.Log("Current Player Position X:"+player.transform.position.x);
+                Debug.Log("Current Iterator Checkpoint Position X:" + checkpoints[i].position.x);
+            }
         }
     }
     public Transform getCurCheck()

@@ -97,7 +97,7 @@ public class WorldSwap : MonoBehaviour
         switchText.text = (cooldown * 10).ToString();
         for (float i = cooldown; i >= 0; i = i - 0.1f)
         {
-            Debug.Log("E");
+            // Debug.Log("E");
             yield return new WaitForSeconds(0.1f);
             int roundedCounter = (int)(i * 10);
 

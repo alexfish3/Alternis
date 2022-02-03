@@ -13,7 +13,7 @@ public class Respawn : MonoBehaviour
     {
         respawner = cp.getCurCheck();
     }
-    void OnTriggerEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Death"))
         {
