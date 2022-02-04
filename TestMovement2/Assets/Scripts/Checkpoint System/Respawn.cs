@@ -7,7 +7,8 @@ public class Respawn : MonoBehaviour
     [SerializeField] private Checkpoints cp;
     [SerializeField] private Transform respawner;
     [SerializeField] private GameObject player;
-    // Start is called before the first frame update
+    [SerializeField] private float maxFallHeight = -15;
+    public bool useFallHeight;
 
     private void CurCheckpoint()
     {
@@ -15,7 +16,7 @@ public class Respawn : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Death"))
+        if (other.gameObject.CompareTag("Player"))
         {
             CurCheckpoint();
             player.transform.position = respawner.position;
@@ -23,7 +24,7 @@ public class Respawn : MonoBehaviour
     }
     private void didYouFall()
     {
-        if(player.transform.position.y < -15)
+        if(player.transform.position.y < maxFallHeight)
         {
             player.transform.position = respawner.position;
         }
@@ -37,7 +38,7 @@ public class Respawn : MonoBehaviour
     void Update()
     {
         CurCheckpoint();
-        didYouFall();
+        if(useFallHeight) didYouFall();
     }
 
 }

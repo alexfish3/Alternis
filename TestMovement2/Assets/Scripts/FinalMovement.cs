@@ -11,6 +11,7 @@ public class FinalMovement : MonoBehaviour
     public float ffSpeed;
     public float sprintSpeed;
     public float slideSpeed;
+    public float crouchWalkSpeed;
 
     float jumpSpeed;
     bool isSprinting;
@@ -20,7 +21,7 @@ public class FinalMovement : MonoBehaviour
     bool walking;
     bool doubleJump;
     bool crouch;
-    bool slide;
+    public bool slide;
     float localX;
     public bool isGrounded;
     Vector3 move;
@@ -127,7 +128,7 @@ public class FinalMovement : MonoBehaviour
         }
 
         //Crouch
-        if (Input.GetAxis("Vertical") < -0.6 || slide )
+        if (Input.GetAxis("Vertical") < -0.6 || slide)
         {
             crouch = true;
             transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
@@ -135,6 +136,14 @@ public class FinalMovement : MonoBehaviour
         {
             crouch = false;
             transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+        }
+        if (Input.GetAxis("Horizontal") > 0.4 && crouch && !slide)
+        {
+            rb.velocity = new Vector3(crouchWalkSpeed, rb.velocity.y, 0);
+        }
+        else if (Input.GetAxis("Horizontal") < -0.4 && crouch && !slide)
+        {
+            rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
         }
 
         //Slide
@@ -147,7 +156,7 @@ public class FinalMovement : MonoBehaviour
             slide = true;
             rb.velocity = new Vector3(-slideSpeed, rb.velocity.y, 0);
         }
-        if (slide && rb.velocity.x == 0)
+        if (slide && rb.velocity.x == 0 || slide && rb.velocity.x < crouchWalkSpeed)
         {
             slide = false;
         }
