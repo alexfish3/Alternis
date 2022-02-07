@@ -17,12 +17,14 @@ public class UIEvents : MonoBehaviour
 
     public void changeToDark()
     {
+        player.GetComponent<FinalMovement>().isGrounded = false;
         lightWorld.SetActive(false);
         darkWorld.SetActive(true);
         player.GetComponent<WorldSwap>().switchText.text = (cooldown * 10).ToString();
     }
     public void changeToLight()
     {
+        player.GetComponent<FinalMovement>().isGrounded = false;
         lightWorld.SetActive(true);
         darkWorld.SetActive(false);
         player.GetComponent<WorldSwap>().switchText.text = (cooldown * 10).ToString();

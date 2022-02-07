@@ -77,7 +77,7 @@ public class FinalMovement : MonoBehaviour
 
 
         //Jump
-        if (Input.GetButtonDown("Jump") && jumpSpeed <= 5 && (isGrounded || doubleJump) && !slide)
+        if (Input.GetButtonDown("Jump") && jumpSpeed <= 7 && (isGrounded || doubleJump) && !slide)
         {
             if (!isGrounded)
                 doubleJump = false;
@@ -137,14 +137,15 @@ public class FinalMovement : MonoBehaviour
             crouch = false;
             transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
         }
-        if (Input.GetAxis("Horizontal") > 0.4 && crouch && !slide)
-        {
-            rb.velocity = new Vector3(crouchWalkSpeed, rb.velocity.y, 0);
-        }
-        else if (Input.GetAxis("Horizontal") < -0.4 && crouch && !slide)
-        {
-            rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
-        }
+
+        //if (Input.GetAxis("Horizontal") > 0.4 && crouch && !slide)
+        //{
+        //    rb.velocity = new Vector3(crouchWalkSpeed, rb.velocity.y, 0);
+       // }
+       // else if (Input.GetAxis("Horizontal") < -0.4 && crouch && !slide)
+       // {
+       //     rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
+       // }
 
         //Slide
         if (crouch && Input.GetAxis("Horizontal") > 0.2 && Input.GetButtonDown("Dash") && !slide)
@@ -156,7 +157,7 @@ public class FinalMovement : MonoBehaviour
             slide = true;
             rb.velocity = new Vector3(-slideSpeed, rb.velocity.y, 0);
         }
-        if (slide && rb.velocity.x == 0 || slide && rb.velocity.x < crouchWalkSpeed)
+        if (slide && rb.velocity.x < 2 && rb.velocity.x > -2)
         {
             slide = false;
         }
@@ -175,10 +176,13 @@ public class FinalMovement : MonoBehaviour
     void FixedUpdate()
     {
         //Gravity
-        if (!isGrounded)
+        if (!isGrounded && rb.velocity.y > maxGravity)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y - 2, 0);
+        } else if (!isGrounded && rb.velocity.y <= maxGravity)
         {
             rb.velocity = new Vector3(rb.velocity.x, maxGravity, 0);
-        } else
+        } else if (isGrounded)
         {
             rb.velocity = new Vector3(rb.velocity.x, 0, 0);
         }
