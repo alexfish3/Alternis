@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 5602197918137716243}
   - component: {fileID: 8795770618038911414}
   - component: {fileID: 6770086234264434044}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Switchbox (Light)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5602197918137716243
 Transform:
