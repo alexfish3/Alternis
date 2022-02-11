@@ -296,7 +296,7 @@ public class FinalMovement : MonoBehaviour
         //Reduce Air Sprint Speed
         if (isSprinting && !isGrounded && airSpeed > walkSpeed)
         {
-            airSpeed -= 0.2f;
+            airSpeed -= 0.25f;
         }
 
         //Jumping Height
