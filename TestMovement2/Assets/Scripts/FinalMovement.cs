@@ -14,6 +14,7 @@ public class FinalMovement : MonoBehaviour
     public float crouchWalkSpeed;
 
     float jumpSpeed;
+    float airSpeed;
     bool isSprinting;
     bool isRight = false;
     bool isLeft = false;
@@ -88,29 +89,43 @@ public class FinalMovement : MonoBehaviour
             isJumping = true;
         }
 
-        //Sprint
-        if (isGrounded)
-        {
-            if (Input.GetButtonDown("Dash") && walking && !crouch)
-            {
-                isSprinting = true;
-                walking = false;
-            }
-            if (rb.velocity.x > 0 && isSprinting) //facing right
-            {
-                rb.velocity = new Vector3(sprintSpeed, rb.velocity.y, 0);
-            }
-            if (rb.velocity.x < 0 && isSprinting) // facing left
-            {
-                rb.velocity = new Vector3(-sprintSpeed, rb.velocity.y, 0);
-            }
 
-            if (Input.GetAxis("Horizontal") < 0.4 && Input.GetAxis("Horizontal") > -0.4)
-            {
-                isSprinting = false;
-            }
+        if (Input.GetButtonDown("Dash") && walking && !crouch && isGrounded)
+        {
+            isSprinting = true;
+            airSpeed = sprintSpeed;
+            walking = false;
         }
-        else
+        if (rb.velocity.x > 0 && isSprinting) //facing right
+        {
+            rb.velocity = new Vector3(sprintSpeed, rb.velocity.y, 0);
+        }
+        if (rb.velocity.x < 0 && isSprinting) // facing left
+        {
+            rb.velocity = new Vector3(-sprintSpeed, rb.velocity.y, 0);
+        }
+
+        if (Input.GetAxis("Horizontal") < 0.4 && Input.GetAxis("Horizontal") > -0.4)
+        {
+            isSprinting = false;
+        }
+
+        //Sprint Jump
+        if (isSprinting && !isGrounded && (rb.velocity.x > walkSpeed || rb.velocity.x < -walkSpeed))
+        {
+            if (isRight)
+            {
+                rb.velocity = new Vector3(airSpeed, rb.velocity.y, 0);
+            }
+            if (isLeft)
+            {
+                rb.velocity = new Vector3(-airSpeed, rb.velocity.y, 0);
+            }
+        } else if (rb.velocity.x <= walkSpeed && rb.velocity.x >= -walkSpeed && isSprinting)
+        {
+            isSprinting = false;
+        }
+        if (airSpeed <= walkSpeed)
         {
             isSprinting = false;
         }
@@ -138,29 +153,36 @@ public class FinalMovement : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
         }
 
-        //if (Input.GetAxis("Horizontal") > 0.4 && crouch && !slide)
-        //{
-        //    rb.velocity = new Vector3(crouchWalkSpeed, rb.velocity.y, 0);
-       // }
-       // else if (Input.GetAxis("Horizontal") < -0.4 && crouch && !slide)
-       // {
-       //     rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
-       // }
+        if (Input.GetAxis("Horizontal") > 0.4 && crouch && !slide)
+        {
+            rb.velocity = new Vector3(crouchWalkSpeed, rb.velocity.y, 0);
+        }
+        else if (Input.GetAxis("Horizontal") < -0.4 && crouch && !slide)
+        {
+            rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
+        }
 
         //Slide
-        if (crouch && Input.GetAxis("Horizontal") > 0.2 && Input.GetButtonDown("Dash") && !slide)
+        //if (crouch && Input.GetAxis("Horizontal") > 0.2 && Input.GetButtonDown("Dash") && !slide)
+       // {
+       //     slide = true;
+        //    rb.velocity = new Vector3(slideSpeed, rb.velocity.y, 0);
+       // } else if (crouch && Input.GetAxis("Horizontal") < -0.2 && Input.GetButtonDown("Dash") && !slide)
+      //  {
+      //      slide = true;
+      //      rb.velocity = new Vector3(-slideSpeed, rb.velocity.y, 0);
+      //  }
+      //  if (slide && rb.velocity.x < 2 && rb.velocity.x > -2)
+      //  {
+       //     slide = false;
+      //  }
+
+        //Disable Sprint
+        if (rb.velocity.x <= walkSpeed && rb.velocity.x >= -walkSpeed && isSprinting)
         {
-            slide = true;
-            rb.velocity = new Vector3(slideSpeed, rb.velocity.y, 0);
-        } else if (crouch && Input.GetAxis("Horizontal") < -0.2 && Input.GetButtonDown("Dash") && !slide)
-        {
-            slide = true;
-            rb.velocity = new Vector3(-slideSpeed, rb.velocity.y, 0);
+            isSprinting = false;
         }
-        if (slide && rb.velocity.x < 2 && rb.velocity.x > -2)
-        {
-            slide = false;
-        }
+
 
         //Sprite Change Direction
         if (isRight && !slide)
@@ -200,6 +222,12 @@ public class FinalMovement : MonoBehaviour
         else
             rb.velocity = new Vector3(0, rb.velocity.y, 0);
 
+
+        //Reduce Air Sprint Speed
+        if (isSprinting && !isGrounded && airSpeed > walkSpeed)
+        {
+            airSpeed -= 0.25f;
+        }
 
         //Jumping Height
         if (isJumping)
