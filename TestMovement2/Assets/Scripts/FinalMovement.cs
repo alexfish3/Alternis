@@ -12,9 +12,13 @@ public class FinalMovement : MonoBehaviour
     public float sprintSpeed;
     public float slideSpeed;
     public float crouchWalkSpeed;
+    public float controllerSense;
 
     float jumpSpeed;
     float airSpeed;
+    float curwalkSpeed;
+    float idleTime;
+    float jumpCount;
     bool isSprinting;
     bool isRight = false;
     bool isLeft = false;
@@ -55,33 +59,46 @@ public class FinalMovement : MonoBehaviour
         localX = transform.localScale.x;
         crouch = false;
         slide = false;
+        jumpCount = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Walk
-        if (Input.GetAxis("Horizontal") > 0.4 && !crouch)
+        if (Input.GetAxis("Horizontal") > controllerSense && !crouch)
         {
             walking = true;
-            rb.velocity = new Vector3(walkSpeed, rb.velocity.y, 0);
+            idleTime = 0;
+            rb.velocity = new Vector3(curwalkSpeed, rb.velocity.y, 0);
         }
-        else if (Input.GetAxis("Horizontal") < -0.4 && !crouch)
+        else if (Input.GetAxis("Horizontal") < -controllerSense && !crouch)
         {
             walking = true;
-            rb.velocity = new Vector3(-walkSpeed, rb.velocity.y, 0);
+            idleTime = 0;
+            rb.velocity = new Vector3(-curwalkSpeed, rb.velocity.y, 0);
         }
-        else
+        
+        //Idle time so players can hold momentum when changing directions
+        if (Input.GetAxis("Horizontal") == 0 && walking)
+        {
+            idleTime++;
+        }
+        if (!crouch && idleTime > 10)
         {
             walking = false;
+            idleTime = 0;
+        } else if (Input.GetAxis("Horizontal") < controllerSense && Input.GetAxis("Horizontal") > -controllerSense && !isGrounded)
+        {
+            walking = false;
+            idleTime = 0;
         }
 
 
         //Jump
-        if (Input.GetButtonDown("Jump") && jumpSpeed <= 7 && (isGrounded || doubleJump) && !slide)
+        if (Input.GetButtonDown("Jump") && jumpSpeed <= 7 && jumpCount < 2 && !slide)
         {
-            if (!isGrounded)
-                doubleJump = false;
+            jumpCount++;
 
             rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, 0);
 
@@ -89,7 +106,7 @@ public class FinalMovement : MonoBehaviour
             isJumping = true;
         }
 
-
+        //Sprint
         if (Input.GetButtonDown("Dash") && walking && !crouch && isGrounded)
         {
             isSprinting = true;
@@ -111,7 +128,7 @@ public class FinalMovement : MonoBehaviour
         }
 
         //Sprint Jump
-        if (isSprinting && !isGrounded && (rb.velocity.x > walkSpeed || rb.velocity.x < -walkSpeed))
+        if (isSprinting && !isGrounded && (rb.velocity.x > walkSpeed || rb.velocity.x < -walkSpeed) && !crouch)
         {
             if (isRight)
             {
@@ -131,19 +148,19 @@ public class FinalMovement : MonoBehaviour
         }
 
         //Right & Left
-        if (Input.GetAxis("Horizontal") > 0.4)
+        if (Input.GetAxis("Horizontal") > controllerSense)
         {
             isRight = true;
             isLeft = false;
         }
-        if (Input.GetAxis("Horizontal") < -0.4)
+        if (Input.GetAxis("Horizontal") < -controllerSense)
         {
             isRight = false;
             isLeft = true;
         }
 
         //Crouch
-        if (Input.GetAxis("Vertical") < -0.6 || slide)
+        if (Input.GetAxis("Vertical") < -0.3)
         {
             crouch = true;
             transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
@@ -153,12 +170,15 @@ public class FinalMovement : MonoBehaviour
             transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
         }
 
-        if (Input.GetAxis("Horizontal") > 0.4 && crouch && !slide)
+        //Crouch Walk
+        if (Input.GetAxis("Horizontal") > controllerSense && crouch && !slide)
         {
+            isSprinting = false;
             rb.velocity = new Vector3(crouchWalkSpeed, rb.velocity.y, 0);
         }
-        else if (Input.GetAxis("Horizontal") < -0.4 && crouch && !slide)
+        else if (Input.GetAxis("Horizontal") < -controllerSense && crouch && !slide)
         {
+            isSprinting = false;
             rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
         }
 
@@ -183,6 +203,12 @@ public class FinalMovement : MonoBehaviour
             isSprinting = false;
         }
 
+        //Reset Current Walk Speed
+        if (!walking && !isSprinting)
+        {
+            curwalkSpeed = 0;
+        }
+
 
         //Sprite Change Direction
         if (isRight && !slide)
@@ -197,6 +223,12 @@ public class FinalMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        //Walk Speed Increase
+        if (curwalkSpeed < walkSpeed && walking)
+        {
+            curwalkSpeed += 0.5f;
+        }
+
         //Gravity
         if (!isGrounded && rb.velocity.y > maxGravity)
         {
@@ -208,6 +240,7 @@ public class FinalMovement : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, 0, 0);
         }
+
         //FastFall
         if (!isGrounded && Input.GetAxis("Vertical") < -0.4)
         {
@@ -241,7 +274,7 @@ public class FinalMovement : MonoBehaviour
             }
         }
         //Reset Double Jump
-        if (isGrounded)
-            doubleJump = true;
+        if (isGrounded && !isJumping)
+            jumpCount = 0;
     }
 }
