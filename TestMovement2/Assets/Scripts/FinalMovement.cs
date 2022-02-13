@@ -13,12 +13,15 @@ public class FinalMovement : MonoBehaviour
     public float slideSpeed;
     public float crouchWalkSpeed;
     public float controllerSense;
+    public float distToGround;
+    public float disToWall;
 
     float jumpSpeed;
     float airSpeed;
     float curwalkSpeed;
     float idleTime;
     float jumpCount;
+    float groundTimer;
     bool isSprinting;
     bool isRight = false;
     bool isLeft = false;
@@ -35,11 +38,10 @@ public class FinalMovement : MonoBehaviour
     //Check If On Ground
     private void OnCollisionStay(Collision other)
     {
-        if (other.gameObject.tag == "Ground")
+        if (other.gameObject.tag == "Ground" && Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f))
         {
             isGrounded = true;
         }
-        else { isGrounded = false; }
     }
 
     //Check if in Air
@@ -52,6 +54,8 @@ public class FinalMovement : MonoBehaviour
     }
 
 
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +64,7 @@ public class FinalMovement : MonoBehaviour
         crouch = false;
         slide = false;
         jumpCount = 0;
+        groundTimer = 0;
     }
 
     // Update is called once per frame
@@ -96,7 +101,7 @@ public class FinalMovement : MonoBehaviour
 
 
         //Jump
-        if (Input.GetButtonDown("Jump") && jumpSpeed <= 7 && jumpCount < 2 && !slide)
+        if (Input.GetButtonDown("Jump") && jumpSpeed <= 7 && jumpCount < 2 && !slide && !crouch)
         {
             jumpCount++;
 
@@ -160,13 +165,21 @@ public class FinalMovement : MonoBehaviour
         }
 
         //Crouch
-        if (Input.GetAxis("Vertical") < -0.3)
+        if (Input.GetAxis("Vertical") < -0.3 && isGrounded && groundTimer > 10)
         {
-            crouch = true;
             transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
-        } else
+        } else if (Input.GetAxis("Vertical") > -0.3)
         {
             crouch = false;
+            transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+        }
+        if (isGrounded && transform.localScale == new Vector3(transform.localScale.x, 0.5f, transform.localScale.z))
+        {
+            crouch = true;
+        }
+
+        if (crouch == false && transform.localScale != new Vector3(transform.localScale.x, 1f, transform.localScale.z))
+        {
             transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
         }
 
@@ -219,10 +232,33 @@ public class FinalMovement : MonoBehaviour
         {
             transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
         }
+
+        //Stop Running Into Walls
+        if (!crouch)
+        {
+            if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.right, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.right, disToWall + 0.1f)) && isRight)
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }
+            if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.left, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.left, disToWall + 0.1f)) && isLeft)
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }
+        }
     }
 
     void FixedUpdate()
     {
+        //Ground Timer
+        if (isGrounded)
+        {
+            groundTimer++;
+        } else
+        {
+            groundTimer = 0;
+        }
+
+
         //Walk Speed Increase
         if (curwalkSpeed < walkSpeed && walking)
         {
@@ -240,6 +276,7 @@ public class FinalMovement : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, 0, 0);
         }
+
 
         //FastFall
         if (!isGrounded && Input.GetAxis("Vertical") < -0.4)

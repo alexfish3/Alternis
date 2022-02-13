@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 341143593343eb445b6bc2b7e63f7522
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/Design Testing/Alternis Level Design.unity
+    guid: 627e0feff883e0949aac923ebd5340c3
   m_configObjects: {}

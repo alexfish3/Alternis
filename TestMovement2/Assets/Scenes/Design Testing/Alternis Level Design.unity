@@ -45654,23 +45654,23 @@ PrefabInstance:
       objectReference: {fileID: 5816914785508047390}
     - target: {fileID: 6612362450584727568, guid: b8095bcd6b4ef8749b64a00a89d29a16,
         type: 3}
-      propertyPath: jumpHeight
-      value: 15
+      propertyPath: disToWall
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 6612362450584727568, guid: b8095bcd6b4ef8749b64a00a89d29a16,
         type: 3}
       propertyPath: sprintSpeed
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 6612362450584727568, guid: b8095bcd6b4ef8749b64a00a89d29a16,
-        type: 3}
-      propertyPath: controllerSense
-      value: 0.6
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6612362450584727571, guid: b8095bcd6b4ef8749b64a00a89d29a16,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612362450584727574, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 6612362450584727578, guid: b8095bcd6b4ef8749b64a00a89d29a16,
         type: 3}
