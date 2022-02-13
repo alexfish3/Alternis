@@ -76,9 +76,188 @@ public class MainMenuController : MonoBehaviour
 
     private void controlMainMenu()
     {
-        Keyboard();
+        if (essentialGameObjects.GetComponent<ControllerType>().keyboard == true)
+        {
+            if (inSettingsMenu == false)
+            {
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    // Play
+                    if (position == 0)
+                    {
+                        Debug.Log("Play");
+                        SceneManager.LoadScene(2);
+                    }
+                    // Settings
+                    if (position == 1)
+                    {
+                        inSettingsMenu = true;
+                        settingsMenu.SetActive(true);
+                        bgmText.text = essentialGameObjects.bgmVolume.ToString();
+                        sfxText.text = essentialGameObjects.sfxVolume.ToString();
+                        fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
 
-        if (essentialGameObjects.GetComponent<ControllerType>().PS4 == true)
+                        settingsPosition = 0;
+                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                    }
+                    // Quit
+                    if (position == 2)
+                    {
+                        Application.Quit();
+                    }
+                }
+
+                // Controller Controls
+                if (Input.GetKeyDown(KeyCode.W) && position > 0)
+                {
+                    canScrollY = false;
+                    position--;
+                    selector.transform.position = positions[position].transform.position;
+                }
+                else if (Input.GetKeyDown(KeyCode.W) && position == 0)
+                {
+                    canScrollY = false;
+                    position = positions.Length - 1;
+                    selector.transform.position = positions[position].transform.position;
+                }
+                else if (Input.GetKeyDown(KeyCode.S) && position < positions.Length - 1)
+                {
+                    canScrollY = false;
+                    position++;
+                    selector.transform.position = positions[position].transform.position;
+                }
+                else if (Input.GetKeyDown(KeyCode.S) && position == positions.Length - 1)
+                {
+                    canScrollY = false;
+                    position = 0;
+                    selector.transform.position = positions[position].transform.position;
+                }
+            }
+            else if (inSettingsMenu == true)
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    writeToSettingsFile();
+                    inSettingsMenu = false;
+                    settingsMenu.SetActive(false);
+                }
+
+                // Change BGM Volume
+                if (settingsPosition == 0)
+                {
+                    if (Input.GetKeyDown(KeyCode.D) && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
+                    {
+                        canScrollX = false;
+                        essentialGameObjects.bgmVolume++;
+                        bgmText.text = essentialGameObjects.bgmVolume.ToString();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.A) && essentialGameObjects.bgmVolume > 0)
+                    {
+                        canScrollX = false;
+                        essentialGameObjects.bgmVolume--;
+                        bgmText.text = essentialGameObjects.bgmVolume.ToString();
+                    }
+                }
+                // Change SFX Volume
+                if (settingsPosition == 1)
+                {
+                    if (Input.GetKeyDown(KeyCode.D) && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
+                    {
+                        canScrollX = false;
+                        essentialGameObjects.sfxVolume++;
+                        sfxText.text = essentialGameObjects.sfxVolume.ToString();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.A) && essentialGameObjects.sfxVolume > 0)
+                    {
+                        canScrollX = false;
+                        essentialGameObjects.sfxVolume--;
+                        sfxText.text = essentialGameObjects.sfxVolume.ToString();
+                    }
+                }
+                // Change Fullscreen
+                if (settingsPosition == 2)
+                {
+                    if (Input.GetKeyDown(KeyCode.D))
+                    {
+                        canScrollX = false;
+                        if (essentialGameObjects.isFullscreen == true)
+                        {
+                            essentialGameObjects.isFullscreen = false;
+                        }
+                        else if (essentialGameObjects.isFullscreen == false)
+                        {
+                            essentialGameObjects.isFullscreen = true;
+                        }
+                        fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
+                        Screen.fullScreen = essentialGameObjects.isFullscreen;
+
+                    }
+                    else if (Input.GetKeyDown(KeyCode.A))
+                    {
+                        canScrollX = false;
+                        if (essentialGameObjects.isFullscreen == true)
+                        {
+                            essentialGameObjects.isFullscreen = false;
+                        }
+                        else if (essentialGameObjects.isFullscreen == false)
+                        {
+                            essentialGameObjects.isFullscreen = true;
+                        }
+                        fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
+                        Screen.fullScreen = essentialGameObjects.isFullscreen;
+
+                    }
+                }
+                // Restore To Defaults
+                if (settingsPosition == 3)
+                {
+                    if (Input.GetKeyDown(KeyCode.Return))
+                    {
+                        Debug.Log("Restore");
+
+                        // Restore BGM Volume
+                        essentialGameObjects.bgmVolume = defaultBGMVolume;
+                        bgmText.text = essentialGameObjects.bgmVolume.ToString();
+
+                        // Restore SFX Volume
+                        essentialGameObjects.sfxVolume = defaultSFXVolume;
+                        sfxText.text = essentialGameObjects.sfxVolume.ToString();
+
+                        // Restore Fullscreen
+                        essentialGameObjects.isFullscreen = defaultIsFullscreen;
+                        fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
+
+                    }
+                }
+
+                // Controller Controls
+                if (Input.GetKeyDown(KeyCode.W) && settingsPosition > 0)
+                {
+                    canScrollY = false;
+                    settingsPosition--;
+                    settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                }
+                else if (Input.GetKeyDown(KeyCode.W) && settingsPosition == 0)
+                {
+                    canScrollY = false;
+                    settingsPosition = settingsPositions.Length - 1;
+                    settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                }
+                else if (Input.GetKeyDown(KeyCode.S) && settingsPosition < settingsPositions.Length - 1)
+                {
+                    canScrollY = false;
+                    settingsPosition++;
+                    settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                }
+                else if (Input.GetKeyDown(KeyCode.S) && settingsPosition == settingsPositions.Length - 1)
+                {
+                    canScrollY = false;
+                    settingsPosition = 0;
+                    settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                }
+            }
+        }
+        else if (essentialGameObjects.GetComponent<ControllerType>().PS4 == true)
         {
             if (inSettingsMenu == false)
             {
@@ -487,188 +666,6 @@ public class MainMenuController : MonoBehaviour
             }
         }
 
-    }
-
-    private void Keyboard()
-    {
-        if (inSettingsMenu == false)
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                // Play
-                if (position == 0)
-                {
-                    Debug.Log("Play");
-                    SceneManager.LoadScene(2);
-                }
-                // Settings
-                if (position == 1)
-                {
-                    inSettingsMenu = true;
-                    settingsMenu.SetActive(true);
-                    bgmText.text = essentialGameObjects.bgmVolume.ToString();
-                    sfxText.text = essentialGameObjects.sfxVolume.ToString();
-                    fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
-
-                    settingsPosition = 0;
-                    settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
-                }
-                // Quit
-                if (position == 2)
-                {
-                    Application.Quit();
-                }
-            }
-
-            // Controller Controls
-            if (Input.GetKeyDown(KeyCode.W) && position > 0)
-            {
-                canScrollY = false;
-                position--;
-                selector.transform.position = positions[position].transform.position;
-            }
-            else if (Input.GetKeyDown(KeyCode.W) && position == 0)
-            {
-                canScrollY = false;
-                position = positions.Length - 1;
-                selector.transform.position = positions[position].transform.position;
-            }
-            else if (Input.GetKeyDown(KeyCode.S) && position < positions.Length - 1)
-            {
-                canScrollY = false;
-                position++;
-                selector.transform.position = positions[position].transform.position;
-            }
-            else if (Input.GetKeyDown(KeyCode.S) && position == positions.Length - 1)
-            {
-                canScrollY = false;
-                position = 0;
-                selector.transform.position = positions[position].transform.position;
-            }
-        }
-        else if (inSettingsMenu == true)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                writeToSettingsFile();
-                inSettingsMenu = false;
-                settingsMenu.SetActive(false);
-            }
-
-            // Change BGM Volume
-            if (settingsPosition == 0)
-            {
-                if (Input.GetKeyDown(KeyCode.D) && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
-                {
-                    canScrollX = false;
-                    essentialGameObjects.bgmVolume++;
-                    bgmText.text = essentialGameObjects.bgmVolume.ToString();
-                }
-                else if (Input.GetKeyDown(KeyCode.A) && essentialGameObjects.bgmVolume > 0)
-                {
-                    canScrollX = false;
-                    essentialGameObjects.bgmVolume--;
-                    bgmText.text = essentialGameObjects.bgmVolume.ToString();
-                }
-            }
-            // Change SFX Volume
-            if (settingsPosition == 1)
-            {
-                if (Input.GetKeyDown(KeyCode.D) && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
-                {
-                    canScrollX = false;
-                    essentialGameObjects.sfxVolume++;
-                    sfxText.text = essentialGameObjects.sfxVolume.ToString();
-                }
-                else if (Input.GetKeyDown(KeyCode.A) && essentialGameObjects.sfxVolume > 0)
-                {
-                    canScrollX = false;
-                    essentialGameObjects.sfxVolume--;
-                    sfxText.text = essentialGameObjects.sfxVolume.ToString();
-                }
-            }
-            // Change Fullscreen
-            if (settingsPosition == 2)
-            {
-                if (Input.GetKeyDown(KeyCode.D))
-                {
-                    canScrollX = false;
-                    if (essentialGameObjects.isFullscreen == true)
-                    {
-                        essentialGameObjects.isFullscreen = false;
-                    }
-                    else if (essentialGameObjects.isFullscreen == false)
-                    {
-                        essentialGameObjects.isFullscreen = true;
-                    }
-                    fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
-                    Screen.fullScreen = essentialGameObjects.isFullscreen;
-
-                }
-                else if (Input.GetKeyDown(KeyCode.A))
-                {
-                    canScrollX = false;
-                    if (essentialGameObjects.isFullscreen == true)
-                    {
-                        essentialGameObjects.isFullscreen = false;
-                    }
-                    else if (essentialGameObjects.isFullscreen == false)
-                    {
-                        essentialGameObjects.isFullscreen = true;
-                    }
-                    fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
-                    Screen.fullScreen = essentialGameObjects.isFullscreen;
-
-                }
-            }
-            // Restore To Defaults
-            if (settingsPosition == 3)
-            {
-                if (Input.GetKeyDown(KeyCode.Return))
-                {
-                    Debug.Log("Restore");
-
-                    // Restore BGM Volume
-                    essentialGameObjects.bgmVolume = defaultBGMVolume;
-                    bgmText.text = essentialGameObjects.bgmVolume.ToString();
-
-                    // Restore SFX Volume
-                    essentialGameObjects.sfxVolume = defaultSFXVolume;
-                    sfxText.text = essentialGameObjects.sfxVolume.ToString();
-
-                    // Restore Fullscreen
-                    essentialGameObjects.isFullscreen = defaultIsFullscreen;
-                    fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
-
-                }
-            }
-
-            // Controller Controls
-            if (Input.GetKeyDown(KeyCode.W) && settingsPosition > 0)
-            {
-                canScrollY = false;
-                settingsPosition--;
-                settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
-            }
-            else if (Input.GetKeyDown(KeyCode.W) && settingsPosition == 0)
-            {
-                canScrollY = false;
-                settingsPosition = settingsPositions.Length - 1;
-                settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
-            }
-            else if (Input.GetKeyDown(KeyCode.S) && settingsPosition < settingsPositions.Length - 1)
-            {
-                canScrollY = false;
-                settingsPosition++;
-                settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
-            }
-            else if (Input.GetKeyDown(KeyCode.S) && settingsPosition == settingsPositions.Length - 1)
-            {
-                canScrollY = false;
-                settingsPosition = 0;
-                settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
-            }
-        }
     }
 
     private void readTextFileOnStartUp()

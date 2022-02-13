@@ -1583,13 +1583,39 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1687207751, guid: b8095bcd6b4ef8749b64a00a89d29a16, type: 3}
-      propertyPath: cp
-      value: 
-      objectReference: {fileID: 1235800880}
+    - target: {fileID: 6612362450584727568, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: walkSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612362450584727568, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: maxGravity
+      value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612362450584727568, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: sprintSpeed
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612362450584727568, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: crouchWalkSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612362450584727569, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6612362450584727571, guid: b8095bcd6b4ef8749b64a00a89d29a16,
         type: 3}
       propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6612362450584727571, guid: b8095bcd6b4ef8749b64a00a89d29a16,
+        type: 3}
+      propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6612362450584727578, guid: b8095bcd6b4ef8749b64a00a89d29a16,
@@ -2905,6 +2931,36 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1008979131}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1687207751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687207750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be67bd8defa2e0449a1fada2046de555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cp: {fileID: 1235800880}
+  respawner: {fileID: 0}
+  player: {fileID: 0}
+  maxFallHeight: -15
+  useFallHeight: 0
+--- !u!65 &1687207760
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687207750}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8848604, y: 1.6734139, z: 1}
+  m_Center: {x: 0.021218965, y: 0.17741755, z: 0}
 --- !u!1 &1694655863
 GameObject:
   m_ObjectHideFlags: 0
