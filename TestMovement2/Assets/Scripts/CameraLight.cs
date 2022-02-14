@@ -6,7 +6,7 @@ public class CameraLight : MonoBehaviour
 {
     [Tooltip("This")]
     [SerializeField]
-    private GameObject basket;
+    private GameObject cameraHeadBasket;
 
     [Header("Movement")]
     [Tooltip("Lower rotation limit (degrees below 0)")]
@@ -24,6 +24,9 @@ public class CameraLight : MonoBehaviour
     [Tooltip("Rotate up or down first? Check for down.")]
     [SerializeField]
     private bool rotDown = true;
+    [Tooltip("Default starting angle. 0 is straight forward, increases counter-clockwise. Do not use negatives.")]
+    [SerializeField]
+    private float startingAngle;
 
     private float track;
 
@@ -33,6 +36,7 @@ public class CameraLight : MonoBehaviour
     {
         upperRotLim = -upperRotLim;
         lowerRotLim = -lowerRotLim;
+        cameraHeadBasket.transform.rotation = Quaternion.Euler(0.0f, 0.0f, startingAngle);
 
         StartCoroutine(RotateToPoints());
     }
@@ -51,7 +55,7 @@ public class CameraLight : MonoBehaviour
             {
                 while (x < lowerRotLim)
                 {
-                    transform.Rotate(0,0, rotSpeed * Time.deltaTime);
+                    cameraHeadBasket.transform.Rotate(0,0, rotSpeed * Time.deltaTime, Space.World);
                     x += rotSpeed * Time.deltaTime;
                     x = Mathf.Min(x, lowerRotLim);
 
@@ -65,7 +69,7 @@ public class CameraLight : MonoBehaviour
             {
                while (x > upperRotLim)
                 {
-                    transform.Rotate(0,0, -rotSpeed * Time.deltaTime);
+                    cameraHeadBasket.transform.Rotate(0,0, -rotSpeed * Time.deltaTime, Space.World);
                     x -= rotSpeed * Time.deltaTime;
                     x = Mathf.Max(x, upperRotLim);
 
