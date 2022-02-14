@@ -53,9 +53,6 @@ public class FinalMovement : MonoBehaviour
         }
     }
 
-
-
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
