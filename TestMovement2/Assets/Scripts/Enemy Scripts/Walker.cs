@@ -44,7 +44,7 @@ public class Walker : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             //Kill Player
-            other.gameObject.active = false;
+            //other.gameObject.active = false;
         }
     }
 
