@@ -34,7 +34,6 @@ public class MainMenuController : MonoBehaviour
     bool loadFile = false;
     EssentialGameObjects essentialGameObjects;
 
-    // Start is called before the first frame update
     void Start()
     {
         essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
