@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 155923284949015517}
   m_Layer: 7
   m_Name: SearchlightBasket v2
-  m_TagString: Untagged
+  m_TagString: Death
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -579,6 +579,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0b15d96b1377d14c85959a6982c67ef,
+        type: 3}
+      propertyPath: m_TagString
+      value: Death
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b0b15d96b1377d14c85959a6982c67ef,
         type: 3}

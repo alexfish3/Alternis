@@ -16,7 +16,7 @@ public class Respawn : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Death"))
         {
             CurCheckpoint();
             player.transform.position = respawner.position;
@@ -29,12 +29,12 @@ public class Respawn : MonoBehaviour
             player.transform.position = respawner.position;
         }
     }
+     
     void Start()
     {
         CurCheckpoint();
-        player = GameObject.FindGameObjectWithTag("Player");
-
     }
+
     void Update()
     {
         CurCheckpoint();
