@@ -1,0 +1,4 @@
+[Settings]
+BGM Volume=1
+SFX Volume=1
+Is Fullscreen=True
