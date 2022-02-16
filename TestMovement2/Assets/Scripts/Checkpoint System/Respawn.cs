@@ -16,7 +16,7 @@ public class Respawn : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Death"))
+        if (other.gameObject.CompareTag("Death") && other.gameObject.layer == 7 && player.GetComponent<WorldSwap>().lightWorld)
         {
             CurCheckpoint();
             player.transform.position = respawner.position;

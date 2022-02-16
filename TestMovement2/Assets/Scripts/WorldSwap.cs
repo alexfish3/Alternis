@@ -18,8 +18,8 @@ public class WorldSwap : MonoBehaviour
     public bool firstTimeSwap = true;
     [SerializeField] bool canSwitch;
     public float cooldown;
-    [SerializeField] bool lightWorld;
-    [SerializeField] bool darkWorld;
+    [SerializeField] public bool lightWorld;
+    [SerializeField] public bool darkWorld;
     [SerializeField] GameObject UICanvas;
     [SerializeField] GameObject canSwitchSignier;
     public TMP_Text switchText;
