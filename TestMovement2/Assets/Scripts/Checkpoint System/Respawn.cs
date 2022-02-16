@@ -14,7 +14,7 @@ public class Respawn : MonoBehaviour
     {
         respawner = cp.getCurCheck();
     }
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Death") && other.gameObject.layer == 7 && player.GetComponent<WorldSwap>().lightWorld)
         {

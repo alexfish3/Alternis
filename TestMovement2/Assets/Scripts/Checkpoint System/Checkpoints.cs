@@ -7,6 +7,14 @@ public class Checkpoints : MonoBehaviour
     [SerializeField] private Transform curCheck;
     public bool debug;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == ("Player"))
+        {
+            curCheck = checkpoints[1];
+        }
+    }
+
     void CheckpointMaker()
     {
         int counter = 0;
