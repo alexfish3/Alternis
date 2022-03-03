@@ -9,6 +9,7 @@ TagManager:
   - Death
   - Checkpoints
   - Enemy
+  - DisableSwap
   layers:
   - Default
   - TransparentFX

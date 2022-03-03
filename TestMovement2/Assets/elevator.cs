@@ -5,12 +5,12 @@ using UnityEngine;
 public class elevator : MonoBehaviour
 {
 
-    [SerializeField] GameObject[] transformPositions;
+    [SerializeField] GameObject positionStart;
+    [SerializeField] GameObject positionEnd;
     [SerializeField] float speed;
-    [SerializeField] bool reachedDestination = false;
-    public float waitTime;
 
     bool triggered = false;
+    bool reachedDestination = false;
 
     // Start is called before the first frame update
     void Start()
@@ -19,40 +19,27 @@ public class elevator : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if (reachedDestination == false)
+        if (reachedDestination == false && triggered == true)
         {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, transformPositions[0].transform.position, speed);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, positionEnd.transform.position, speed);
         }
-        else if (reachedDestination == true)
+        else if (triggered == false)
         {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, transformPositions[1].transform.position, speed);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, positionStart.transform.position, speed);
         }
 
-        if (this.transform.position == transformPositions[0].transform.position && !triggered)
-        {
-            triggered = true;
-            StartCoroutine(Wait());
-        }
-        else if (this.transform.position == transformPositions[1].transform.position && !triggered)
-        {
-            triggered = true;
-            StartCoroutine(Wait());
-        }
-    }
-
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(waitTime);
-        Debug.Log("TESt");
-        if (reachedDestination)
-        {
-            reachedDestination = false;
-        } else
-        {
-            reachedDestination = true;
-        }
         triggered = false;
     }
+
+    void OnTriggerStay(Collider other)
+    {
+            triggered = true;
+    }
+    void OnTriggerExit(Collider other)
+    {
+        triggered = false;
+    }
+
 }

@@ -17,6 +17,7 @@ public class WorldSwap : MonoBehaviour
     [Header("Swapping Information")]
     public bool firstTimeSwap = true;
     [SerializeField] bool canSwitch;
+    [SerializeField] bool disableSwap;
     public float cooldown;
     [SerializeField] public bool lightWorld;
     [SerializeField] public bool darkWorld;
@@ -27,6 +28,7 @@ public class WorldSwap : MonoBehaviour
     [Header("Color Info")]
     [SerializeField] Color canUse;
     [SerializeField] Color cantUse;
+    [SerializeField] Color disabled;
 
     // Start is called before the first frame update
     void Start()
@@ -40,18 +42,26 @@ public class WorldSwap : MonoBehaviour
 
         oxygenBar.GetComponent<Slider>().value = oxygen;
 
-        if (canSwitch == true)
+        if(disableSwap == true)
         {
-            canSwitchSignier.GetComponent<Image>().color = canUse;
+            canSwitchSignier.GetComponent<Image>().color = disabled;
             switchText.enabled = false;
         }
-        else if (canSwitch == false)
+        else
         {
-            canSwitchSignier.GetComponent<Image>().color = cantUse;
-            switchText.enabled = true;
+            if (canSwitch == true)
+            {
+                canSwitchSignier.GetComponent<Image>().color = canUse;
+                switchText.enabled = false;
+            }
+            else if (canSwitch == false)
+            {
+                canSwitchSignier.GetComponent<Image>().color = cantUse;
+                switchText.enabled = true;
+            }
         }
 
-        if (Input.GetButtonDown("World Swap") && canSwitch == true)
+        if (Input.GetButtonDown("World Swap") && canSwitch == true && disableSwap == false)
         {
             switchText.text = (cooldown * 10).ToString();
             canSwitch = false;
@@ -90,6 +100,11 @@ public class WorldSwap : MonoBehaviour
             swappedWorlds = false;
             StartCoroutine(gainOxygen());
         }
+    }
+
+    private void FixedUpdate()
+    {
+        disableSwap = false;
     }
 
     public IEnumerator CoolDownTimer()
@@ -139,5 +154,21 @@ public class WorldSwap : MonoBehaviour
             yield return new WaitForSeconds(speed);
         }
         changingLevel = false;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "DisableSwap")
+        {
+            disableSwap = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "DisableSwap")
+        {
+            disableSwap = false;
+        }
     }
 }
