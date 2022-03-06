@@ -18,8 +18,7 @@ public class Respawn : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Death") && other.gameObject.layer == 7 && player.GetComponent<WorldSwap>().lightWorld)
         {
-            CurCheckpoint();
-            player.transform.position = respawner.position;
+            DoRespawn();
         }
     }
     private void didYouFall()
@@ -28,6 +27,13 @@ public class Respawn : MonoBehaviour
         {
             player.transform.position = respawner.position;
         }
+    }
+
+    public void DoRespawn()
+    {
+        Debug.LogError("Respawning");
+        CurCheckpoint();
+        player.transform.position = respawner.position;
     }
      
     void Start()

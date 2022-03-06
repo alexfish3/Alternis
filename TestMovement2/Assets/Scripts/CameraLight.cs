@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class CameraLight : MonoBehaviour
 {
-    [Tooltip("This")]
     [SerializeField]
     private GameObject cameraHeadBasket;
-
+    
     [Header("Movement")]
     [Tooltip("Lower rotation limit (degrees below 0)")]
     [SerializeField]
