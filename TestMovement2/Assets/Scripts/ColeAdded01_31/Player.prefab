@@ -423,6 +423,7 @@ GameObject:
   - component: {fileID: 6612362450584727578}
   - component: {fileID: 6612362450584727574}
   - component: {fileID: 6612362450584727579}
+  - component: {fileID: 4859619091780696380}
   - component: {fileID: 6612362450584727568}
   - component: {fileID: 6612362450584727575}
   - component: {fileID: 1423965669}
@@ -490,6 +491,7 @@ MonoBehaviour:
   oxygenBar: {fileID: 0}
   firstTimeSwap: 1
   canSwitch: 1
+  disableSwap: 0
   cooldown: 0.6
   lightWorld: 1
   darkWorld: 0
@@ -498,6 +500,19 @@ MonoBehaviour:
   switchText: {fileID: 0}
   canUse: {r: 0, g: 0, b: 0, a: 1}
   cantUse: {r: 0, g: 0, b: 0, a: 0.24705882}
+  disabled: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &4859619091780696380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6612362450584727571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5e03b2fb8c9b664180921be3b9517ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6612362450584727568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,7 +538,6 @@ MonoBehaviour:
   disToWall: 0.8
   slide: 0
   isGrounded: 0
-  fall: 0
 --- !u!95 &6612362450584727575
 Animator:
   serializedVersion: 3
