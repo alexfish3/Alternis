@@ -21,6 +21,9 @@ public class SearchLightDetect : MonoBehaviour
     [Tooltip("The player (for respawning purposes)")]
     [SerializeField]
     private GameObject player;
+    [Tooltip("Unique numerical ID for this searchlight within the scene. Cannot be 0")]
+    [SerializeField]
+    private int camId;
 
     private float y; //diameter of cone base
     private int rayCountPerSide; //number of rays above/below the centre line
@@ -86,13 +89,23 @@ public class SearchLightDetect : MonoBehaviour
     {
         if (checkIfSeen(distance)) //checks every frame, respawning the player if it spots them
         {
-            player.GetComponent<Respawn>().DoRespawn();
-            GetComponent<Renderer>().material = detectedMaterial;
-            //Debug.LogError("Reached");
+            if (player.GetComponent<WorldSwap>().lightWorld)
+            {
+                player.GetComponent<Respawn>().DoRespawn();
+                GetComponent<Renderer>().material = detectedMaterial;
+                //Debug.LogError("Reached");
+            }
+            else
+            {
+                player.GetComponent<WorldSwap>().setWarning(camId, true);
+                Debug.LogError("Reached");
+            } 
         }
         else
         {
             GetComponent<Renderer>().material = emptyMaterial;
+            player.GetComponent<WorldSwap>().setWarning(camId, false);
+            Debug.LogError("ReachF");
         }
     }
 }

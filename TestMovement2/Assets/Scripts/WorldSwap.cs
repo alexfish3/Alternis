@@ -25,10 +25,14 @@ public class WorldSwap : MonoBehaviour
     [SerializeField] GameObject canSwitchSignier;
     public TMP_Text switchText;
 
+    private bool warning = false;
+    private int receivedId = 0;
+
     [Header("Color Info")]
     [SerializeField] Color canUse;
     [SerializeField] Color cantUse;
     [SerializeField] Color disabled;
+    [SerializeField] Color warningColor;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +43,7 @@ public class WorldSwap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Debug.LogError("Reacher" + warning);
         oxygenBar.GetComponent<Slider>().value = oxygen;
 
         if(disableSwap == true)
@@ -53,6 +57,12 @@ public class WorldSwap : MonoBehaviour
             {
                 canSwitchSignier.GetComponent<Image>().color = canUse;
                 switchText.enabled = false;
+
+                if (warning)
+                {
+                    canSwitchSignier.GetComponent<Image>().color = warningColor;
+                    Debug.LogError("Baba");
+                }
             }
             else if (canSwitch == false)
             {
@@ -169,6 +179,32 @@ public class WorldSwap : MonoBehaviour
         if (other.tag == "DisableSwap")
         {
             disableSwap = false;
+        }
+    }
+
+    public void setWarning(int key, bool x)
+    {
+        
+        if (receivedId == 0)
+        {
+            if (x)
+            {
+                receivedId = key;
+                warning = x;
+            }
+        }
+        else if (key == receivedId)
+        {
+            if (x)
+            {
+                receivedId = key;
+            }
+            else
+            {
+                receivedId = 0;
+            }
+
+            warning = x;
         }
     }
 }

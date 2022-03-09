@@ -11,6 +11,8 @@ public class SplashScreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.visible = false;
+
         Graphics.Blit(firstFrameTexture, videoRenderTexture);
         StartCoroutine(waitTillVideoDone(timeToWait));
     }

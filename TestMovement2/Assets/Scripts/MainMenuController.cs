@@ -36,6 +36,8 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+
         essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
 
         position = 0;
@@ -48,6 +50,7 @@ public class MainMenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if(loadFile == false)
         {
             readTextFileOnStartUp();
@@ -162,6 +165,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5 && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
                         {
+                            Debug.Log("TESTER");
                             canScrollX = false;
                             essentialGameObjects.bgmVolume++;
                             bgmText.text = essentialGameObjects.bgmVolume.ToString();
@@ -243,7 +247,7 @@ public class MainMenuController : MonoBehaviour
                         // Restore Fullscreen
                         essentialGameObjects.isFullscreen = defaultIsFullscreen;
                         fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
-
+                        Screen.fullScreen = essentialGameObjects.isFullscreen;
                     }
                 }
 
@@ -447,7 +451,7 @@ public class MainMenuController : MonoBehaviour
                         // Restore Fullscreen
                         essentialGameObjects.isFullscreen = defaultIsFullscreen;
                         fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
-
+                        Screen.fullScreen = essentialGameObjects.isFullscreen;
                     }
                 }
 
@@ -520,25 +524,25 @@ public class MainMenuController : MonoBehaviour
             }
 
             // Controller Controls
-            if (Input.GetKeyDown(KeyCode.W) && position > 0)
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && position > 0)
             {
                 canScrollY = false;
                 position--;
                 selector.transform.position = positions[position].transform.position;
             }
-            else if (Input.GetKeyDown(KeyCode.W) && position == 0)
+            else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && position == 0)
             {
                 canScrollY = false;
                 position = positions.Length - 1;
                 selector.transform.position = positions[position].transform.position;
             }
-            else if (Input.GetKeyDown(KeyCode.S) && position < positions.Length - 1)
+            else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && position < positions.Length - 1)
             {
                 canScrollY = false;
                 position++;
                 selector.transform.position = positions[position].transform.position;
             }
-            else if (Input.GetKeyDown(KeyCode.S) && position == positions.Length - 1)
+            else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && position == positions.Length - 1)
             {
                 canScrollY = false;
                 position = 0;
@@ -557,13 +561,13 @@ public class MainMenuController : MonoBehaviour
             // Change BGM Volume
             if (settingsPosition == 0)
             {
-                if (Input.GetKeyDown(KeyCode.D) && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
+                if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
                 {
                     canScrollX = false;
                     essentialGameObjects.bgmVolume++;
                     bgmText.text = essentialGameObjects.bgmVolume.ToString();
                 }
-                else if (Input.GetKeyDown(KeyCode.A) && essentialGameObjects.bgmVolume > 0)
+                else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && essentialGameObjects.bgmVolume > 0)
                 {
                     canScrollX = false;
                     essentialGameObjects.bgmVolume--;
@@ -573,13 +577,13 @@ public class MainMenuController : MonoBehaviour
             // Change SFX Volume
             if (settingsPosition == 1)
             {
-                if (Input.GetKeyDown(KeyCode.D) && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
+                if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
                 {
                     canScrollX = false;
                     essentialGameObjects.sfxVolume++;
                     sfxText.text = essentialGameObjects.sfxVolume.ToString();
                 }
-                else if (Input.GetKeyDown(KeyCode.A) && essentialGameObjects.sfxVolume > 0)
+                else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && essentialGameObjects.sfxVolume > 0)
                 {
                     canScrollX = false;
                     essentialGameObjects.sfxVolume--;
@@ -638,30 +642,30 @@ public class MainMenuController : MonoBehaviour
                     // Restore Fullscreen
                     essentialGameObjects.isFullscreen = defaultIsFullscreen;
                     fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
-
+                    Screen.fullScreen = essentialGameObjects.isFullscreen;
                 }
             }
 
             // Controller Controls
-            if (Input.GetKeyDown(KeyCode.W) && settingsPosition > 0)
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && settingsPosition > 0)
             {
                 canScrollY = false;
                 settingsPosition--;
                 settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
             }
-            else if (Input.GetKeyDown(KeyCode.W) && settingsPosition == 0)
+            else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && settingsPosition == 0)
             {
                 canScrollY = false;
                 settingsPosition = settingsPositions.Length - 1;
                 settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
             }
-            else if (Input.GetKeyDown(KeyCode.S) && settingsPosition < settingsPositions.Length - 1)
+            else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && settingsPosition < settingsPositions.Length - 1)
             {
                 canScrollY = false;
                 settingsPosition++;
                 settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
             }
-            else if (Input.GetKeyDown(KeyCode.S) && settingsPosition == settingsPositions.Length - 1)
+            else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && settingsPosition == settingsPositions.Length - 1)
             {
                 canScrollY = false;
                 settingsPosition = 0;
