@@ -6,8 +6,11 @@ public class Walker : MonoBehaviour
 {
     public float walkSpeed;
 
-    bool Right;
-    bool Left;
+    public GameObject position1;
+    public GameObject position2;
+
+    public bool Right;
+    public bool Left;
     Rigidbody rb;
     float localX;
 
@@ -15,41 +18,13 @@ public class Walker : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Right = true;
-        Left = false;
+        Right = false;
+        Left = true;
         localX = transform.localScale.x;
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag != "Player")
-        {
-            if (Right)
-            {
-                Left = true;
-                Right = false;
-                transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
-            }
-            else
-            {
-                Right = true;
-                Left = false;
-                transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
-            }
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            //Kill Player
-            //other.gameObject.active = false;
-        }
-    }
-
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (Right)
         {
@@ -57,6 +32,20 @@ public class Walker : MonoBehaviour
         } else
         {
             rb.velocity = new Vector3(-walkSpeed, 0, 0);
+        }
+
+        if (transform.position.x < position1.transform.position.x)
+        {
+                Left = false;
+                Right = true;
+                transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
+            rb.velocity = new Vector3(walkSpeed, 0, 0);
+        }
+        else if (transform.position.x > position2.transform.position.x)
+        {
+            Right = false;
+            Left = true;
+            transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
         }
     }
 }
