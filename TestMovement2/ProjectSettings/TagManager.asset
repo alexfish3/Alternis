@@ -10,6 +10,7 @@ TagManager:
   - Checkpoints
   - Enemy
   - DisableSwap
+  - LightWorldActive
   layers:
   - Default
   - TransparentFX

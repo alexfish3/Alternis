@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Splash Screen.unity
     guid: 568f18c626042644d9af3849b7148d41
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 341143593343eb445b6bc2b7e63f7522
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Level1 1.unity
     guid: 35c5b91f22778ac42abbc545d672fb4b
   - enabled: 0
@@ -23,7 +23,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Alternis Level Design.unity
     guid: 627e0feff883e0949aac923ebd5340c3
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Demo Scene.unity
     guid: e13fc8487347cae48ad46ecc80b216e0
   m_configObjects: {}

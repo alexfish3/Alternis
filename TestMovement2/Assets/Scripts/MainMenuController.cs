@@ -593,7 +593,7 @@ public class MainMenuController : MonoBehaviour
             // Change Fullscreen
             if (settingsPosition == 2)
             {
-                if (Input.GetKeyDown(KeyCode.D))
+                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     canScrollX = false;
                     if (essentialGameObjects.isFullscreen == true)
@@ -608,7 +608,7 @@ public class MainMenuController : MonoBehaviour
                     Screen.fullScreen = essentialGameObjects.isFullscreen;
 
                 }
-                else if (Input.GetKeyDown(KeyCode.A))
+                else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     canScrollX = false;
                     if (essentialGameObjects.isFullscreen == true)

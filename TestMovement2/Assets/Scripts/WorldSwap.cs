@@ -6,6 +6,8 @@ using TMPro;
 
 public class WorldSwap : MonoBehaviour
 {
+    public GameObject blurCamera; 
+
     [Header("Oxygen Info")]
     [SerializeField] int oxygen = 100;
     [SerializeField] float speed;
@@ -34,81 +36,86 @@ public class WorldSwap : MonoBehaviour
     [SerializeField] Color disabled;
     [SerializeField] Color warningColor;
 
+    EssentialGameObjects essentialGameObjects;
     // Start is called before the first frame update
     void Start()
     {
         switchText.text = (cooldown * 10).ToString();
+        essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.LogError("Reacher" + warning);
-        oxygenBar.GetComponent<Slider>().value = oxygen;
+        if (essentialGameObjects.GetComponent<PauseMenu>().isPaused == false)
+        {
+            oxygenBar.GetComponent<Slider>().value = oxygen;
 
-        if(disableSwap == true)
-        {
-            canSwitchSignier.GetComponent<Image>().color = disabled;
-            switchText.enabled = false;
-        }
-        else
-        {
-            if (canSwitch == true)
+            if (disableSwap == true)
             {
-                canSwitchSignier.GetComponent<Image>().color = canUse;
+                canSwitchSignier.GetComponent<Image>().color = disabled;
                 switchText.enabled = false;
-
-                if (warning)
+            }
+            else
+            {
+                if (canSwitch == true)
                 {
-                    canSwitchSignier.GetComponent<Image>().color = warningColor;
-                    Debug.LogError("Baba");
+                    canSwitchSignier.GetComponent<Image>().color = canUse;
+                    switchText.enabled = false;
+
+                    if (warning)
+                    {
+                        canSwitchSignier.GetComponent<Image>().color = warningColor;
+                        Debug.LogError("Baba");
+                    }
+                }
+                else if (canSwitch == false)
+                {
+                    canSwitchSignier.GetComponent<Image>().color = cantUse;
+                    switchText.enabled = true;
                 }
             }
-            else if (canSwitch == false)
+
+            if (Input.GetButtonDown("World Swap") && canSwitch == true && disableSwap == false)
             {
-                canSwitchSignier.GetComponent<Image>().color = cantUse;
-                switchText.enabled = true;
+                switchText.text = (cooldown * 10).ToString();
+                canSwitch = false;
+
+                if (changingLevel == true)
+                {
+                    stopOxygenChange = true;
+                }
+
+                // Currently light world, going to switch to dark
+                if (lightWorld == true && darkWorld == false)
+                {
+                    darkWorld = true;
+                    lightWorld = false;
+                    UICanvas.GetComponent<Animator>().SetTrigger("LightToDark");
+                }
+                // Currently dark world, going to switch to light
+                else if (lightWorld == false && darkWorld == true)
+                {
+                    darkWorld = false;
+                    lightWorld = true;
+                    UICanvas.GetComponent<Animator>().SetTrigger("DarkToLight");
+                }
             }
-        }
 
-        if (Input.GetButtonDown("World Swap") && canSwitch == true && disableSwap == false)
-        {
-            switchText.text = (cooldown * 10).ToString();
-            canSwitch = false;
-
-            if(changingLevel == true)
+            // Loose Oxygen
+            if (darkWorld == true && swappedWorlds == true)
             {
-                stopOxygenChange = true;
+                swappedWorlds = false;
+                StartCoroutine(looseOxygen());
             }
 
-            // Currently light world, going to switch to dark
-            if (lightWorld == true && darkWorld == false)
+            // Gain Oxygen
+            if (lightWorld == true && swappedWorlds == true)
             {
-                darkWorld = true;
-                lightWorld = false;
-                UICanvas.GetComponent<Animator>().SetTrigger("LightToDark");
+                swappedWorlds = false;
+                StartCoroutine(gainOxygen());
             }
-            // Currently dark world, going to switch to light
-            else if (lightWorld == false && darkWorld == true)
-            {
-                darkWorld = false;
-                lightWorld = true;
-                UICanvas.GetComponent<Animator>().SetTrigger("DarkToLight");
-            }
-        }
 
-        // Loose Oxygen
-        if(darkWorld == true && swappedWorlds == true)
-        {
-            swappedWorlds = false;
-            StartCoroutine(looseOxygen());
-        }
-
-        // Gain Oxygen
-        if (lightWorld == true && swappedWorlds == true)
-        {
-            swappedWorlds = false;
-            StartCoroutine(gainOxygen());
         }
     }
 

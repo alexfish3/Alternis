@@ -34,6 +34,7 @@ public class FinalMovement : MonoBehaviour
     public bool isGrounded;
     Vector3 move;
     Rigidbody rb;
+    EssentialGameObjects essentialGameObjects;
 
     //Check If On Ground
     private void OnCollisionStay(Collision other)
@@ -55,6 +56,8 @@ public class FinalMovement : MonoBehaviour
 
     void Start()
     {
+        essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
+        essentialGameObjects.GetComponent<PauseMenu>().canPause = true;
         rb = GetComponent<Rigidbody>();
         localX = transform.localScale.x;
         crouch = false;
@@ -66,181 +69,188 @@ public class FinalMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Walk
-        if (Input.GetAxis("Horizontal") > controllerSense && !crouch)
+        if(essentialGameObjects.GetComponent<PauseMenu>().isPaused == false)
         {
-            walking = true;
-            idleTime = 0;
-            rb.velocity = new Vector3(curwalkSpeed, rb.velocity.y, 0);
-        }
-        else if (Input.GetAxis("Horizontal") < -controllerSense && !crouch)
-        {
-            walking = true;
-            idleTime = 0;
-            rb.velocity = new Vector3(-curwalkSpeed, rb.velocity.y, 0);
+            //Walk
+            if (Input.GetAxis("Horizontal") > controllerSense && !crouch)
+            {
+                walking = true;
+                idleTime = 0;
+                rb.velocity = new Vector3(curwalkSpeed, rb.velocity.y, 0);
+            }
+            else if (Input.GetAxis("Horizontal") < -controllerSense && !crouch)
+            {
+                walking = true;
+                idleTime = 0;
+                rb.velocity = new Vector3(-curwalkSpeed, rb.velocity.y, 0);
+            }
+
+            //Idle time so players can hold momentum when changing directions
+            if (Input.GetAxis("Horizontal") == 0 && walking)
+            {
+                idleTime++;
+            }
+            if (!crouch && idleTime > 10)
+            {
+                walking = false;
+                idleTime = 0;
+            }
+            else if (Input.GetAxis("Horizontal") < controllerSense && Input.GetAxis("Horizontal") > -controllerSense && !isGrounded)
+            {
+                walking = false;
+                idleTime = 0;
+            }
+
+
+            //Jump
+            if (Input.GetButtonDown("Jump") && jumpSpeed <= 7 && jumpCount < 2 && !slide && !crouch)
+            {
+                jumpCount++;
+
+                rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, 0);
+
+                jumpSpeed = jumpHeight;
+                isJumping = true;
+            }
+
+            //Sprint
+            if (Input.GetButtonDown("Dash") && walking && !crouch && isGrounded)
+            {
+                isSprinting = true;
+                airSpeed = sprintSpeed;
+                walking = false;
+            }
+            if (rb.velocity.x > 0 && isSprinting) //facing right
+            {
+                rb.velocity = new Vector3(sprintSpeed, rb.velocity.y, 0);
+            }
+            if (rb.velocity.x < 0 && isSprinting) // facing left
+            {
+                rb.velocity = new Vector3(-sprintSpeed, rb.velocity.y, 0);
+            }
+
+            if (Input.GetAxis("Horizontal") < 0.4 && Input.GetAxis("Horizontal") > -0.4)
+            {
+                isSprinting = false;
+            }
+
+            //Sprint Jump
+            if (isSprinting && !isGrounded && (rb.velocity.x > walkSpeed || rb.velocity.x < -walkSpeed) && !crouch)
+            {
+                if (isRight)
+                {
+                    rb.velocity = new Vector3(airSpeed, rb.velocity.y, 0);
+                }
+                if (isLeft)
+                {
+                    rb.velocity = new Vector3(-airSpeed, rb.velocity.y, 0);
+                }
+            }
+            else if (rb.velocity.x <= walkSpeed && rb.velocity.x >= -walkSpeed && isSprinting)
+            {
+                isSprinting = false;
+            }
+            if (airSpeed <= walkSpeed)
+            {
+                isSprinting = false;
+            }
+
+            //Right & Left
+            if (Input.GetAxis("Horizontal") > controllerSense)
+            {
+                isRight = true;
+                isLeft = false;
+            }
+            if (Input.GetAxis("Horizontal") < -controllerSense)
+            {
+                isRight = false;
+                isLeft = true;
+            }
+
+            //Crouch
+            if (Input.GetAxis("Vertical") < -0.3 && isGrounded && groundTimer > 10)
+            {
+                transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
+            }
+            else if (Input.GetAxis("Vertical") > -0.3)
+            {
+                crouch = false;
+                transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+            }
+            if (isGrounded && transform.localScale == new Vector3(transform.localScale.x, 0.5f, transform.localScale.z))
+            {
+                crouch = true;
+            }
+
+            if (crouch == false && transform.localScale != new Vector3(transform.localScale.x, 1f, transform.localScale.z))
+            {
+                transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+            }
+
+            //Crouch Walk
+            if (Input.GetAxis("Horizontal") > controllerSense && crouch && !slide)
+            {
+                isSprinting = false;
+                rb.velocity = new Vector3(crouchWalkSpeed, rb.velocity.y, 0);
+            }
+            else if (Input.GetAxis("Horizontal") < -controllerSense && crouch && !slide)
+            {
+                isSprinting = false;
+                rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
+            }
+
+            //Slide
+            //if (crouch && Input.GetAxis("Horizontal") > 0.2 && Input.GetButtonDown("Dash") && !slide)
+            // {
+            //     slide = true;
+            //    rb.velocity = new Vector3(slideSpeed, rb.velocity.y, 0);
+            // } else if (crouch && Input.GetAxis("Horizontal") < -0.2 && Input.GetButtonDown("Dash") && !slide)
+            //  {
+            //      slide = true;
+            //      rb.velocity = new Vector3(-slideSpeed, rb.velocity.y, 0);
+            //  }
+            //  if (slide && rb.velocity.x < 2 && rb.velocity.x > -2)
+            //  {
+            //     slide = false;
+            //  }
+
+            //Disable Sprint
+            if (rb.velocity.x <= walkSpeed && rb.velocity.x >= -walkSpeed && isSprinting)
+            {
+                isSprinting = false;
+            }
+
+            //Reset Current Walk Speed
+            if (!walking && !isSprinting)
+            {
+                curwalkSpeed = 0;
+            }
+
+
+            //Sprite Change Direction
+            if (isRight && !slide)
+            {
+                transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
+            }
+            else if (isLeft && !slide)
+            {
+                transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
+            }
+
+            //Stop Running Into Walls
+            if (!crouch)
+            {
+                if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.right, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.right, disToWall + 0.1f)) && isRight)
+                {
+                    rb.velocity = new Vector3(0, rb.velocity.y, 0);
+                }
+                if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.left, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.left, disToWall + 0.1f)) && isLeft)
+                {
+                    rb.velocity = new Vector3(0, rb.velocity.y, 0);
+                }
+            }
         }
         
-        //Idle time so players can hold momentum when changing directions
-        if (Input.GetAxis("Horizontal") == 0 && walking)
-        {
-            idleTime++;
-        }
-        if (!crouch && idleTime > 10)
-        {
-            walking = false;
-            idleTime = 0;
-        } else if (Input.GetAxis("Horizontal") < controllerSense && Input.GetAxis("Horizontal") > -controllerSense && !isGrounded)
-        {
-            walking = false;
-            idleTime = 0;
-        }
-
-
-        //Jump
-        if (Input.GetButtonDown("Jump") && jumpSpeed <= 7 && jumpCount < 2 && !slide && !crouch)
-        {
-            jumpCount++;
-
-            rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, 0);
-
-            jumpSpeed = jumpHeight;
-            isJumping = true;
-        }
-
-        //Sprint
-        if (Input.GetButtonDown("Dash") && walking && !crouch && isGrounded)
-        {
-            isSprinting = true;
-            airSpeed = sprintSpeed;
-            walking = false;
-        }
-        if (rb.velocity.x > 0 && isSprinting) //facing right
-        {
-            rb.velocity = new Vector3(sprintSpeed, rb.velocity.y, 0);
-        }
-        if (rb.velocity.x < 0 && isSprinting) // facing left
-        {
-            rb.velocity = new Vector3(-sprintSpeed, rb.velocity.y, 0);
-        }
-
-        if (Input.GetAxis("Horizontal") < 0.4 && Input.GetAxis("Horizontal") > -0.4)
-        {
-            isSprinting = false;
-        }
-
-        //Sprint Jump
-        if (isSprinting && !isGrounded && (rb.velocity.x > walkSpeed || rb.velocity.x < -walkSpeed) && !crouch)
-        {
-            if (isRight)
-            {
-                rb.velocity = new Vector3(airSpeed, rb.velocity.y, 0);
-            }
-            if (isLeft)
-            {
-                rb.velocity = new Vector3(-airSpeed, rb.velocity.y, 0);
-            }
-        } else if (rb.velocity.x <= walkSpeed && rb.velocity.x >= -walkSpeed && isSprinting)
-        {
-            isSprinting = false;
-        }
-        if (airSpeed <= walkSpeed)
-        {
-            isSprinting = false;
-        }
-
-        //Right & Left
-        if (Input.GetAxis("Horizontal") > controllerSense)
-        {
-            isRight = true;
-            isLeft = false;
-        }
-        if (Input.GetAxis("Horizontal") < -controllerSense)
-        {
-            isRight = false;
-            isLeft = true;
-        }
-
-        //Crouch
-        if (Input.GetAxis("Vertical") < -0.3 && isGrounded && groundTimer > 10)
-        {
-            transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
-        } else if (Input.GetAxis("Vertical") > -0.3)
-        {
-            crouch = false;
-            transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
-        }
-        if (isGrounded && transform.localScale == new Vector3(transform.localScale.x, 0.5f, transform.localScale.z))
-        {
-            crouch = true;
-        }
-
-        if (crouch == false && transform.localScale != new Vector3(transform.localScale.x, 1f, transform.localScale.z))
-        {
-            transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
-        }
-
-        //Crouch Walk
-        if (Input.GetAxis("Horizontal") > controllerSense && crouch && !slide)
-        {
-            isSprinting = false;
-            rb.velocity = new Vector3(crouchWalkSpeed, rb.velocity.y, 0);
-        }
-        else if (Input.GetAxis("Horizontal") < -controllerSense && crouch && !slide)
-        {
-            isSprinting = false;
-            rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
-        }
-
-        //Slide
-        //if (crouch && Input.GetAxis("Horizontal") > 0.2 && Input.GetButtonDown("Dash") && !slide)
-       // {
-       //     slide = true;
-        //    rb.velocity = new Vector3(slideSpeed, rb.velocity.y, 0);
-       // } else if (crouch && Input.GetAxis("Horizontal") < -0.2 && Input.GetButtonDown("Dash") && !slide)
-      //  {
-      //      slide = true;
-      //      rb.velocity = new Vector3(-slideSpeed, rb.velocity.y, 0);
-      //  }
-      //  if (slide && rb.velocity.x < 2 && rb.velocity.x > -2)
-      //  {
-       //     slide = false;
-      //  }
-
-        //Disable Sprint
-        if (rb.velocity.x <= walkSpeed && rb.velocity.x >= -walkSpeed && isSprinting)
-        {
-            isSprinting = false;
-        }
-
-        //Reset Current Walk Speed
-        if (!walking && !isSprinting)
-        {
-            curwalkSpeed = 0;
-        }
-
-
-        //Sprite Change Direction
-        if (isRight && !slide)
-        {
-            transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
-        }
-        else if (isLeft && !slide)
-        {
-            transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
-        }
-
-        //Stop Running Into Walls
-        if (!crouch)
-        {
-            if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.right, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.right, disToWall + 0.1f)) && isRight)
-            {
-                rb.velocity = new Vector3(0, rb.velocity.y, 0);
-            }
-            if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.left, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.left, disToWall + 0.1f)) && isLeft)
-            {
-                rb.velocity = new Vector3(0, rb.velocity.y, 0);
-            }
-        }
     }
 
     void FixedUpdate()
