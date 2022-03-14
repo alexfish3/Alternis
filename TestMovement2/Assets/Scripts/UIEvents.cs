@@ -8,6 +8,8 @@ public class UIEvents : MonoBehaviour
     [SerializeField] float cooldown;
     [SerializeField] GameObject lightWorld;
     [SerializeField] GameObject darkWorld;
+    [SerializeField] Material lightWorldSkybox;
+    [SerializeField] Material darkWorldSkybox;
     [SerializeField] GameObject gasMaskGameobject;
 
     private void Start()
@@ -18,6 +20,7 @@ public class UIEvents : MonoBehaviour
     public void changeToDark()
     {
         player.GetComponent<FinalMovement>().isGrounded = false;
+        RenderSettings.skybox = darkWorldSkybox;
         lightWorld.SetActive(false);
         darkWorld.SetActive(true);
         player.GetComponent<WorldSwap>().switchText.text = (cooldown * 10).ToString();
@@ -25,6 +28,7 @@ public class UIEvents : MonoBehaviour
     public void changeToLight()
     {
         player.GetComponent<FinalMovement>().isGrounded = false;
+        RenderSettings.skybox = lightWorldSkybox;
         lightWorld.SetActive(true);
         darkWorld.SetActive(false);
         player.GetComponent<WorldSwap>().switchText.text = (cooldown * 10).ToString();
