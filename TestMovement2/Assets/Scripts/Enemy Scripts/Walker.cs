@@ -11,6 +11,7 @@ public class Walker : MonoBehaviour
 
     public bool Right;
     public bool Left;
+    public bool Delay;
     Rigidbody rb;
     float localX;
 
@@ -21,31 +22,45 @@ public class Walker : MonoBehaviour
         Right = false;
         Left = true;
         localX = transform.localScale.x;
+        Delay = false;
+        rb.velocity = new Vector3(-walkSpeed, 0, 0);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Right)
+        if (transform.position.x < position1.transform.position.x && Left)
         {
-            rb.velocity = new Vector3(walkSpeed, 0, 0);
-        } else
-        {
-            rb.velocity = new Vector3(-walkSpeed, 0, 0);
-        }
+            rb.velocity = new Vector3(0, 0, 0);
+            Left = false;
+            Right = true;
+           // transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
 
-        if (transform.position.x < position1.transform.position.x)
-        {
-                Left = false;
-                Right = true;
-                transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
-            rb.velocity = new Vector3(walkSpeed, 0, 0);
+            StartCoroutine(Wait());
         }
-        else if (transform.position.x > position2.transform.position.x)
+        else if (transform.position.x > position2.transform.position.x && Right)
         {
+            rb.velocity = new Vector3(0, 0, 0);
             Right = false;
             Left = true;
-            transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
+           // transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
+
+            StartCoroutine(Wait());
+        }
+
+        IEnumerator Wait()
+        {
+            yield return new WaitForSeconds(3);
+
+            if (Right) { 
+            transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
+            rb.velocity = new Vector3(walkSpeed, 0, 0);
+            }
+            else {
+                transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
+                rb.velocity = new Vector3(-walkSpeed, 0, 0);
+            }
         }
     }
 }
+
