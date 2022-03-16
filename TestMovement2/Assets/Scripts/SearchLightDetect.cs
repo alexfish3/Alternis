@@ -12,12 +12,12 @@ This class controls the searchlights' detection using a vertical cone of raycast
 
 public class SearchLightDetect : MonoBehaviour
 {
-    [Tooltip("The distance the camera sees, measured at the center of the cone. 8.5 is approximately equivalent to the original collider")]
+    [Tooltip("The distance the camera sees, measured at the center of the cone. 8.5 is approximately equivalent to the sPosal collider")]
     [SerializeField]
     private float distance;
     [Tooltip("The OriginPos empty")]
     [SerializeField]
-    private GameObject origin;
+    private GameObject sPos;
     [Tooltip("The player (for respawning purposes)")]
     [SerializeField]
     private GameObject player;
@@ -26,63 +26,134 @@ public class SearchLightDetect : MonoBehaviour
     private int camId;
 
     private float y; //diameter of cone base
+    private float radius; //radius of cone base
     private int rayCountPerSide; //number of rays above/below the centre line
     private int rayCountTotal; //total number of rays including centre
     private static float RAY_DIVISOR; //used for calculating rayCount
 
+    private Vector3[] verts;
+    private Vector2[] uv;
+    private int[] tris;
+    private int triCount;
+    private int vertCount;
+
     public Material emptyMaterial;
     public Material detectedMaterial;
+
+    void drawTriangle()
+    {
+        int j = 1;
+
+        for (int i = 0; i < triCount; i += 3)
+        {
+            tris[i] = 0;
+            tris[i + 1] = j + 1;
+            tris[i + 2] = j;
+
+            j++;
+
+            Debug.Log(j);
+            Debug.Log(i);
+        }
+
+        uv[0] = new Vector2(0,1);
+
+        for (int i = 1; i < vertCount; i += 2)
+        {
+            uv[i] = new Vector2(0, 0);
+
+            if (i < vertCount - 1) uv[i + 1] = new Vector2(1, 0);
+        }
+
+        Mesh area = new Mesh();
+        area.vertices = verts;
+        area.uv = uv;
+        area.triangles = tris;
+        GetComponent<MeshFilter>().mesh = area;
+    }
 
     bool checkIfSeen(float distance) //checks if there is a player-tagged collider in the raycasts.
     {
         RaycastHit hit; //stores raycast return data
+        bool x = false;
 
-        if (Physics.Raycast(origin.transform.position, origin.transform.TransformDirection(Vector3.left), out hit, distance)) //centre line; just casts to local left
+        if (Physics.Raycast(sPos.transform.position, sPos.transform.TransformDirection(Vector3.left), out hit, distance)) //centre line; just casts to local left
         {
-            Debug.DrawLine(origin.transform.position, hit.point, Color.red); //shows as red line in scene view
-            if (hit.collider.gameObject.CompareTag("Player")) return true;
+            Debug.DrawLine(sPos.transform.position, hit.point, Color.red); //shows as red line in scene view
+            if (hit.collider.gameObject.CompareTag("Player")) x = true;
+
+            verts[rayCountPerSide + 1] = hit.point;
+        }
+        else
+        {
+            verts[rayCountPerSide + 1] = sPos.transform.position + sPos.transform.TransformDirection(Vector3.left) * distance;
         }
 
         for (int i = 1; i < (rayCountPerSide + 1); i++) //does a number of lines above the centre based on rayCountPerSide
         {   
             //if you imagine the top half of the searchlight being a right triangle, this is the short leg (on a scale of the long leg is 1)
             float rise = (0.2679f - ((0.2679f / rayCountPerSide) * (i - 1)));
+            float scaledRise = radius * rise;
 
             //uses rise to get direction, then pythagorean theorem to get distance (if they all were the same distance, the end of the light's cone would be curved)
-            if (Physics.Raycast(origin.transform.position, origin.transform.TransformDirection(new Vector3(-1, rise, 0)), out hit, Mathf.Sqrt((distance * distance) + (rise * rise))))
+            if (Physics.Raycast(sPos.transform.position, sPos.transform.TransformDirection(new Vector3(-1, rise, 0)), out hit, Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise))))
             {
                 //Debug.LogError("Reached");
-                Debug.DrawLine(origin.transform.position, hit.point, Color.blue); //blue line in scene view
-                if (hit.collider.gameObject.CompareTag("Player")) return true;
+                Debug.DrawLine(sPos.transform.position, hit.point, Color.blue); //blue line in scene view
+                if (hit.collider.gameObject.CompareTag("Player")) x = true;
+
+                verts[i] = hit.point;
+            }
+            else
+            {
+                verts[i] = sPos.transform.position + sPos.transform.TransformDirection(new Vector3(-1, rise, 0)) * Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise));
             }
         }
 
         for (int i = (rayCountPerSide + 1); i < (rayCountTotal); i++)
         {
             //if you imagine the bottom half of the searchlight being a right triangle, this is the short leg (on a scale of the long leg is 1)
-            float rise = (0.2679f - ((0.2679f / rayCountPerSide) * (i - (rayCountPerSide + 1))));
+            float rise = ((0.2679f / rayCountPerSide) + ((0.2679f / rayCountPerSide) * (i - (rayCountPerSide + 1))));
+            float scaledRise = radius * rise;
 
             //uses rise to get direction, then pythagorean theorem to get distance (if they all were the same distance, the end of the light's cone would be curved)
-            if (Physics.Raycast(origin.transform.position, origin.transform.TransformDirection(new Vector3(-1, -rise, 0)), out hit, Mathf.Sqrt((distance * distance) + (rise * rise))))
+            if (Physics.Raycast(sPos.transform.position, sPos.transform.TransformDirection(new Vector3(-1, -rise, 0)), out hit, Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise))))
             {
-                Debug.DrawLine(origin.transform.position, hit.point, Color.yellow); //yellow line in scene view
-                if (hit.collider.gameObject.CompareTag("Player")) return true;
+                Debug.DrawLine(sPos.transform.position, hit.point, Color.yellow); //yellow line in scene view
+                if (hit.collider.gameObject.CompareTag("Player")) x = true;
+
+                verts[i + 1] = hit.point;
+            }
+            else
+            {
+                verts[i + 1] = sPos.transform.position + sPos.transform.TransformDirection(new Vector3(-1, rise, 0)) * Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise));
             }
         }
 
-        return false; //none of the rays have hit anything
+        drawTriangle();
+        return x;
     }
 
     void Start()
     {
-        RAY_DIVISOR = 2.5f; //the lower this value is, the more rays there are
+        RAY_DIVISOR = 5.0f; //the lower this value is, the more rays there are
         y = 0.5359f * distance; //calculates the diameter of the cone's base
+        radius = 0.5f * y;
 
         //determines the number of rays per side above the centre. the idea is that the longer the cone is, the more rays it needs to avoid something being small enough to slip between
         rayCountPerSide = (int)(y / RAY_DIVISOR);
 
         if (rayCountPerSide < 1) rayCountPerSide = 1; //minimum three total rays
         rayCountTotal = (rayCountPerSide * 2) + 1;
+
+        triCount = (rayCountTotal - 1) * 3; //math works trust me
+        vertCount = rayCountTotal + 1; //+1 for origin vert
+
+        verts = new Vector3[vertCount]; 
+        uv = new Vector2[vertCount];
+        tris = new int[triCount];
+
+        verts[0] = sPos.transform.position; //origin vert
     }
 
     void Update()
@@ -92,7 +163,6 @@ public class SearchLightDetect : MonoBehaviour
             if (player.GetComponent<WorldSwap>().lightWorld)
             {
                 player.GetComponent<Respawn>().DoRespawn();
-                GetComponent<Renderer>().material = detectedMaterial;
                 //Debug.LogError("Reached");
             }
             else
@@ -103,7 +173,6 @@ public class SearchLightDetect : MonoBehaviour
         }
         else
         {
-            GetComponent<Renderer>().material = emptyMaterial;
             player.GetComponent<WorldSwap>().setWarning(camId, false);
             Debug.LogError("ReachF");
         }
