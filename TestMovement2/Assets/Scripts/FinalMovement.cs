@@ -48,14 +48,14 @@ public class FinalMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "DisableUncrouch")
+        if (other.gameObject.tag == "DisableUncrouch" && this.gameObject.tag == "Player")
         {
             disableStand = true;
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "DisableUncrouch")
+        if (other.gameObject.tag == "DisableUncrouch" && this.gameObject.tag == "Player")
         {
             disableStand = false;
         }

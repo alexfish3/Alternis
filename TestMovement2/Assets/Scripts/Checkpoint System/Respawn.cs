@@ -19,7 +19,8 @@ public class Respawn : MonoBehaviour
         if (other.gameObject.CompareTag("Death") && other.gameObject.layer == 7 && player.GetComponent<WorldSwap>().lightWorld)
         {
             DoRespawn();
-        } else if (other.gameObject.CompareTag("Death"))
+        }
+        if (other.gameObject.tag == "Death")
         {
             DoRespawn();
         }
