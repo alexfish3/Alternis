@@ -32,8 +32,10 @@ public class Respawn : MonoBehaviour
         }
     }
 
+    // Respawn
     public void DoRespawn()
     {
+        player.GetComponent<WorldSwap>().respawn();
         Debug.LogError("Respawning");
         CurCheckpoint();
         player.transform.position = respawner.position;

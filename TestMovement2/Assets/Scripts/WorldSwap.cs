@@ -214,4 +214,13 @@ public class WorldSwap : MonoBehaviour
             warning = x;
         }
     }
+
+    public void respawn()
+    {
+        darkWorld = false;
+        lightWorld = true;
+        canSwitch = true;
+        UICanvas.GetComponent<Animator>().SetTrigger("Respawn");
+    }
+
 }
