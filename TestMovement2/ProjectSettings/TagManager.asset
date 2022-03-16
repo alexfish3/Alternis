@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - DisableSwap
   - LightWorldActive
+  - DisableUncrouch
+  - PlayerDetecter
   layers:
   - Default
   - TransparentFX

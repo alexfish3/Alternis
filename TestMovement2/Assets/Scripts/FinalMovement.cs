@@ -26,6 +26,7 @@ public class FinalMovement : MonoBehaviour
     bool isRight = false;
     bool isLeft = false;
     bool isJumping;
+    bool disableStand;
     bool walking;
     bool doubleJump;
     bool crouch;
@@ -42,6 +43,21 @@ public class FinalMovement : MonoBehaviour
         if (other.gameObject.tag == "Ground" && Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f))
         {
             isGrounded = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "DisableUncrouch")
+        {
+            disableStand = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "DisableUncrouch")
+        {
+            disableStand = false;
         }
     }
 
@@ -64,6 +80,7 @@ public class FinalMovement : MonoBehaviour
         slide = false;
         jumpCount = 0;
         groundTimer = 0;
+        disableStand = false;
     }
 
     // Update is called once per frame
@@ -172,7 +189,7 @@ public class FinalMovement : MonoBehaviour
             {
                 transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
             }
-            else if (Input.GetAxis("Vertical") > -0.3)
+            else if (Input.GetAxis("Vertical") > -0.3 && !disableStand)
             {
                 crouch = false;
                 transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
