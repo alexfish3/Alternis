@@ -25,6 +25,11 @@ public class SearchLightDetect : MonoBehaviour
     [SerializeField]
     private int camId;
 
+    [Header("Rendering")]
+    [Tooltip("The Triangle empty")]
+    [SerializeField]
+    private GameObject trianglePosition;
+
     private float y; //diameter of cone base
     private float radius; //radius of cone base
     private int rayCountPerSide; //number of rays above/below the centre line
@@ -36,9 +41,6 @@ public class SearchLightDetect : MonoBehaviour
     private int[] tris;
     private int triCount;
     private int vertCount;
-
-    public Material emptyMaterial;
-    public Material detectedMaterial;
 
     void drawTriangle()
     {
@@ -69,7 +71,7 @@ public class SearchLightDetect : MonoBehaviour
         area.vertices = verts;
         area.uv = uv;
         area.triangles = tris;
-        GetComponent<MeshFilter>().mesh = area;
+        trianglePosition.GetComponent<MeshFilter>().mesh = area;
     }
 
     bool checkIfSeen(float distance) //checks if there is a player-tagged collider in the raycasts.
@@ -82,11 +84,11 @@ public class SearchLightDetect : MonoBehaviour
             Debug.DrawLine(sPos.transform.position, hit.point, Color.red); //shows as red line in scene view
             if (hit.collider.gameObject.CompareTag("Player")) x = true;
 
-            verts[rayCountPerSide + 1] = hit.point;
+            verts[rayCountPerSide + 1] = trianglePosition.transform.InverseTransformPoint(hit.point);
         }
         else
         {
-            verts[rayCountPerSide + 1] = sPos.transform.position + sPos.transform.TransformDirection(Vector3.left) * distance;
+            verts[rayCountPerSide + 1] = trianglePosition.transform.InverseTransformPoint(sPos.transform.position + sPos.transform.TransformDirection(Vector3.left) * distance);
         }
 
         for (int i = 1; i < (rayCountPerSide + 1); i++) //does a number of lines above the centre based on rayCountPerSide
@@ -102,11 +104,11 @@ public class SearchLightDetect : MonoBehaviour
                 Debug.DrawLine(sPos.transform.position, hit.point, Color.blue); //blue line in scene view
                 if (hit.collider.gameObject.CompareTag("Player")) x = true;
 
-                verts[i] = hit.point;
+                verts[i] = trianglePosition.transform.InverseTransformPoint(hit.point);
             }
             else
             {
-                verts[i] = sPos.transform.position + sPos.transform.TransformDirection(new Vector3(-1, rise, 0)) * Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise));
+                verts[i] = trianglePosition.transform.InverseTransformPoint(sPos.transform.position + sPos.transform.TransformDirection(new Vector3(-1, rise, 0)) * Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise)));
             }
         }
 
@@ -122,11 +124,11 @@ public class SearchLightDetect : MonoBehaviour
                 Debug.DrawLine(sPos.transform.position, hit.point, Color.yellow); //yellow line in scene view
                 if (hit.collider.gameObject.CompareTag("Player")) x = true;
 
-                verts[i + 1] = hit.point;
+                verts[i + 1] = trianglePosition.transform.InverseTransformPoint(hit.point);
             }
             else
             {
-                verts[i + 1] = sPos.transform.position + sPos.transform.TransformDirection(new Vector3(-1, rise, 0)) * Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise));
+                verts[i + 1] = trianglePosition.transform.InverseTransformPoint(sPos.transform.position + sPos.transform.TransformDirection(new Vector3(-1, -rise, 0)) * Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise)));
             }
         }
 
@@ -136,7 +138,7 @@ public class SearchLightDetect : MonoBehaviour
 
     void Start()
     {
-        RAY_DIVISOR = 5.0f; //the lower this value is, the more rays there are
+        RAY_DIVISOR = 0.6f; //the lower this value is, the more rays there are
         y = 0.5359f * distance; //calculates the diameter of the cone's base
         radius = 0.5f * y;
 
@@ -153,7 +155,7 @@ public class SearchLightDetect : MonoBehaviour
         uv = new Vector2[vertCount];
         tris = new int[triCount];
 
-        verts[0] = sPos.transform.position; //origin vert
+        verts[0] = trianglePosition.transform.InverseTransformPoint(trianglePosition.transform.position); //origin vert
     }
 
     void Update()
