@@ -35,11 +35,13 @@ public class elevator : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
+        if (other.tag == "Player")
             triggered = true;
     }
     void OnTriggerExit(Collider other)
     {
-        triggered = false;
+        if (other.tag == "Player")
+            triggered = false;
     }
 
 }
