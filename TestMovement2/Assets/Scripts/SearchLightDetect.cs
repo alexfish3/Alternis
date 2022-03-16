@@ -23,12 +23,15 @@ public class SearchLightDetect : MonoBehaviour
     private GameObject player;
     [Tooltip("Unique numerical ID for this searchlight within the scene. Cannot be 0")]
     [SerializeField]
-    private int camId;
+    public int camId;
 
     [Header("Rendering")]
     [Tooltip("The Triangle empty")]
     [SerializeField]
     private GameObject trianglePosition;
+    [Tooltip("The Cube cube")]
+    [SerializeField]
+    private GameObject warningCube;
 
     private float y; //diameter of cone base
     private float radius; //radius of cone base
@@ -54,8 +57,8 @@ public class SearchLightDetect : MonoBehaviour
 
             j++;
 
-            Debug.Log(j);
-            Debug.Log(i);
+            //Debug.Log(j);
+            //Debug.Log(i);
         }
 
         uv[0] = new Vector2(0,1);
@@ -104,7 +107,7 @@ public class SearchLightDetect : MonoBehaviour
                 //Debug.LogError("Reached");
                 Debug.DrawLine(sPos.transform.position, hit.point, Color.blue); //blue line in scene view
                 if (hit.collider.gameObject.CompareTag("PlayerDetecter")) x = 1;
-            if (hit.collider.gameObject.CompareTag("Player")) x = 2;
+                if (hit.collider.gameObject.CompareTag("Player")) x = 2;
 
                 verts[i] = trianglePosition.transform.InverseTransformPoint(hit.point);
             }
@@ -125,7 +128,7 @@ public class SearchLightDetect : MonoBehaviour
             {
                 Debug.DrawLine(sPos.transform.position, hit.point, Color.yellow); //yellow line in scene view
                 if (hit.collider.gameObject.CompareTag("PlayerDetecter")) x = 1;
-            if (hit.collider.gameObject.CompareTag("Player")) x = 2;
+                if (hit.collider.gameObject.CompareTag("Player")) x = 2;
 
                 verts[i + 1] = trianglePosition.transform.InverseTransformPoint(hit.point);
             }
@@ -175,16 +178,21 @@ public class SearchLightDetect : MonoBehaviour
                     //Debug.LogError("Reached");
                 }
             }
-            else
-            {
-                player.GetComponent<WorldSwap>().setWarning(camId, true);
-                Debug.LogError("Reached");
-            } 
+            // else
+            // {
+            //     player.GetComponent<WorldSwap>().setWarning(camId, true);
+            //     Debug.LogError("Reached");
+            // } 
         }
-        else
-        {
-            player.GetComponent<WorldSwap>().setWarning(camId, false);
-            Debug.LogError("ReachF");
-        }
+        // else
+        // {
+        //     player.GetComponent<WorldSwap>().setWarning(camId, false);
+        //     Debug.LogError("ReachF");
+        // }
+    }
+
+    public GameObject getPlayer()
+    {
+        return player;
     }
 }
