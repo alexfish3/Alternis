@@ -74,15 +74,16 @@ public class SearchLightDetect : MonoBehaviour
         trianglePosition.GetComponent<MeshFilter>().mesh = area;
     }
 
-    bool checkIfSeen(float distance) //checks if there is a player-tagged collider in the raycasts.
+    int checkIfSeen(float distance) //checks if there is a player-tagged collider in the raycasts.
     {
         RaycastHit hit; //stores raycast return data
-        bool x = false;
+        int x = 0;
 
         if (Physics.Raycast(sPos.transform.position, sPos.transform.TransformDirection(Vector3.left), out hit, distance)) //centre line; just casts to local left
         {
             Debug.DrawLine(sPos.transform.position, hit.point, Color.red); //shows as red line in scene view
-            if (hit.collider.gameObject.CompareTag("Player")) x = true;
+            if (hit.collider.gameObject.CompareTag("PlayerDetecter")) x = 1;
+            if (hit.collider.gameObject.CompareTag("Player")) x = 2;
 
             verts[rayCountPerSide + 1] = trianglePosition.transform.InverseTransformPoint(hit.point);
         }
@@ -102,7 +103,8 @@ public class SearchLightDetect : MonoBehaviour
             {
                 //Debug.LogError("Reached");
                 Debug.DrawLine(sPos.transform.position, hit.point, Color.blue); //blue line in scene view
-                if (hit.collider.gameObject.CompareTag("Player")) x = true;
+                if (hit.collider.gameObject.CompareTag("PlayerDetecter")) x = 1;
+            if (hit.collider.gameObject.CompareTag("Player")) x = 2;
 
                 verts[i] = trianglePosition.transform.InverseTransformPoint(hit.point);
             }
@@ -122,7 +124,8 @@ public class SearchLightDetect : MonoBehaviour
             if (Physics.Raycast(sPos.transform.position, sPos.transform.TransformDirection(new Vector3(-1, -rise, 0)), out hit, Mathf.Sqrt((distance * distance) + (scaledRise * scaledRise))))
             {
                 Debug.DrawLine(sPos.transform.position, hit.point, Color.yellow); //yellow line in scene view
-                if (hit.collider.gameObject.CompareTag("Player")) x = true;
+                if (hit.collider.gameObject.CompareTag("PlayerDetecter")) x = 1;
+            if (hit.collider.gameObject.CompareTag("Player")) x = 2;
 
                 verts[i + 1] = trianglePosition.transform.InverseTransformPoint(hit.point);
             }
@@ -160,12 +163,17 @@ public class SearchLightDetect : MonoBehaviour
 
     void Update()
     {
-        if (checkIfSeen(distance)) //checks every frame, respawning the player if it spots them
+        int signal = checkIfSeen(distance);
+
+        if (signal > 0) //checks every frame, respawning the player if it spots them
         {
             if (player.GetComponent<WorldSwap>().lightWorld)
             {
-                player.GetComponent<Respawn>().DoRespawn();
-                //Debug.LogError("Reached");
+                if (signal == 2)
+                {
+                    player.GetComponent<Respawn>().DoRespawn();
+                    //Debug.LogError("Reached");
+                }
             }
             else
             {
