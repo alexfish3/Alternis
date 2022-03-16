@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 7887645521464466847}
   m_Layer: 7
   m_Name: Enemy_Walker
-  m_TagString: Player
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -159,6 +159,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 2
+  position1: {fileID: 0}
+  position2: {fileID: 0}
+  Right: 0
+  Left: 0
+  Delay: 0
 --- !u!1001 &5108495547393794782
 PrefabInstance:
   m_ObjectHideFlags: 0
