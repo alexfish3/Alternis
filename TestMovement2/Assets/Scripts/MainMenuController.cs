@@ -55,6 +55,9 @@ public class MainMenuController : MonoBehaviour
         {
             readTextFileOnStartUp();
 
+            essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
+            essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
+
             if (Screen.fullScreen)
             {
                 if (essentialGameObjects.isFullscreen == false)

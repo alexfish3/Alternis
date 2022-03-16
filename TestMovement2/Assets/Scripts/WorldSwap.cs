@@ -51,6 +51,13 @@ public class WorldSwap : MonoBehaviour
         {
             oxygenBar.GetComponent<Slider>().value = oxygen;
 
+            // Kill player if oxygen gets to zero
+            if(oxygen == 0)
+            {
+                this.gameObject.GetComponent<Respawn>().loseOxygenRespawn();
+            }
+
+
             if (disableSwap == true)
             {
                 canSwitchSignier.GetComponent<Image>().color = disabled;
@@ -168,7 +175,7 @@ public class WorldSwap : MonoBehaviour
             }
 
             oxygen++;
-            yield return new WaitForSeconds(speed);
+            yield return new WaitForSeconds(speed / 2);
         }
         changingLevel = false;
     }
@@ -217,6 +224,7 @@ public class WorldSwap : MonoBehaviour
 
     public void respawn()
     {
+        oxygen = 100;
         darkWorld = false;
         lightWorld = true;
         canSwitch = true;

@@ -39,6 +39,14 @@ public class Respawn : MonoBehaviour
         StartCoroutine(WaitRespawn());
     }
 
+    public void loseOxygenRespawn()
+    {
+        player.GetComponent<WorldSwap>().respawn();
+        Debug.LogError("Respawning");
+        CurCheckpoint();
+        player.transform.position = respawner.position;
+    }
+
     void Start()
     {
         CurCheckpoint();

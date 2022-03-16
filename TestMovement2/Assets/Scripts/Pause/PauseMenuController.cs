@@ -145,12 +145,14 @@ public class PauseMenuController : MonoBehaviour
                             Debug.Log("TESTER");
                             canScrollX = false;
                             essentialGameObjects.bgmVolume++;
+                            essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                             bgmText.text = essentialGameObjects.bgmVolume.ToString();
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.bgmVolume > 0)
                         {
                             canScrollX = false;
                             essentialGameObjects.bgmVolume--;
+                            essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                             bgmText.text = essentialGameObjects.bgmVolume.ToString();
                         }
                     }
@@ -161,12 +163,14 @@ public class PauseMenuController : MonoBehaviour
                         {
                             canScrollX = false;
                             essentialGameObjects.sfxVolume++;
+                            essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                             sfxText.text = essentialGameObjects.sfxVolume.ToString();
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.sfxVolume > 0)
                         {
                             canScrollX = false;
                             essentialGameObjects.sfxVolume--;
+                            essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                             sfxText.text = essentialGameObjects.sfxVolume.ToString();
                         }
                     }
@@ -215,10 +219,12 @@ public class PauseMenuController : MonoBehaviour
 
                         // Restore BGM Volume
                         essentialGameObjects.bgmVolume = defaultBGMVolume;
+                        essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                         bgmText.text = essentialGameObjects.bgmVolume.ToString();
 
                         // Restore SFX Volume
                         essentialGameObjects.sfxVolume = defaultSFXVolume;
+                        essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                         sfxText.text = essentialGameObjects.sfxVolume.ToString();
 
                         // Restore Fullscreen
@@ -351,12 +357,14 @@ public class PauseMenuController : MonoBehaviour
                         {
                             canScrollX = false;
                             essentialGameObjects.bgmVolume++;
+                            essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                             bgmText.text = essentialGameObjects.bgmVolume.ToString();
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.bgmVolume > 0)
                         {
                             canScrollX = false;
                             essentialGameObjects.bgmVolume--;
+                            essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                             bgmText.text = essentialGameObjects.bgmVolume.ToString();
                         }
                     }
@@ -367,12 +375,14 @@ public class PauseMenuController : MonoBehaviour
                         {
                             canScrollX = false;
                             essentialGameObjects.sfxVolume++;
+                            essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                             sfxText.text = essentialGameObjects.sfxVolume.ToString();
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.sfxVolume > 0)
                         {
                             canScrollX = false;
                             essentialGameObjects.sfxVolume--;
+                            essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                             sfxText.text = essentialGameObjects.sfxVolume.ToString();
                         }
                     }
@@ -421,10 +431,12 @@ public class PauseMenuController : MonoBehaviour
 
                         // Restore BGM Volume
                         essentialGameObjects.bgmVolume = defaultBGMVolume;
+                        essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                         bgmText.text = essentialGameObjects.bgmVolume.ToString();
 
                         // Restore SFX Volume
                         essentialGameObjects.sfxVolume = defaultSFXVolume;
+                        essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                         sfxText.text = essentialGameObjects.sfxVolume.ToString();
 
                         // Restore Fullscreen
@@ -547,12 +559,14 @@ public class PauseMenuController : MonoBehaviour
                 {
                     canScrollX = false;
                     essentialGameObjects.bgmVolume++;
+                    essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                     bgmText.text = essentialGameObjects.bgmVolume.ToString();
                 }
                 else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && essentialGameObjects.bgmVolume > 0)
                 {
                     canScrollX = false;
                     essentialGameObjects.bgmVolume--;
+                    essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                     bgmText.text = essentialGameObjects.bgmVolume.ToString();
                 }
             }
@@ -563,12 +577,14 @@ public class PauseMenuController : MonoBehaviour
                 {
                     canScrollX = false;
                     essentialGameObjects.sfxVolume++;
+                    essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                     sfxText.text = essentialGameObjects.sfxVolume.ToString();
                 }
                 else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && essentialGameObjects.sfxVolume > 0)
                 {
                     canScrollX = false;
                     essentialGameObjects.sfxVolume--;
+                    essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                     sfxText.text = essentialGameObjects.sfxVolume.ToString();
                 }
             }
@@ -615,10 +631,12 @@ public class PauseMenuController : MonoBehaviour
 
                     // Restore BGM Volume
                     essentialGameObjects.bgmVolume = defaultBGMVolume;
+                    essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
                     bgmText.text = essentialGameObjects.bgmVolume.ToString();
 
                     // Restore SFX Volume
                     essentialGameObjects.sfxVolume = defaultSFXVolume;
+                    essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
                     sfxText.text = essentialGameObjects.sfxVolume.ToString();
 
                     // Restore Fullscreen
