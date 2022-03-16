@@ -9,17 +9,12 @@ public class AdjustAudio : MonoBehaviour
     [SerializeField] bool isSFX;
     EssentialGameObjects essentialGameObjects;
 
-
     // Start is called before the first frame update
     void Start()
     {
         essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(isBGM == true)
+        if (isBGM == true)
         {
             this.gameObject.GetComponent<AudioSource>().volume = volumeOptions[essentialGameObjects.bgmVolume];
         }
@@ -27,5 +22,42 @@ public class AdjustAudio : MonoBehaviour
         {
             this.gameObject.GetComponent<AudioSource>().volume = volumeOptions[essentialGameObjects.sfxVolume];
         }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void updateAudio()
+    {
+        if (isBGM == true)
+        {
+            this.gameObject.GetComponent<AudioSource>().volume = volumeOptions[essentialGameObjects.bgmVolume];
+        }
+        else if (isSFX == true)
+        {
+            this.gameObject.GetComponent<AudioSource>().volume = volumeOptions[essentialGameObjects.sfxVolume];
+        }
+    }
+
+    public float volumeToChangeTo()
+    {
+        return volumeOptions[essentialGameObjects.bgmVolume];
+    }
+
+    public IEnumerator FadeVolume(AudioSource audioSource, float duration, float targetVolume)
+    {
+        float currentTime = 0;
+        float start = audioSource.volume;
+
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(start, targetVolume, currentTime / duration);
+            yield return null;
+        }
+        yield break;
     }
 }

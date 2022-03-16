@@ -5,8 +5,11 @@ using UnityEngine;
 public class EssentialGameObjects : MonoBehaviour
 {
     [Header("Settings Information")]
+    public GameObject sceneTransition;
+    public GameObject BGMObject;
     public int bgmVolume;
     public int bgmMax;
+    public GameObject SFXObject;
     public int sfxVolume;
     public int sfxMax;
     public bool isFullscreen;

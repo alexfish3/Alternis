@@ -13,6 +13,7 @@ TagManager:
   - LightWorldActive
   - DisableUncrouch
   - PlayerDetecter
+  - NextLevel
   layers:
   - Default
   - TransparentFX
