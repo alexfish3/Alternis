@@ -627,7 +627,7 @@ MonoBehaviour:
   maxGravity: -12
   jumpHeight: 15
   ffSpeed: -18
-  sprintSpeed: 12
+  sprintSpeed: 14
   slideSpeed: 15
   crouchWalkSpeed: 4
   controllerSense: 0.6
