@@ -27,7 +27,7 @@ public class Respawn : MonoBehaviour
     }
     private void didYouFall()
     {
-        if(player.transform.position.y < maxFallHeight)
+        if (player.transform.position.y < maxFallHeight)
         {
             player.transform.position = respawner.position;
         }
@@ -36,12 +36,9 @@ public class Respawn : MonoBehaviour
     // Respawn
     public void DoRespawn()
     {
-        player.GetComponent<WorldSwap>().respawn();
-        Debug.LogError("Respawning");
-        CurCheckpoint();
-        player.transform.position = respawner.position;
+        StartCoroutine(WaitRespawn());
     }
-     
+
     void Start()
     {
         CurCheckpoint();
@@ -50,7 +47,17 @@ public class Respawn : MonoBehaviour
     void Update()
     {
         CurCheckpoint();
-        if(useFallHeight) didYouFall();
+        if (useFallHeight) didYouFall();
     }
 
+    IEnumerator WaitRespawn()
+    {
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(1);
+        Time.timeScale = 1;
+        player.GetComponent<WorldSwap>().respawn();
+        Debug.LogError("Respawning");
+        CurCheckpoint();
+        player.transform.position = respawner.position;
+    }
 }
