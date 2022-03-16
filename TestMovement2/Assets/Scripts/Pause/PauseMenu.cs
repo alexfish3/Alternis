@@ -57,6 +57,7 @@ public class PauseMenu : MonoBehaviour
     private void PauseChecker()
     {
 
+        Debug.Log("Pause Checler");
         // Resumes Game
         if (isPaused == true)
         {
@@ -90,6 +91,10 @@ public class PauseMenu : MonoBehaviour
 
     public void resume()
     {
+        pauseMenuController.inSettingsMenu = false;
+        lightWorldActive.SetActive(true);
+
+        // Sets timescale back to normal time
         Time.timeScale = 1f;
         pauseMenuController.writeToSettingsFile();
         isPaused = false;
