@@ -625,7 +625,7 @@ MonoBehaviour:
   walkSpeed: 6
   friction: 0.5
   maxGravity: -12
-  jumpHeight: 15
+  jumpHeight: 16
   ffSpeed: -18
   sprintSpeed: 14
   slideSpeed: 15
