@@ -74,6 +74,15 @@ public class SearchLightDetect : MonoBehaviour
             if (i < vertCount - 1) uv[i + 1] = new Vector2(1, 0);
         }
 
+        if (showInDark)
+        {
+            trianglePosition.gameObject.layer = 10;
+        }
+        else
+        {
+            trianglePosition.gameObject.layer = 7;
+        }
+
         Mesh area = new Mesh();
         area.vertices = verts;
         area.uv = uv;
@@ -143,10 +152,7 @@ public class SearchLightDetect : MonoBehaviour
             }
         }
 
-        if (showInDark)
-        {
-            drawTriangle();
-        }
+        drawTriangle();
         
         return x;
     }
