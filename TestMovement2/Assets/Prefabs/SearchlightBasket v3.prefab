@@ -410,7 +410,8 @@ MonoBehaviour:
   player: {fileID: 0}
   camId: 1
   trianglePosition: {fileID: 9103885773812078957}
-  warningCube: {fileID: 0}
+  lightWorldColor: {fileID: 2100000, guid: 8847d3c85aa43a949a2df1f8e3946eed, type: 2}
+  darkWorldColor: {fileID: 2100000, guid: a3f1451d5fcd8dc4d9e27041231d4cc6, type: 2}
 --- !u!1 &8682901952425643297
 GameObject:
   m_ObjectHideFlags: 0

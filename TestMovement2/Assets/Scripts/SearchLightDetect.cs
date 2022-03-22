@@ -29,9 +29,13 @@ public class SearchLightDetect : MonoBehaviour
     [Tooltip("The Triangle empty")]
     [SerializeField]
     private GameObject trianglePosition;
-    [Tooltip("The Cube cube")]
+    [Tooltip("Material to use for the light cone in the light world")]
     [SerializeField]
-    private GameObject warningCube;
+    private Material lightWorldColor;
+    [Tooltip("Material to use for the light cone in the dark world")]
+    [SerializeField]
+    private Material darkWorldColor;
+    public bool showInDark = true;
 
     private float y; //diameter of cone base
     private float radius; //radius of cone base
@@ -75,6 +79,7 @@ public class SearchLightDetect : MonoBehaviour
         area.uv = uv;
         area.triangles = tris;
         trianglePosition.GetComponent<MeshFilter>().mesh = area;
+        trianglePosition.GetComponent<MeshRenderer>().material = player.GetComponent<WorldSwap>().lightWorld ? lightWorldColor : darkWorldColor;
     }
 
     int checkIfSeen(float distance) //checks if there is a player-tagged collider in the raycasts.
@@ -138,7 +143,11 @@ public class SearchLightDetect : MonoBehaviour
             }
         }
 
-        drawTriangle();
+        if (showInDark)
+        {
+            drawTriangle();
+        }
+        
         return x;
     }
 
