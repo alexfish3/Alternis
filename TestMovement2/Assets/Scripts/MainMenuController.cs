@@ -305,7 +305,7 @@ public class MainMenuController : MonoBehaviour
                     if (position == 0)
                     {
                         Debug.Log("Play");
-                        SceneManager.LoadScene(2);
+                        essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In");
                     }
                     // Settings
                     if (position == 1)
@@ -518,7 +518,7 @@ public class MainMenuController : MonoBehaviour
                 if (position == 0)
                 {
                     Debug.Log("Play");
-                    SceneManager.LoadScene(2);
+                    essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In");
                 }
                 // Settings
                 if (position == 1)

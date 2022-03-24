@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FinalMovement : MonoBehaviour
 {
+    [SerializeField] GameObject playerSprite;
+
+
     public float walkSpeed;
     public float friction;
     public float maxGravity;
@@ -91,12 +94,17 @@ public class FinalMovement : MonoBehaviour
             //Walk
             if (Input.GetAxis("Horizontal") > controllerSense && !crouch)
             {
+                if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+                    playerSprite.GetComponent<Animator>().SetTrigger("Walk");
                 walking = true;
                 idleTime = 0;
                 rb.velocity = new Vector3(curwalkSpeed, rb.velocity.y, 0);
+
             }
             else if (Input.GetAxis("Horizontal") < -controllerSense && !crouch)
             {
+                if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+                    playerSprite.GetComponent<Animator>().SetTrigger("Walk");
                 walking = true;
                 idleTime = 0;
                 rb.velocity = new Vector3(-curwalkSpeed, rb.velocity.y, 0);
@@ -111,11 +119,15 @@ public class FinalMovement : MonoBehaviour
             {
                 walking = false;
                 idleTime = 0;
+
+                playerSprite.GetComponent<Animator>().SetTrigger("Idle");
             }
             else if (Input.GetAxis("Horizontal") < controllerSense && Input.GetAxis("Horizontal") > -controllerSense && !isGrounded)
             {
                 walking = false;
                 idleTime = 0;
+
+                playerSprite.GetComponent<Animator>().SetTrigger("Idle");
             }
 
 
