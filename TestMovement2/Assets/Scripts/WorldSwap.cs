@@ -6,6 +6,7 @@ using TMPro;
 
 public class WorldSwap : MonoBehaviour
 {
+    [SerializeField] GameObject playerSprite;
     public GameObject blurCamera; 
 
     [Header("Oxygen Info")]
@@ -85,6 +86,8 @@ public class WorldSwap : MonoBehaviour
 
             if (Input.GetButtonDown("World Swap") && canSwitch == true && disableSwap == false)
             {
+                playerSprite.GetComponent<Animator>().SetTrigger("Shift");
+
                 switchText.text = (cooldown * 10).ToString();
                 canSwitch = false;
 

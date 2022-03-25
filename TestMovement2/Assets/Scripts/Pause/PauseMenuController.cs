@@ -10,8 +10,9 @@ public class PauseMenuController : MonoBehaviour
 {
     [Header("Main Menu Scroll Info")]
     public bool inSettingsMenu = false;
-    [SerializeField] GameObject selector;
     [SerializeField] GameObject[] positions;
+    [SerializeField] Sprite[] highlightedVersions;
+    [SerializeField] GameObject selector;
     [SerializeField] int position;
     [SerializeField] bool canScrollY = true;
     [SerializeField] bool canScrollX = true;

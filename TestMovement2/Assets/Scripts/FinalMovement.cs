@@ -94,7 +94,7 @@ public class FinalMovement : MonoBehaviour
             //Walk
             if (Input.GetAxis("Horizontal") > controllerSense && !crouch)
             {
-                if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+                if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Walking") && !playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("ShifterActivate"))
                     playerSprite.GetComponent<Animator>().SetTrigger("Walk");
                 walking = true;
                 idleTime = 0;
@@ -103,7 +103,7 @@ public class FinalMovement : MonoBehaviour
             }
             else if (Input.GetAxis("Horizontal") < -controllerSense && !crouch)
             {
-                if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Walking"))
+                if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Walking") && !playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("ShifterActivate"))
                     playerSprite.GetComponent<Animator>().SetTrigger("Walk");
                 walking = true;
                 idleTime = 0;
@@ -120,14 +120,23 @@ public class FinalMovement : MonoBehaviour
                 walking = false;
                 idleTime = 0;
 
-                playerSprite.GetComponent<Animator>().SetTrigger("Idle");
+                if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("ShifterActivate"))
+                    playerSprite.GetComponent<Animator>().SetTrigger("Idle");
+
+                playerSprite.GetComponent<Animator>().SetTrigger("IdleFeet");
+
+
             }
             else if (Input.GetAxis("Horizontal") < controllerSense && Input.GetAxis("Horizontal") > -controllerSense && !isGrounded)
             {
                 walking = false;
                 idleTime = 0;
 
-                playerSprite.GetComponent<Animator>().SetTrigger("Idle");
+
+                if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("ShifterActivate"))
+                    playerSprite.GetComponent<Animator>().SetTrigger("Idle");
+
+                playerSprite.GetComponent<Animator>().SetTrigger("IdleFeet");
             }
 
 
