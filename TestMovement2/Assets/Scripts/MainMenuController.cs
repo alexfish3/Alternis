@@ -338,6 +338,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition < settingsPositions.Length - 1)
                     {
+                        canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition++;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
@@ -606,6 +607,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition < settingsPositions.Length - 1)
                     {
+                        canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition++;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
@@ -835,7 +837,7 @@ public class MainMenuController : MonoBehaviour
                 }
             }
 
-            // Controller Controls
+            // Keyboard Controls
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && settingsPosition > 0)
             {
                 canScrollY = false;
