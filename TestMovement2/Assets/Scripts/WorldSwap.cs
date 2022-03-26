@@ -26,7 +26,11 @@ public class WorldSwap : MonoBehaviour
     [SerializeField] public bool darkWorld;
     [SerializeField] GameObject UICanvas;
     [SerializeField] GameObject canSwitchSignier;
+    [SerializeField] GameObject radiation;
     public TMP_Text switchText;
+
+    public Color tempColor;
+
 
     private bool warning = false;
     private int receivedId = 0;
@@ -48,6 +52,11 @@ public class WorldSwap : MonoBehaviour
         if (essentialGameObjects.GetComponent<PauseMenu>().isPaused == false)
         {
             oxygenBar.GetComponent<Slider>().value = oxygen;
+
+            tempColor = radiation.GetComponent<Image>().color;
+            tempColor.a = (((oxygen - 100) * -1)/ 100f);
+
+            radiation.GetComponent<Image>().color = tempColor;
 
             // Kill player if oxygen gets to zero
             if(oxygen == 0)
@@ -169,7 +178,7 @@ public class WorldSwap : MonoBehaviour
             }
 
             oxygen++;
-            yield return new WaitForSeconds(speed / 2);
+            yield return new WaitForSeconds(speed / 5);
         }
         changingLevel = false;
     }
