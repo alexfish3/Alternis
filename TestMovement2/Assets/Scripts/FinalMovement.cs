@@ -33,6 +33,7 @@ public class FinalMovement : MonoBehaviour
     bool walking;
     bool doubleJump;
     bool crouch;
+    bool stopMomentum;
     public bool slide;
     float localX;
     public bool isGrounded;
@@ -278,14 +279,39 @@ public class FinalMovement : MonoBehaviour
             //Stop Running Into Walls
             if (!crouch)
             {
-                if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.right, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.right, disToWall + 0.1f)) && isRight)
+                if (isRight)
+                {
+                    for (float i = -1.25f; i < 1f; i += 0.05f)
+                    {
+                        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + i, transform.position.z), Vector3.right, disToWall + 0.1f))
+                        {
+                            stopMomentum = true;
+                            break;
+                        }
+                    }
+                }
+                if (isLeft)
+                {
+                    for (float i = -1.25f; i < 1f; i += 0.05f)
+                    {
+                         if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + i, transform.position.z), Vector3.left, disToWall + 0.1f))
+                        {
+                            stopMomentum = true;
+                            break;
+                        }
+                    }
+                }
+
+                //if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.right, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.right, disToWall + 0.1f)) && isRight)
+                if (stopMomentum)
                 {
                     rb.velocity = new Vector3(0, rb.velocity.y, 0);
+                    stopMomentum = false;
                 }
-                if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.left, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.left, disToWall + 0.1f)) && isLeft)
-                {
-                    rb.velocity = new Vector3(0, rb.velocity.y, 0);
-                }
+                //if ((Physics.Raycast(new Vector3(transform.position.x, transform.position.y - 1, transform.position.z), Vector3.left, disToWall + 0.1f) || Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 1, transform.position.z), Vector3.left, disToWall + 0.1f)) && isLeft)
+                //{
+               //     rb.velocity = new Vector3(0, rb.velocity.y, 0);
+               // }
             }
         }
         
