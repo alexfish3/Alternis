@@ -1593,7 +1593,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 5
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2505,13 +2505,14 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Naym Salam
 
-    Evan S.
+    Evan Sawatsky
 
-    Douglas M.
+    Douglas Moskaluk
 
-    Marcus W.
+    Marcus Werner
 
-    Mohammed Q.'
+    Mohammed
+    Q.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d9c16955f9317484a9f2e7a66253b186, type: 2}
   m_sharedMaterial: {fileID: 7551811660951778120, guid: d9c16955f9317484a9f2e7a66253b186,
@@ -3808,7 +3809,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 5
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
