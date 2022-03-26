@@ -60,4 +60,23 @@ public class AdjustAudio : MonoBehaviour
         }
         yield break;
     }
+
+    public IEnumerator changePitch(AudioSource audioSource, float duration, float targetPitch)
+    {
+        float currentTime = 0;
+        float start = audioSource.volume;
+
+        while (currentTime < duration)
+        {
+            currentTime += Time.deltaTime;
+            audioSource.pitch = Mathf.Lerp(start, targetPitch, currentTime / duration);
+            yield return null;
+        }
+        yield break;
+    }
+
+    public void pitchToOne()
+    {
+        this.gameObject.GetComponent<AudioSource>().pitch = 1f;
+    }
 }

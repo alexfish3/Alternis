@@ -12,8 +12,10 @@ public class UIEvents : MonoBehaviour
     [SerializeField] Material darkWorldSkybox;
     [SerializeField] GameObject gasMaskGameobject;
 
+    EssentialGameObjects essentialGameObjects;
     private void Start()
     {
+        essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
         cooldown = player.GetComponent<WorldSwap>().cooldown;
     }
 
@@ -60,5 +62,15 @@ public class UIEvents : MonoBehaviour
     public void gasMaskHide()
     {
         gasMaskGameobject.GetComponent<Animator>().SetTrigger("Hide");
+    }
+
+    public void changePitchOnBGM(float newPitch)
+    {
+        StartCoroutine(essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().changePitch(essentialGameObjects.BGMObject.GetComponent<AudioSource>(), 0.1f, newPitch));
+    }
+
+    public void pitchToOne()
+    {
+        essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().pitchToOne();
     }
 }

@@ -9,8 +9,11 @@ using TMPro;
 public class MainMenuController : MonoBehaviour
 {
     [Header("Main Menu Scroll Info")]
+    [SerializeField] bool RestrictMovement = false;
     [SerializeField] GameObject mainMenuCanvas;
     public bool inSettingsMenu = false;
+    public bool inLevelSelectMenu = false;
+    public bool inCreditsMenu = false;
     [SerializeField] GameObject[] positions;
     [SerializeField] int position;
     [SerializeField] bool canScrollY = true;
@@ -25,6 +28,12 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] TMP_Text sfxText;
     [SerializeField] GameObject fullscreenToggle;
     [SerializeField] GameObject spotlightToggle;
+
+    [Header("Level Select Menu")]
+    [SerializeField] int amountOfLevelSelect;
+    [SerializeField] GameObject levelSelectMenu;
+    [SerializeField] GameObject[] levelSelectPositions;
+    [SerializeField] int levelSelectPosition;
 
     [Header("Default Settings")]
     [SerializeField] int defaultBGMVolume;
@@ -46,6 +55,9 @@ public class MainMenuController : MonoBehaviour
 
         settingsPosition = 0;
         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
+
+        levelSelectPosition = 0;
+        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
     }
 
     // Update is called once per frame
@@ -76,8 +88,10 @@ public class MainMenuController : MonoBehaviour
             loadFile = true;
         }
 
-
-        controlMainMenu();
+        if(RestrictMovement == false)
+        {
+            controlMainMenu();
+        }
     }
 
     private void controlMainMenu()
@@ -86,7 +100,7 @@ public class MainMenuController : MonoBehaviour
 
         if (essentialGameObjects.GetComponent<ControllerType>().PS4 == true)
         {
-            if (inSettingsMenu == false)
+            if (inSettingsMenu == false && inLevelSelectMenu == false && inCreditsMenu == false)
             {
                 if (Input.GetButtonDown("Return"))
                 {
@@ -113,12 +127,18 @@ public class MainMenuController : MonoBehaviour
                     // Level Select
                     if (position == 2)
                     {
-                        Debug.Log("This is for the level select");
+                        inLevelSelectMenu = true;
+
+                        mainMenuCanvas.GetComponent<Animator>().SetTrigger("Enter Level Select");
+
+                        levelSelectPosition = 0;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     // Credits
                     if (position == 3)
                     {
-                        Debug.Log("This is for the credits");
+                        inCreditsMenu = true;
+                        mainMenuCanvas.GetComponent<Animator>().SetTrigger("Enter Credits");
                     }
                     // Quit
                     if (position == 4)
@@ -350,12 +370,93 @@ public class MainMenuController : MonoBehaviour
                         settingsPosition = 0;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
+                }
+            }
+            else if (inLevelSelectMenu == true)
+            {
+                if (Input.GetButtonDown("Escape"))
+                {
+                    inLevelSelectMenu = false;
+                    levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                    mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Level Select");
+                }
+
+                if (Input.GetButtonDown("Return"))
+                {
+                    // Level 1
+                    if (levelSelectPosition == 0)
+                    {
+                        Debug.Log("Play Level 1");
+                        RestrictMovement = true;
+                        essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 1");
+                    }
+                    // Level 2
+                    if (levelSelectPosition == 1)
+                    {
+                        Debug.Log("Play Level 2");
+                        RestrictMovement = true;
+                        essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 2");
+                    }
+                    // Level 3
+                    if (levelSelectPosition == 2)
+                    {
+                        Debug.Log("Play Level 3");
+                        RestrictMovement = true;
+                        essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 3");
+                    }
+                }
+
+
+                if ((Input.GetAxis("Vertical") == 0))
+                {
+                    canScrollY = true;
+                }
+                else if (canScrollY == true)
+                {
+                    // Controller Controls
+                    if ((Input.GetAxis("Vertical") > 0.5) && levelSelectPosition > 0)
+                    {
+                        canScrollY = false;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                        levelSelectPosition--;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+
+                    }
+                    else if ((Input.GetAxis("Vertical") > 0.5) && levelSelectPosition == 0)
+                    {
+                        canScrollY = false;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                        levelSelectPosition = levelSelectPositions.Length - 1;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+                    }
+                    else if ((Input.GetAxis("Vertical") < -0.5) && levelSelectPosition < levelSelectPositions.Length - 1)
+                    {
+                        canScrollY = false;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                        levelSelectPosition++;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+                    }
+                    else if ((Input.GetAxis("Vertical") < -0.5) && levelSelectPosition == levelSelectPositions.Length - 1)
+                    {
+                        canScrollY = false;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                        levelSelectPosition = 0;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+                    }
+                }
+            }
+            else if (inCreditsMenu == true)
+            {
+                if (Input.GetButtonDown("Escape"))
+                {
+                    inCreditsMenu = false;
+                    mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Credits");
                 }
             }
         }
         else if (essentialGameObjects.GetComponent<ControllerType>().XB1 == true)
         {
-            if (inSettingsMenu == false)
+            if (inSettingsMenu == false && inLevelSelectMenu == false && inCreditsMenu == false)
             {
                 if (Input.GetButtonDown("Return"))
                 {
@@ -382,12 +483,18 @@ public class MainMenuController : MonoBehaviour
                     // Level Select
                     if (position == 2)
                     {
-                        Debug.Log("This is for the level select");
+                        inLevelSelectMenu = true;
+
+                        mainMenuCanvas.GetComponent<Animator>().SetTrigger("Enter Level Select");
+
+                        levelSelectPosition = 0;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     // Credits
                     if (position == 3)
                     {
-                        Debug.Log("This is for the credits");
+                        inCreditsMenu = true;
+                        mainMenuCanvas.GetComponent<Animator>().SetTrigger("Enter Credits");
                     }
                     // Quit
                     if (position == 4)
@@ -621,13 +728,94 @@ public class MainMenuController : MonoBehaviour
                     }
                 }
             }
-        }
+            else if (inLevelSelectMenu == true)
+            {
+                if (Input.GetButtonDown("Escape"))
+                {
+                    writeToSettingsFile();
+                    inLevelSelectMenu = false;
+                    levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                    mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Level Select");
+                }
 
+                if (Input.GetButtonDown("Return"))
+                {
+                    // Level 1
+                    if (levelSelectPosition == 0)
+                    {
+                        Debug.Log("Play Level 1");
+                        RestrictMovement = true;
+                        essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 1");
+                    }
+                    // Level 2
+                    if (levelSelectPosition == 1)
+                    {
+                        Debug.Log("Play Level 2");
+                        RestrictMovement = true;
+                        essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 2");
+                    }
+                    // Level 3
+                    if (levelSelectPosition == 2)
+                    {
+                        Debug.Log("Play Level 3");
+                        RestrictMovement = true;
+                        essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 3");
+                    }
+                }
+
+
+                if ((Input.GetAxis("Vertical") == 0))
+                {
+                    canScrollY = true;
+                }
+                else if (canScrollY == true)
+                {
+                    // Controller Controls
+                    if ((Input.GetAxis("Vertical") > 0.5) && levelSelectPosition > 0)
+                    {
+                        canScrollY = false;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                        levelSelectPosition--;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+
+                    }
+                    else if ((Input.GetAxis("Vertical") > 0.5) && levelSelectPosition == 0)
+                    {
+                        canScrollY = false;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                        levelSelectPosition = levelSelectPositions.Length - 1;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+                    }
+                    else if ((Input.GetAxis("Vertical") < -0.5) && levelSelectPosition < levelSelectPositions.Length - 1)
+                    {
+                        canScrollY = false;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                        levelSelectPosition++;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+                    }
+                    else if ((Input.GetAxis("Vertical") < -0.5) && levelSelectPosition == levelSelectPositions.Length - 1)
+                    {
+                        canScrollY = false;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                        levelSelectPosition = 0;
+                        levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+                    }
+                }
+            }
+            else if (inCreditsMenu == true)
+            {
+                if (Input.GetButtonDown("Escape"))
+                {
+                    inCreditsMenu = false;
+                    mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Credits");
+                }
+            }
+        }
     }
 
     private void Keyboard()
     {
-        if (inSettingsMenu == false)
+        if (inSettingsMenu == false && inLevelSelectMenu == false && inCreditsMenu == false)
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
@@ -635,6 +823,7 @@ public class MainMenuController : MonoBehaviour
                 if (position == 0)
                 {
                     Debug.Log("Play");
+                    RestrictMovement = true;
                     essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In");
                 }
                 // Settings
@@ -654,12 +843,18 @@ public class MainMenuController : MonoBehaviour
                 // Level Select
                 if (position == 2)
                 {
-                    Debug.Log("This is for the level select");
+                    inLevelSelectMenu = true;
+
+                    mainMenuCanvas.GetComponent<Animator>().SetTrigger("Enter Level Select");
+
+                    levelSelectPosition = 0;
+                    levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
                 }
                 // Credits
                 if (position == 3)
                 {
-                    Debug.Log("This is for the credits");
+                    inCreditsMenu = true;
+                    mainMenuCanvas.GetComponent<Animator>().SetTrigger("Enter Credits");
                 }
                 // Quit
                 if (position == 4)
@@ -865,6 +1060,78 @@ public class MainMenuController : MonoBehaviour
                 settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition = 0;
                 settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
+            }
+        }
+        else if (inLevelSelectMenu == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                inLevelSelectMenu = false;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Level Select");
+            }
+
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                // Level 1
+                if (levelSelectPosition == 0)
+                {
+                    Debug.Log("Play Level 1");
+                    RestrictMovement = true;
+                    essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 1");
+                }
+                // Level 2
+                if (levelSelectPosition == 1)
+                {
+                    Debug.Log("Play Level 2");
+                    RestrictMovement = true;
+                    essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 2");
+                }
+                // Level 3
+                if (levelSelectPosition == 2)
+                {
+                    Debug.Log("Play Level 3");
+                    RestrictMovement = true;
+                    essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In Level 3");
+                }
+            }
+
+            // Keyboard Controls
+            if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && levelSelectPosition > 0)
+            {
+                canScrollY = false;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                levelSelectPosition--;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+            }
+            else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && levelSelectPosition == 0)
+            {
+                canScrollY = false;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                levelSelectPosition = levelSelectPositions.Length - 1;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+            }
+            else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && levelSelectPosition < levelSelectPositions.Length - 1)
+            {
+                canScrollY = false;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                levelSelectPosition++;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+            }
+            else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && levelSelectPosition == levelSelectPositions.Length - 1)
+            {
+                canScrollY = false;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                levelSelectPosition = 0;
+                levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+            }
+        }
+        else if (inCreditsMenu == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                inCreditsMenu = false;
+                mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Credits");
             }
         }
     }

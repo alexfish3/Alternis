@@ -24,6 +24,20 @@ public class SceneTransitionEvents : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+    public void loadLevel1()
+    {
+        SceneManager.LoadScene(2);
+    }
+
+    public void loadLevel2()
+    {
+        SceneManager.LoadScene(3);
+    }
+
+    public void loadLevel3()
+    {
+        SceneManager.LoadScene(4);
+    }
 
     public void changeMusic(AudioClip clip)
     {
