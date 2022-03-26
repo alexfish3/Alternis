@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class PauseMenu : MonoBehaviour
     EssentialGameObjects essentialGameObjects;
     public GameObject pauseMenu;
     [SerializeField] PauseMenuController pauseMenuController;
+    [SerializeField] GameObject pauseMenuCanvas;
     [SerializeField] GameObject player;
     [SerializeField] GameObject lightWorldActive;
 
@@ -56,24 +58,21 @@ public class PauseMenu : MonoBehaviour
     // This is the pause. sets the time scale to 0 or 1 depending on the bool isPaused
     private void PauseChecker()
     {
-
-        Debug.Log("Pause Checler");
         // Resumes Game
         if (isPaused == true)
         {
-            pauseMenuController.inSettingsMenu = false;
-            lightWorldActive.SetActive(true);
-
-            // Sets timescale back to normal time
-            Time.timeScale = 1f;
-            pauseMenuController.writeToSettingsFile();
-            isPaused = false;
-            pauseMenu.SetActive(false);
+            StartCoroutine(resumeGameAfterAnim());
         }
 
         // Pauses Game
         else if (isPaused == false)
         {
+            essentialGameObjects.canSwitch.SetActive(false);
+            essentialGameObjects.GasMaskHolder.GetComponent<Image>().enabled = false;
+            essentialGameObjects.MeterUI.SetActive(false);
+            essentialGameObjects.Oxygen.SetActive(false);
+
+            this.GetComponent<EssentialGameObjects>().PostProcessingBlur.SetActive(true);
             player = GameObject.FindWithTag("Player").gameObject;
             lightWorldActive = GameObject.FindWithTag("LightWorldActive").gameObject;
             if (player.GetComponent<WorldSwap>().darkWorld == true)
@@ -91,6 +90,26 @@ public class PauseMenu : MonoBehaviour
 
     public void resume()
     {
+        StartCoroutine(resumeGameResume());
+    }
+
+    public void mainMenu()
+    {
+        StartCoroutine(resumeGameMainMenu());
+        
+    }
+
+    private IEnumerator resumeGameAfterAnim()
+    {
+        pauseMenuCanvas.GetComponent<Animator>().SetTrigger("SlideOut");
+        yield return new WaitForSecondsRealtime(0.4f);
+        this.GetComponent<EssentialGameObjects>().PostProcessingBlur.SetActive(false);
+
+        essentialGameObjects.canSwitch.SetActive(true);
+        essentialGameObjects.GasMaskHolder.GetComponent<Image>().enabled = true;
+        essentialGameObjects.MeterUI.SetActive(true);
+        essentialGameObjects.Oxygen.SetActive(true);
+
         pauseMenuController.inSettingsMenu = false;
         lightWorldActive.SetActive(true);
 
@@ -101,8 +120,33 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
     }
 
-    public void mainMenu()
+    private IEnumerator resumeGameResume()
     {
+        pauseMenuCanvas.GetComponent<Animator>().SetTrigger("SlideOut");
+        yield return new WaitForSecondsRealtime(0.4f);
+        this.GetComponent<EssentialGameObjects>().PostProcessingBlur.SetActive(false);
+
+        essentialGameObjects.canSwitch.SetActive(true);
+        essentialGameObjects.GasMaskHolder.GetComponent<Image>().enabled = true;
+        essentialGameObjects.MeterUI.SetActive(true);
+        essentialGameObjects.Oxygen.SetActive(true);
+
+        pauseMenuController.inSettingsMenu = false;
+        lightWorldActive.SetActive(true);
+
+        // Sets timescale back to normal time
+        Time.timeScale = 1f;
+        pauseMenuController.writeToSettingsFile();
+        isPaused = false;
+        pauseMenu.SetActive(false);
+    }
+
+    private IEnumerator resumeGameMainMenu()
+    {
+        pauseMenuCanvas.GetComponent<Animator>().SetTrigger("SlideOut");
+        yield return new WaitForSecondsRealtime(0.4f);
+        this.GetComponent<EssentialGameObjects>().PostProcessingBlur.SetActive(false);
+
         Time.timeScale = 1f;
         isPaused = false;
         canPause = false;

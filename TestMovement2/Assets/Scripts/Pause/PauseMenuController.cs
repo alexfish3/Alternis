@@ -9,10 +9,9 @@ using TMPro;
 public class PauseMenuController : MonoBehaviour
 {
     [Header("Main Menu Scroll Info")]
+    [SerializeField] GameObject pauseCanvas;
     public bool inSettingsMenu = false;
     [SerializeField] GameObject[] positions;
-    [SerializeField] Sprite[] highlightedVersions;
-    [SerializeField] GameObject selector;
     [SerializeField] int position;
     [SerializeField] bool canScrollY = true;
     [SerializeField] bool canScrollX = true;
@@ -20,17 +19,18 @@ public class PauseMenuController : MonoBehaviour
     [Header("Settings Menu")]
     [SerializeField] int amountOfSettings;
     [SerializeField] GameObject settingsMenu;
-    [SerializeField] GameObject settingsSelector;
     [SerializeField] GameObject[] settingsPositions;
     [SerializeField] int settingsPosition;
     [SerializeField] TMP_Text bgmText;
     [SerializeField] TMP_Text sfxText;
     [SerializeField] GameObject fullscreenToggle;
+    [SerializeField] GameObject spotlightToggle;
 
     [Header("Default Settings")]
     [SerializeField] int defaultBGMVolume;
     [SerializeField] int defaultSFXVolume;
     [SerializeField] bool defaultIsFullscreen;
+    [SerializeField] bool defaultShowSpotlights;
 
     bool loadFile = false;
     EssentialGameObjects essentialGameObjects;
@@ -40,10 +40,10 @@ public class PauseMenuController : MonoBehaviour
         essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
 
         position = 0;
-        selector.transform.position = positions[position].transform.position;
+        positions[position].GetComponent<Animator>().SetTrigger("Selected");
 
         settingsPosition = 0;
-        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
     }
 
     // Update is called once per frame
@@ -72,13 +72,14 @@ public class PauseMenuController : MonoBehaviour
                     if (position == 1)
                     {
                         inSettingsMenu = true;
-                        settingsMenu.SetActive(true);
+                        pauseCanvas.GetComponent<Animator>().SetTrigger("Enter Settings");
                         bgmText.text = essentialGameObjects.bgmVolume.ToString();
                         sfxText.text = essentialGameObjects.sfxVolume.ToString();
                         fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
+                        spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
 
                         settingsPosition = 0;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     // Main Menu
                     if (position == 2)
@@ -100,26 +101,30 @@ public class PauseMenuController : MonoBehaviour
                     if ((Input.GetAxis("Vertical") > 0.5) && position > 0)
                     {
                         canScrollY = false;
+                        positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position--;
-                        selector.transform.position = positions[position].transform.position;
+                        positions[position].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && position == 0)
                     {
                         canScrollY = false;
+                        positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position = positions.Length - 1;
-                        selector.transform.position = positions[position].transform.position;
+                        positions[position].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && position < positions.Length - 1)
                     {
                         canScrollY = false;
+                        positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position++;
-                        selector.transform.position = positions[position].transform.position;
+                        positions[position].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && position == positions.Length - 1)
                     {
                         canScrollY = false;
+                        positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position = 0;
-                        selector.transform.position = positions[position].transform.position;
+                        positions[position].GetComponent<Animator>().SetTrigger("Selected");
                     }
                 }
             }
@@ -129,7 +134,8 @@ public class PauseMenuController : MonoBehaviour
                 {
                     writeToSettingsFile();
                     inSettingsMenu = false;
-                    settingsMenu.SetActive(false);
+                    settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                    pauseCanvas.GetComponent<Animator>().SetTrigger("Exit Settings");
                 }
 
                 if ((Input.GetAxis("Horizontal") == 0))
@@ -209,10 +215,41 @@ public class PauseMenuController : MonoBehaviour
 
                         }
                     }
+                    // Change DX-2 Spotlights
+                    if (settingsPosition == 3)
+                    {
+                        if (Input.GetAxis("Horizontal") > 0.5)
+                        {
+                            canScrollX = false;
+                            if (essentialGameObjects.showSpotlights == true)
+                            {
+                                essentialGameObjects.showSpotlights = false;
+                            }
+                            else if (essentialGameObjects.showSpotlights == false)
+                            {
+                                essentialGameObjects.showSpotlights = true;
+                            }
+                            spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
 
+                        }
+                        else if (Input.GetAxis("Horizontal") < -0.5)
+                        {
+                            canScrollX = false;
+                            if (essentialGameObjects.showSpotlights == true)
+                            {
+                                essentialGameObjects.showSpotlights = false;
+                            }
+                            else if (essentialGameObjects.showSpotlights == false)
+                            {
+                                essentialGameObjects.showSpotlights = true;
+                            }
+                            spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
+
+                        }
+                    }
                 }
                 // Restore To Defaults
-                if (settingsPosition == 3)
+                if (settingsPosition == 4)
                 {
                     if (Input.GetButtonDown("Return"))
                     {
@@ -232,6 +269,10 @@ public class PauseMenuController : MonoBehaviour
                         essentialGameObjects.isFullscreen = defaultIsFullscreen;
                         fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
                         Screen.fullScreen = essentialGameObjects.isFullscreen;
+
+                        // Restore DX-2 Spotlights
+                        essentialGameObjects.showSpotlights = defaultShowSpotlights;
+                        spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
                     }
                 }
 
@@ -245,26 +286,30 @@ public class PauseMenuController : MonoBehaviour
                     if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition > 0)
                     {
                         canScrollY = false;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition--;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
+
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition == 0)
                     {
                         canScrollY = false;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition = settingsPositions.Length - 1;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition < settingsPositions.Length - 1)
                     {
-                        canScrollY = false;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition++;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition == settingsPositions.Length - 1)
                     {
                         canScrollY = false;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition = 0;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                 }
             }
@@ -285,13 +330,14 @@ public class PauseMenuController : MonoBehaviour
                     if (position == 1)
                     {
                         inSettingsMenu = true;
-                        settingsMenu.SetActive(true);
+                        pauseCanvas.GetComponent<Animator>().SetTrigger("Enter Settings");
                         bgmText.text = essentialGameObjects.bgmVolume.ToString();
                         sfxText.text = essentialGameObjects.sfxVolume.ToString();
                         fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
+                        spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
 
                         settingsPosition = 0;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     // Main Menu
                     if (position == 2)
@@ -313,26 +359,30 @@ public class PauseMenuController : MonoBehaviour
                     if ((Input.GetAxis("Vertical") > 0.5) && position > 0)
                     {
                         canScrollY = false;
+                        positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position--;
-                        selector.transform.position = positions[position].transform.position;
+                        positions[position].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && position == 0)
                     {
                         canScrollY = false;
+                        positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position = positions.Length - 1;
-                        selector.transform.position = positions[position].transform.position;
+                        positions[position].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && position < positions.Length - 1)
                     {
                         canScrollY = false;
+                        positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position++;
-                        selector.transform.position = positions[position].transform.position;
+                        positions[position].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && position == positions.Length - 1)
                     {
                         canScrollY = false;
+                        positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position = 0;
-                        selector.transform.position = positions[position].transform.position;
+                        positions[position].GetComponent<Animator>().SetTrigger("Selected");
                     }
                 }
             }
@@ -342,7 +392,8 @@ public class PauseMenuController : MonoBehaviour
                 {
                     writeToSettingsFile();
                     inSettingsMenu = false;
-                    settingsMenu.SetActive(false);
+                    settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                    pauseCanvas.GetComponent<Animator>().SetTrigger("Exit Settings");
                 }
 
                 if ((Input.GetAxis("Horizontal") == 0))
@@ -356,6 +407,7 @@ public class PauseMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5 && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
                         {
+                            Debug.Log("TESTER");
                             canScrollX = false;
                             essentialGameObjects.bgmVolume++;
                             essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
@@ -421,10 +473,41 @@ public class PauseMenuController : MonoBehaviour
 
                         }
                     }
+                    // Change DX-2 Spotlights
+                    if (settingsPosition == 3)
+                    {
+                        if (Input.GetAxis("Horizontal") > 0.5)
+                        {
+                            canScrollX = false;
+                            if (essentialGameObjects.showSpotlights == true)
+                            {
+                                essentialGameObjects.showSpotlights = false;
+                            }
+                            else if (essentialGameObjects.showSpotlights == false)
+                            {
+                                essentialGameObjects.showSpotlights = true;
+                            }
+                            spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
 
+                        }
+                        else if (Input.GetAxis("Horizontal") < -0.5)
+                        {
+                            canScrollX = false;
+                            if (essentialGameObjects.showSpotlights == true)
+                            {
+                                essentialGameObjects.showSpotlights = false;
+                            }
+                            else if (essentialGameObjects.showSpotlights == false)
+                            {
+                                essentialGameObjects.showSpotlights = true;
+                            }
+                            spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
+
+                        }
+                    }
                 }
                 // Restore To Defaults
-                if (settingsPosition == 3)
+                if (settingsPosition == 4)
                 {
                     if (Input.GetButtonDown("Return"))
                     {
@@ -444,6 +527,10 @@ public class PauseMenuController : MonoBehaviour
                         essentialGameObjects.isFullscreen = defaultIsFullscreen;
                         fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
                         Screen.fullScreen = essentialGameObjects.isFullscreen;
+
+                        // Restore DX-2 Spotlights
+                        essentialGameObjects.showSpotlights = defaultShowSpotlights;
+                        spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
                     }
                 }
 
@@ -457,26 +544,30 @@ public class PauseMenuController : MonoBehaviour
                     if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition > 0)
                     {
                         canScrollY = false;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition--;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
+
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition == 0)
                     {
                         canScrollY = false;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition = settingsPositions.Length - 1;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition < settingsPositions.Length - 1)
                     {
-                        canScrollY = false;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition++;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition == settingsPositions.Length - 1)
                     {
                         canScrollY = false;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition = 0;
-                        settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                        settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                     }
                 }
             }
@@ -500,13 +591,15 @@ public class PauseMenuController : MonoBehaviour
                 if (position == 1)
                 {
                     inSettingsMenu = true;
-                    settingsMenu.SetActive(true);
                     bgmText.text = essentialGameObjects.bgmVolume.ToString();
                     sfxText.text = essentialGameObjects.sfxVolume.ToString();
                     fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
+                    spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
+
+                    pauseCanvas.GetComponent<Animator>().SetTrigger("Enter Settings");
 
                     settingsPosition = 0;
-                    settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                    settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
                 }
                 // Main Menu
                 if (position == 2)
@@ -521,26 +614,30 @@ public class PauseMenuController : MonoBehaviour
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && position > 0)
             {
                 canScrollY = false;
+                positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                 position--;
-                selector.transform.position = positions[position].transform.position;
+                positions[position].GetComponent<Animator>().SetTrigger("Selected");
             }
             else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && position == 0)
             {
                 canScrollY = false;
+                positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                 position = positions.Length - 1;
-                selector.transform.position = positions[position].transform.position;
+                positions[position].GetComponent<Animator>().SetTrigger("Selected");
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && position < positions.Length - 1)
             {
                 canScrollY = false;
+                positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                 position++;
-                selector.transform.position = positions[position].transform.position;
+                positions[position].GetComponent<Animator>().SetTrigger("Selected");
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && position == positions.Length - 1)
             {
                 canScrollY = false;
+                positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                 position = 0;
-                selector.transform.position = positions[position].transform.position;
+                positions[position].GetComponent<Animator>().SetTrigger("Selected");
             }
         }
         else if (inSettingsMenu == true)
@@ -550,7 +647,8 @@ public class PauseMenuController : MonoBehaviour
                 Debug.Log("TEST");
                 writeToSettingsFile();
                 inSettingsMenu = false;
-                settingsMenu.SetActive(false);
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
+                pauseCanvas.GetComponent<Animator>().SetTrigger("Exit Settings");
             }
 
             // Change BGM Volume
@@ -623,8 +721,38 @@ public class PauseMenuController : MonoBehaviour
 
                 }
             }
-            // Restore To Defaults
+            // Change DX-2 Spotlights
             if (settingsPosition == 3)
+            {
+                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    canScrollX = false;
+                    if (essentialGameObjects.showSpotlights == true)
+                    {
+                        essentialGameObjects.showSpotlights = false;
+                    }
+                    else if (essentialGameObjects.showSpotlights == false)
+                    {
+                        essentialGameObjects.showSpotlights = true;
+                    }
+                    spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
+                }
+                else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    canScrollX = false;
+                    if (essentialGameObjects.showSpotlights == true)
+                    {
+                        essentialGameObjects.showSpotlights = false;
+                    }
+                    else if (essentialGameObjects.showSpotlights == false)
+                    {
+                        essentialGameObjects.showSpotlights = true;
+                    }
+                    spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
+                }
+            }
+            // Restore To Defaults
+            if (settingsPosition == 4)
             {
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
@@ -644,6 +772,10 @@ public class PauseMenuController : MonoBehaviour
                     essentialGameObjects.isFullscreen = defaultIsFullscreen;
                     fullscreenToggle.SetActive(essentialGameObjects.isFullscreen);
                     Screen.fullScreen = essentialGameObjects.isFullscreen;
+
+                    // Restore DX-2 Spotlights
+                    essentialGameObjects.showSpotlights = defaultShowSpotlights;
+                    spotlightToggle.SetActive(essentialGameObjects.showSpotlights);
                 }
             }
 
@@ -651,26 +783,30 @@ public class PauseMenuController : MonoBehaviour
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && settingsPosition > 0)
             {
                 canScrollY = false;
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition--;
-                settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
             }
             else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && settingsPosition == 0)
             {
                 canScrollY = false;
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition = settingsPositions.Length - 1;
-                settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && settingsPosition < settingsPositions.Length - 1)
             {
                 canScrollY = false;
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition++;
-                settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && settingsPosition == settingsPositions.Length - 1)
             {
                 canScrollY = false;
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition = 0;
-                settingsSelector.transform.position = settingsPositions[settingsPosition].transform.position;
+                settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Selected");
             }
         }
     }
@@ -679,11 +815,11 @@ public class PauseMenuController : MonoBehaviour
     {
         inSettingsMenu = false;
         position = 0;
-        selector.transform.position = positions[position].transform.position;
+        positions[position].GetComponent<Animator>().SetTrigger("Selected");
         settingsMenu.SetActive(false);
     }
 
-    private void readTextFileOnStartUp()
+    public void readTextFileOnStartUp()
     {
         string[] lines = File.ReadAllLines(Application.dataPath + "/StreamingAssets/Settings.txt");
 
@@ -696,6 +832,9 @@ public class PauseMenuController : MonoBehaviour
         splitLine = lines[3].Split(new char[] { '=' });
         essentialGameObjects.isFullscreen = bool.Parse(splitLine[1]);
 
+        splitLine = lines[4].Split(new char[] { '=' });
+        essentialGameObjects.showSpotlights = bool.Parse(splitLine[1]);
+
         return;
     }
 
@@ -707,6 +846,7 @@ public class PauseMenuController : MonoBehaviour
         lines[1] = "BGM Volume=" + essentialGameObjects.bgmVolume;
         lines[2] = "SFX Volume=" + essentialGameObjects.sfxVolume;
         lines[3] = "Is Fullscreen=" + essentialGameObjects.isFullscreen;
+        lines[4] = "DX-2 Spotlight Toggle=" + essentialGameObjects.showSpotlights;
 
         File.WriteAllLines(Application.dataPath + "/StreamingAssets/Settings.txt", lines);
         return;

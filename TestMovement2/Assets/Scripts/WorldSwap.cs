@@ -31,18 +31,15 @@ public class WorldSwap : MonoBehaviour
     private bool warning = false;
     private int receivedId = 0;
 
-    [Header("Color Info")]
-    [SerializeField] Color canUse;
-    [SerializeField] Color cantUse;
-    [SerializeField] Color disabled;
-    [SerializeField] Color warningColor;
-
     EssentialGameObjects essentialGameObjects;
     // Start is called before the first frame update
     void Start()
     {
         switchText.text = (cooldown * 10).ToString();
         essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
+
+        // Updates Reference To UI Gameobjects
+        essentialGameObjects.updateReferencesToUICanvas();
     }
 
     // Update is called once per frame
@@ -58,28 +55,21 @@ public class WorldSwap : MonoBehaviour
                 this.gameObject.GetComponent<Respawn>().loseOxygenRespawn();
             }
 
-
             if (disableSwap == true)
             {
-                canSwitchSignier.GetComponent<Image>().color = disabled;
+                canSwitchSignier.transform.GetChild(1).gameObject.SetActive(true);
                 switchText.enabled = false;
             }
             else
             {
+                canSwitchSignier.transform.GetChild(1).gameObject.SetActive(false);
+
                 if (canSwitch == true)
                 {
-                    canSwitchSignier.GetComponent<Image>().color = canUse;
                     switchText.enabled = false;
-
-                    if (warning)
-                    {
-                        canSwitchSignier.GetComponent<Image>().color = warningColor;
-                        Debug.LogError("Baba");
-                    }
                 }
                 else if (canSwitch == false)
                 {
-                    canSwitchSignier.GetComponent<Image>().color = cantUse;
                     switchText.enabled = true;
                 }
             }
@@ -136,13 +126,14 @@ public class WorldSwap : MonoBehaviour
 
     public IEnumerator CoolDownTimer()
     {
+        canSwitchSignier.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Slider>().value = (cooldown * 10) * -1;
+
         switchText.text = (cooldown * 10).ToString();
         for (float i = cooldown; i >= 0; i = i - 0.1f)
         {
-            // Debug.Log("E");
             yield return new WaitForSeconds(0.1f);
             int roundedCounter = (int)(i * 10);
-
+            canSwitchSignier.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<Slider>().value = roundedCounter * -1;
             switchText.text = roundedCounter.ToString();
         }
 

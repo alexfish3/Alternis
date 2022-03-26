@@ -35,6 +35,8 @@ public class SearchLightDetect : MonoBehaviour
     [Tooltip("Material to use for the light cone in the dark world")]
     [SerializeField]
     private Material darkWorldColor;
+
+    EssentialGameObjects essentialGameObjects;
     public bool showInDark = true;
 
     private float y; //diameter of cone base
@@ -159,6 +161,9 @@ public class SearchLightDetect : MonoBehaviour
 
     void Start()
     {
+        // References the essential gameobjects object
+        essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
+
         RAY_DIVISOR = 0.6f; //the lower this value is, the more rays there are
         y = 0.5359f * distance; //calculates the diameter of the cone's base
         radius = 0.5f * y;
@@ -181,6 +186,10 @@ public class SearchLightDetect : MonoBehaviour
 
     void Update()
     {
+        // Updates the showInDark bool to be the same as what is on the spotlights
+        showInDark = essentialGameObjects.showSpotlights;
+
+
         int signal = checkIfSeen(distance);
 
         if (signal > 0) //checks every frame, respawning the player if it spots them
