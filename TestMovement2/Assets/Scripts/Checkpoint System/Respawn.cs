@@ -91,6 +91,7 @@ public class Respawn : MonoBehaviour
     void Start()
     {
         CurCheckpoint();
+        cp.GetComponent("Checkpoints");
     }
 
     void Update()
