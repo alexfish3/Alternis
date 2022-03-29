@@ -63,7 +63,6 @@ public class MainMenuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if(loadFile == false)
         {
             readTextFileOnStartUp();
@@ -104,6 +103,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Return"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
                     // Play
                     if (position == 0)
                     {
@@ -147,7 +147,6 @@ public class MainMenuController : MonoBehaviour
                     }
                 }
 
-
                 if ((Input.GetAxis("Vertical") == 0))
                 {
                     canScrollY = true;
@@ -157,6 +156,7 @@ public class MainMenuController : MonoBehaviour
                     // Controller Controls
                     if ((Input.GetAxis("Vertical") > 0.5) && position > 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position--;
@@ -164,6 +164,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && position == 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position = positions.Length - 1;
@@ -171,6 +172,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && position < positions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position++;
@@ -178,6 +180,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && position == positions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position = 0;
@@ -189,6 +192,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Escape"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                     Debug.Log("TEST");
                     writeToSettingsFile();
                     inSettingsMenu = false;
@@ -207,7 +211,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5 && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
                         {
-                            Debug.Log("TESTER");
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             essentialGameObjects.bgmVolume++;
                             essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
@@ -215,6 +219,7 @@ public class MainMenuController : MonoBehaviour
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.bgmVolume > 0)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             essentialGameObjects.bgmVolume--;
                             essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
@@ -226,6 +231,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5 && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             essentialGameObjects.sfxVolume++;
                             essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
@@ -233,6 +239,7 @@ public class MainMenuController : MonoBehaviour
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.sfxVolume > 0)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             essentialGameObjects.sfxVolume--;
                             essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
@@ -244,6 +251,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             if (essentialGameObjects.isFullscreen == true)
                             {
@@ -259,6 +267,7 @@ public class MainMenuController : MonoBehaviour
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             if (essentialGameObjects.isFullscreen == true)
                             {
@@ -278,6 +287,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             if (essentialGameObjects.showSpotlights == true)
                             {
@@ -292,6 +302,7 @@ public class MainMenuController : MonoBehaviour
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             if (essentialGameObjects.showSpotlights == true)
                             {
@@ -311,6 +322,7 @@ public class MainMenuController : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Return"))
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
                         Debug.Log("Restore");
 
                         // Restore BGM Volume
@@ -343,6 +355,7 @@ public class MainMenuController : MonoBehaviour
                     // Controller Controls
                     if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition > 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition--;
@@ -351,6 +364,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition == 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition = settingsPositions.Length - 1;
@@ -358,6 +372,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition < settingsPositions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition++;
@@ -365,6 +380,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition == settingsPositions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition = 0;
@@ -376,6 +392,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Escape"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                     inLevelSelectMenu = false;
                     levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                     mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Level Select");
@@ -383,6 +400,7 @@ public class MainMenuController : MonoBehaviour
 
                 if (Input.GetButtonDown("Return"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
                     // Level 1
                     if (levelSelectPosition == 0)
                     {
@@ -406,7 +424,6 @@ public class MainMenuController : MonoBehaviour
                     }
                 }
 
-
                 if ((Input.GetAxis("Vertical") == 0))
                 {
                     canScrollY = true;
@@ -416,6 +433,7 @@ public class MainMenuController : MonoBehaviour
                     // Controller Controls
                     if ((Input.GetAxis("Vertical") > 0.5) && levelSelectPosition > 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         levelSelectPosition--;
@@ -424,6 +442,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && levelSelectPosition == 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         levelSelectPosition = levelSelectPositions.Length - 1;
@@ -431,6 +450,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && levelSelectPosition < levelSelectPositions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         levelSelectPosition++;
@@ -438,6 +458,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && levelSelectPosition == levelSelectPositions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         levelSelectPosition = 0;
@@ -449,6 +470,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Escape"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                     inCreditsMenu = false;
                     mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Credits");
                 }
@@ -460,6 +482,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Return"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
                     // Play
                     if (position == 0)
                     {
@@ -513,6 +536,7 @@ public class MainMenuController : MonoBehaviour
                     // Controller Controls
                     if ((Input.GetAxis("Vertical") > 0.5) && position > 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position--;
@@ -520,6 +544,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && position == 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position = positions.Length - 1;
@@ -527,6 +552,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && position < positions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position++;
@@ -534,6 +560,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && position == positions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                         position = 0;
@@ -545,7 +572,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Escape"))
                 {
-                    Debug.Log("TEST");
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                     writeToSettingsFile();
                     inSettingsMenu = false;
                     settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
@@ -563,7 +590,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5 && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
                         {
-                            Debug.Log("TESTER");
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             essentialGameObjects.bgmVolume++;
                             essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
@@ -571,6 +598,7 @@ public class MainMenuController : MonoBehaviour
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.bgmVolume > 0)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             essentialGameObjects.bgmVolume--;
                             essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
@@ -582,6 +610,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5 && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             essentialGameObjects.sfxVolume++;
                             essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
@@ -589,6 +618,7 @@ public class MainMenuController : MonoBehaviour
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5 && essentialGameObjects.sfxVolume > 0)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             essentialGameObjects.sfxVolume--;
                             essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
@@ -600,6 +630,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             if (essentialGameObjects.isFullscreen == true)
                             {
@@ -615,6 +646,7 @@ public class MainMenuController : MonoBehaviour
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             if (essentialGameObjects.isFullscreen == true)
                             {
@@ -634,6 +666,7 @@ public class MainMenuController : MonoBehaviour
                     {
                         if (Input.GetAxis("Horizontal") > 0.5)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             if (essentialGameObjects.showSpotlights == true)
                             {
@@ -648,6 +681,7 @@ public class MainMenuController : MonoBehaviour
                         }
                         else if (Input.GetAxis("Horizontal") < -0.5)
                         {
+                            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                             canScrollX = false;
                             if (essentialGameObjects.showSpotlights == true)
                             {
@@ -667,6 +701,7 @@ public class MainMenuController : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Return"))
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
                         Debug.Log("Restore");
 
                         // Restore BGM Volume
@@ -699,6 +734,7 @@ public class MainMenuController : MonoBehaviour
                     // Controller Controls
                     if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition > 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition--;
@@ -707,6 +743,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && settingsPosition == 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition = settingsPositions.Length - 1;
@@ -714,6 +751,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition < settingsPositions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition++;
@@ -721,6 +759,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && settingsPosition == settingsPositions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         settingsPosition = 0;
@@ -732,6 +771,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Escape"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                     writeToSettingsFile();
                     inLevelSelectMenu = false;
                     levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
@@ -740,6 +780,7 @@ public class MainMenuController : MonoBehaviour
 
                 if (Input.GetButtonDown("Return"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     // Level 1
                     if (levelSelectPosition == 0)
                     {
@@ -763,7 +804,6 @@ public class MainMenuController : MonoBehaviour
                     }
                 }
 
-
                 if ((Input.GetAxis("Vertical") == 0))
                 {
                     canScrollY = true;
@@ -773,6 +813,7 @@ public class MainMenuController : MonoBehaviour
                     // Controller Controls
                     if ((Input.GetAxis("Vertical") > 0.5) && levelSelectPosition > 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         levelSelectPosition--;
@@ -781,6 +822,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") > 0.5) && levelSelectPosition == 0)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         levelSelectPosition = levelSelectPositions.Length - 1;
@@ -788,6 +830,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && levelSelectPosition < levelSelectPositions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         levelSelectPosition++;
@@ -795,6 +838,7 @@ public class MainMenuController : MonoBehaviour
                     }
                     else if ((Input.GetAxis("Vertical") < -0.5) && levelSelectPosition == levelSelectPositions.Length - 1)
                     {
+                        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                         canScrollY = false;
                         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                         levelSelectPosition = 0;
@@ -806,6 +850,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetButtonDown("Escape"))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                     inCreditsMenu = false;
                     mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Credits");
                 }
@@ -819,6 +864,8 @@ public class MainMenuController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
+
                 // Play
                 if (position == 0)
                 {
@@ -866,6 +913,7 @@ public class MainMenuController : MonoBehaviour
             // Controller Controls
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && position > 0)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                 position--;
@@ -873,6 +921,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && position == 0)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                 position = positions.Length - 1;
@@ -880,6 +929,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && position < positions.Length - 1)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                 position++;
@@ -887,6 +937,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && position == positions.Length - 1)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 positions[position].GetComponent<Animator>().SetTrigger("Deselected");
                 position = 0;
@@ -897,6 +948,7 @@ public class MainMenuController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                 Debug.Log("TEST");
                 writeToSettingsFile();
                 inSettingsMenu = false;
@@ -909,6 +961,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && essentialGameObjects.bgmVolume < essentialGameObjects.bgmMax)
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     canScrollX = false;
                     essentialGameObjects.bgmVolume++;
                     essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
@@ -916,6 +969,7 @@ public class MainMenuController : MonoBehaviour
                 }
                 else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && essentialGameObjects.bgmVolume > 0)
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     canScrollX = false;
                     essentialGameObjects.bgmVolume--;
                     essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().updateAudio();
@@ -927,6 +981,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && essentialGameObjects.sfxVolume < essentialGameObjects.sfxMax)
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     canScrollX = false;
                     essentialGameObjects.sfxVolume++;
                     essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
@@ -934,6 +989,7 @@ public class MainMenuController : MonoBehaviour
                 }
                 else if ((Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) && essentialGameObjects.sfxVolume > 0)
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     canScrollX = false;
                     essentialGameObjects.sfxVolume--;
                     essentialGameObjects.SFXObject.GetComponent<AdjustAudio>().updateAudio();
@@ -945,6 +1001,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     canScrollX = false;
                     if (essentialGameObjects.isFullscreen == true)
                     {
@@ -960,6 +1017,7 @@ public class MainMenuController : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     canScrollX = false;
                     if (essentialGameObjects.isFullscreen == true)
                     {
@@ -979,6 +1037,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     canScrollX = false;
                     if (essentialGameObjects.showSpotlights == true)
                     {
@@ -992,6 +1051,7 @@ public class MainMenuController : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                     canScrollX = false;
                     if (essentialGameObjects.showSpotlights == true)
                     {
@@ -1009,6 +1069,7 @@ public class MainMenuController : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
                     Debug.Log("Restore");
 
                     // Restore BGM Volume
@@ -1035,6 +1096,7 @@ public class MainMenuController : MonoBehaviour
             // Keyboard Controls
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && settingsPosition > 0)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition--;
@@ -1042,6 +1104,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && settingsPosition == 0)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition = settingsPositions.Length - 1;
@@ -1049,6 +1112,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && settingsPosition < settingsPositions.Length - 1)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition++;
@@ -1056,6 +1120,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && settingsPosition == settingsPositions.Length - 1)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 settingsPositions[settingsPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 settingsPosition = 0;
@@ -1066,6 +1131,7 @@ public class MainMenuController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                 inLevelSelectMenu = false;
                 levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Level Select");
@@ -1073,6 +1139,7 @@ public class MainMenuController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Return))
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
                 // Level 1
                 if (levelSelectPosition == 0)
                 {
@@ -1099,6 +1166,7 @@ public class MainMenuController : MonoBehaviour
             // Keyboard Controls
             if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && levelSelectPosition > 0)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 levelSelectPosition--;
@@ -1106,6 +1174,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && levelSelectPosition == 0)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 levelSelectPosition = levelSelectPositions.Length - 1;
@@ -1113,6 +1182,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && levelSelectPosition < levelSelectPositions.Length - 1)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 levelSelectPosition++;
@@ -1120,6 +1190,7 @@ public class MainMenuController : MonoBehaviour
             }
             else if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && levelSelectPosition == levelSelectPositions.Length - 1)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.scroll);
                 canScrollY = false;
                 levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Deselected");
                 levelSelectPosition = 0;
@@ -1130,6 +1201,7 @@ public class MainMenuController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
                 inCreditsMenu = false;
                 mainMenuCanvas.GetComponent<Animator>().SetTrigger("Exit Credits");
             }

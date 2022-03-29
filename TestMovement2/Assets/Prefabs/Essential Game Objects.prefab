@@ -2653,6 +2653,14 @@ MonoBehaviour:
   sfxMax: 9
   isFullscreen: 1
   showSpotlights: 1
+  uiCanvas: {fileID: 0}
+  canSwitch: {fileID: 0}
+  GasMaskHolder: {fileID: 0}
+  MeterUI: {fileID: 0}
+  Oxygen: {fileID: 0}
+  scroll: {fileID: 8300000, guid: e590815dd80dfdf40a3552593fa3b937, type: 3}
+  enter: {fileID: 8300000, guid: 808659167744bd24aa63a4b4184e9df6, type: 3}
+  exit: {fileID: 8300000, guid: fa7712ce1f7c9a644b71c083c0c9ebfc, type: 3}
 --- !u!114 &2257474421870372433
 MonoBehaviour:
   m_ObjectHideFlags: 0

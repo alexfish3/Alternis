@@ -23,6 +23,12 @@ public class EssentialGameObjects : MonoBehaviour
     public GameObject MeterUI;
     public GameObject Oxygen;
 
+    [Header("SFX")]
+    public AudioClip scroll;
+    public AudioClip enter;
+    public AudioClip exit;
+    public AudioClip worldSwap;
+
     // Start is called before the first frame update
     void Start()
     {

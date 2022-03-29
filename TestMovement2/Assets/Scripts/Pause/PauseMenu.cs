@@ -67,6 +67,7 @@ public class PauseMenu : MonoBehaviour
         // Pauses Game
         else if (isPaused == false)
         {
+            essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.enter);
             essentialGameObjects.canSwitch.SetActive(false);
             essentialGameObjects.GasMaskHolder.GetComponent<Image>().enabled = false;
             essentialGameObjects.MeterUI.SetActive(false);
@@ -101,6 +102,7 @@ public class PauseMenu : MonoBehaviour
 
     private IEnumerator resumeGameAfterAnim()
     {
+        essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.exit);
         pauseMenuCanvas.GetComponent<Animator>().SetTrigger("SlideOut");
         yield return new WaitForSecondsRealtime(0.4f);
         this.GetComponent<EssentialGameObjects>().PostProcessingBlur.SetActive(false);

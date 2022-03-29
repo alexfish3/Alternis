@@ -85,6 +85,7 @@ public class WorldSwap : MonoBehaviour
 
             if (Input.GetButtonDown("World Swap") && canSwitch == true && disableSwap == false)
             {
+                essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.worldSwap);
                 playerSprite.GetComponent<Animator>().SetTrigger("Shift");
 
                 switchText.text = (cooldown * 10).ToString();
