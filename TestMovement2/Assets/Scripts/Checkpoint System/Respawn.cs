@@ -44,6 +44,7 @@ public class Respawn : MonoBehaviour
         if (other.gameObject.tag == "Death")
         {
             timer = 0;
+            DoRespawn();
             anime.Play();
             //The Animation must always be bigger than the timer as the timer is when the animation and player stops for respawns so their should be a little bit of leg room at the end of the animation.
             while (anime.isPlaying)
@@ -62,7 +63,6 @@ public class Respawn : MonoBehaviour
                 }
             }
             //This is temporary because their is no animation;
-            DoRespawn();
         }
     }
     private void didYouFall()
