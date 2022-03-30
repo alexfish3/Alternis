@@ -1,5 +1,5 @@
 [Settings]
-BGM Volume=3
-SFX Volume=9
+BGM Volume=4
+SFX Volume=5
 Is Fullscreen=True
 DX-2 Spotlight Toggle=True
