@@ -11,6 +11,8 @@ public class WorldSwap : MonoBehaviour
 
     [Header("Oxygen Info")]
     [SerializeField] int oxygen = 100;
+    [SerializeField] int maxOxygen = 120;
+    [SerializeField] int oxygenRegainSpeed = 6;
     [SerializeField] float speed;
     public bool swappedWorlds;
     public bool stopOxygenChange = false;
@@ -39,6 +41,7 @@ public class WorldSwap : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        oxygen = maxOxygen;
         switchText.text = (cooldown * 10).ToString();
         essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
 
@@ -170,7 +173,7 @@ public class WorldSwap : MonoBehaviour
     public IEnumerator gainOxygen()
     {
         changingLevel = true;
-        for (int i = oxygen; i < 100; i++)
+        for (int i = oxygen; i < maxOxygen; i++)
         {
             if (stopOxygenChange == true)
             {
@@ -179,7 +182,7 @@ public class WorldSwap : MonoBehaviour
             }
 
             oxygen++;
-            yield return new WaitForSeconds(speed / 5);
+            yield return new WaitForSeconds(speed / oxygenRegainSpeed);
         }
         changingLevel = false;
     }
