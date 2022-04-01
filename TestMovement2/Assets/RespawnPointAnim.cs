@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class RespawnPointAnim : MonoBehaviour
 {
+    public bool reached;
+
+    private void Update()
+    {
+        this.GetComponent<Animator>().SetBool("Reached", reached);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")

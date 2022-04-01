@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class referenceRespawn : MonoBehaviour
+{
+    public bool isStart = false;
+    public GameObject respectiveSpawner;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    public void reachedCheckpoint()
+    {
+        respectiveSpawner.GetComponent<RespawnPointAnim>().reached = true;
+    }
+}

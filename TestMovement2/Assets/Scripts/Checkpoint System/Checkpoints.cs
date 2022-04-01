@@ -51,7 +51,14 @@ public class Checkpoints : MonoBehaviour
     {
         for (int i = 0; i < checkpoints.Length; i++)
         {
-            if ((int)player.transform.position.x ==(int) checkpoints[i].position.x) curCheck=checkpoints[i];
+            if ((int)player.transform.position.x == (int)checkpoints[i].position.x)
+            {
+                curCheck = checkpoints[i];
+                if(curCheck.GetComponent<referenceRespawn>().isStart == false)
+                {
+                    curCheck.GetComponent<referenceRespawn>().reachedCheckpoint();
+                }
+            }
 
             if(debug)
             {
