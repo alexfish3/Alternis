@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SearchlightNew
-  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_Shader: {fileID: 4800000, guid: ee7e4c9a5f6364b688a332c67fc32cca, type: 3}
+  m_ShaderKeywords: _EMISSION _ENVIRONMENTREFLECTIONS_OFF _RECEIVE_SHADOWS_OFF _SPECULARHIGHLIGHTS_OFF
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -26,6 +26,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ClearCoatMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -85,6 +89,7 @@ Material:
     - _CameraFadingEnabled: 0
     - _CameraFarFadeDistance: 2
     - _CameraNearFadeDistance: 1
+    - _ClearCoat: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ColorMode: 0
@@ -97,29 +102,29 @@ Material:
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0.1
     - _DstBlend: 10
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _FlipbookBlending: 0
     - _FlipbookMode: 0
     - _GlossMapScale: 1
-    - _Glossiness: 0.5
+    - _Glossiness: 0
     - _GlossinessSource: 0
-    - _GlossyReflections: 1
+    - _GlossyReflections: 0
     - _Metallic: 0
-    - _Mode: 0
+    - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 0
     - _SampleGI: 0
     - _Shininess: 0
-    - _Smoothness: 0.5
+    - _Smoothness: 0
     - _SmoothnessSource: 0
     - _SmoothnessTextureChannel: 0
     - _SoftParticlesEnabled: 0
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0
     - _SpecSource: 0
-    - _SpecularHighlights: 1
+    - _SpecularHighlights: 0
     - _SrcBlend: 5
     - _Surface: 1
     - _UVSec: 0
