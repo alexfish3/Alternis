@@ -13,13 +13,42 @@ public class PlayerAnimations : MonoBehaviour
         ani = gameObject.GetComponentInChildren<Animator>();
     }
 
+    void ResetTriggers()
+    {
+        ani.ResetTrigger("Walk");
+        ani.SetTrigger("Sprint");
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        if ((rb.velocity.x == 6 || rb.velocity.x == -6) && rb.velocity.y == 0)
+        //Idle
+        if (rb.velocity.x == 0 && rb.velocity.y == 0)
         {
-            // ani.SetTrigger("Walk");
-            Debug.Log("Walk");
+            ani.ResetTrigger("Walk");
+            ani.ResetTrigger("Sprint");
+            if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+                ani.SetTrigger("Idle");
+        }
+        //Walk
+        else if ((rb.velocity.x == 6 || rb.velocity.x == -6) && rb.velocity.y == 0)
+        {
+            ani.ResetTrigger("Idle");
+            ani.ResetTrigger("Sprint");
+            if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+             ani.SetTrigger("Walk");
+        }
+        //Sprint
+        else if ((rb.velocity.x == 14 || rb.velocity.x == -14) && rb.velocity.y == 0)
+        {
+            ani.ResetTrigger("Walk");
+            ani.ResetTrigger("Idle");
+            if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Sprint"))
+                ani.SetTrigger("Sprint");
+        }
+        else
+        {
+
         }
     }
 }
