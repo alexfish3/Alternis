@@ -27,6 +27,8 @@ public class PlayerAnimations : MonoBehaviour
         {
             ani.ResetTrigger("Walk");
             ani.ResetTrigger("Sprint");
+            ani.ResetTrigger("Fall");
+            ani.ResetTrigger("Jump");
             if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 ani.SetTrigger("Idle");
         }
@@ -35,6 +37,8 @@ public class PlayerAnimations : MonoBehaviour
         {
             ani.ResetTrigger("Idle");
             ani.ResetTrigger("Sprint");
+            ani.ResetTrigger("Fall");
+            ani.ResetTrigger("Jump");
             if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
              ani.SetTrigger("Walk");
         }
@@ -43,12 +47,27 @@ public class PlayerAnimations : MonoBehaviour
         {
             ani.ResetTrigger("Walk");
             ani.ResetTrigger("Idle");
+            ani.ResetTrigger("Fall");
             if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Sprint"))
                 ani.SetTrigger("Sprint");
         }
-        else
+        //Jump
+        //Check if player is not grounded
+        else if (rb.velocity.y > 5)
         {
-
+            if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
+                ani.SetTrigger("Jump");
+        }
+        //Fall
+        //Check if player is not grounded
+        else if (rb.velocity.y < -1)
+        {
+            ani.ResetTrigger("Walk");
+            ani.ResetTrigger("Idle");
+            ani.ResetTrigger("Sprint");
+            ani.ResetTrigger("Jump");
+            if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Fall"))
+                ani.SetTrigger("Fall");
         }
     }
 }
