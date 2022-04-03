@@ -7,6 +7,7 @@ public class SceneTransitionEvents : MonoBehaviour
 {
     EssentialGameObjects essentialGameObjects;
     [SerializeField] GameObject bgmObject;
+    [SerializeField] int openingCineIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,7 @@ public class SceneTransitionEvents : MonoBehaviour
 
     public void loadNextSceneFromBuildIndex()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(openingCineIndex);
     }
     public void loadLevel1()
     {
