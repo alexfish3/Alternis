@@ -24,7 +24,7 @@ public class PlayerAnimations : MonoBehaviour
     void FixedUpdate()
     {
         //Idle
-        if (rb.velocity.x == 0 && rb.velocity.y == 0 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch)
+        if (rb.velocity.x == 0 && rb.velocity.y == 0 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
         {
             isCrouch = false;
             ani.ResetTrigger("Walk");
@@ -39,7 +39,7 @@ public class PlayerAnimations : MonoBehaviour
                 ani.SetTrigger("Idle");
         }
         //Walk
-        else if ((rb.velocity.x == 6 || rb.velocity.x == -6) && rb.velocity.y == 0 && !isCrouch)
+        else if (((rb.velocity.x > 2 || rb.velocity.x < -2) && (rb.velocity.x < 8 && rb.velocity.x > -8)) && rb.velocity.y == 0 && !isCrouch)
         {
             ani.ResetTrigger("Idle");
             ani.ResetTrigger("Sprint");
@@ -69,6 +69,9 @@ public class PlayerAnimations : MonoBehaviour
         //Check if player is not grounded
         else if (rb.velocity.y > 5)
         {
+            ani.ResetTrigger("Idle");
+            ani.ResetTrigger("Sprint");
+            ani.ResetTrigger("Fall");
             ani.ResetTrigger("Crouch");
             ani.ResetTrigger("CrouchIdle");
             ani.ResetTrigger("Uncrouch");
@@ -155,6 +158,14 @@ public class PlayerAnimations : MonoBehaviour
         } else if (ani.GetCurrentAnimatorStateInfo(0).IsName("Uncrouch"))
         {
             isCrouch = false;
+        }
+
+        if (isCrouch)
+        {
+
+        } else
+        {
+
         }
     }
 }
