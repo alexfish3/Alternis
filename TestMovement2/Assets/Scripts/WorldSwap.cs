@@ -89,7 +89,21 @@ public class WorldSwap : MonoBehaviour
             if (Input.GetButtonDown("World Swap") && canSwitch == true && disableSwap == false)
             {
                 essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.worldSwap);
-                playerSprite.GetComponent<Animator>().SetTrigger("Shift");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Walk");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Sprint");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Fall");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Jump");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Crouch");
+                playerSprite.GetComponent<Animator>().ResetTrigger("CrouchIdle");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Uncrouch");
+                playerSprite.GetComponent<Animator>().ResetTrigger("CrouchWalk");
+
+                if (!this.gameObject.GetComponent<PlayerAnimations>().isCrouch)
+                    playerSprite.GetComponent<Animator>().SetTrigger("Shift");
+                else
+                {
+                    playerSprite.GetComponent<Animator>().SetTrigger("CrouchShift");
+                }
 
                 switchText.text = (cooldown * 10).ToString();
                 canSwitch = false;

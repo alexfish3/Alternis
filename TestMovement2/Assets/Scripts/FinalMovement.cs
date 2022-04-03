@@ -32,7 +32,7 @@ public class FinalMovement : MonoBehaviour
     bool disableStand;
     bool walking;
     bool doubleJump;
-    bool crouch;
+    public bool crouch;
     bool stopMomentum;
     public bool slide;
     float localX;
@@ -195,21 +195,11 @@ public class FinalMovement : MonoBehaviour
             //Crouch
             if (Input.GetAxis("Vertical") < -0.3 && isGrounded && groundTimer > 10)
             {
-                transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
+                crouch = true;
             }
             else if (Input.GetAxis("Vertical") > -0.3 && !disableStand)
             {
                 crouch = false;
-                transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
-            }
-            if (isGrounded && transform.localScale == new Vector3(transform.localScale.x, 0.5f, transform.localScale.z))
-            {
-                crouch = true;
-            }
-
-            if (crouch == false && transform.localScale != new Vector3(transform.localScale.x, 1f, transform.localScale.z))
-            {
-                transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
             }
 
             //Crouch Walk
