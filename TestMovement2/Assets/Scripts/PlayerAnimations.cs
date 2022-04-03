@@ -35,7 +35,7 @@ public class PlayerAnimations : MonoBehaviour
     {
 
         //Idle
-        if (rb.velocity.x == 0 && rb.velocity.y == 0 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
+        if (rb.velocity.x < 1 && rb.velocity.x > -1 && rb.velocity.y == 0 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
         {
             isCrouch = false;
             ani.ResetTrigger("Walk");
@@ -48,9 +48,13 @@ public class PlayerAnimations : MonoBehaviour
             ani.ResetTrigger("CrouchWalk");
             if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 ani.SetTrigger("Idle");
+            else if (ani.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                rb.velocity = new Vector3(0, 0, 0);
+            }
         }
         //Walk
-        else if (((rb.velocity.x > 2 || rb.velocity.x < -2) && (rb.velocity.x < 8 && rb.velocity.x > -8)) && rb.velocity.y == 0 && !isCrouch)
+        else if (((rb.velocity.x >= 1 || rb.velocity.x <= -1) && (rb.velocity.x < 8 && rb.velocity.x > -8)) && !isCrouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
         {
             ani.ResetTrigger("Idle");
             ani.ResetTrigger("Sprint");
@@ -64,7 +68,7 @@ public class PlayerAnimations : MonoBehaviour
                 ani.SetTrigger("Walk");
         }
         //Sprint
-        else if ((rb.velocity.x == 14 || rb.velocity.x == -14) && rb.velocity.y == 0 && !isCrouch)
+        else if ((rb.velocity.x == 14 || rb.velocity.x == -14) && this.gameObject.GetComponent<FinalMovement>().isGrounded && !isCrouch)
         {
             ani.ResetTrigger("Walk");
             ani.ResetTrigger("Idle");
