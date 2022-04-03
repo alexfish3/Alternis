@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
+    [SerializeField] GameObject playerSprite;
     [SerializeField] private Checkpoints cp;
     [SerializeField] private Transform respawner;
     [SerializeField] private GameObject player;
@@ -76,8 +77,18 @@ public class Respawn : MonoBehaviour
     // Respawn
     public void DoRespawn()
     {
+        playerSprite.GetComponent<Animator>().ResetTrigger("Walk");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Sprint");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Fall");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Jump");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Crouch");
+        playerSprite.GetComponent<Animator>().ResetTrigger("CrouchIdle");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Uncrouch");
+        playerSprite.GetComponent<Animator>().ResetTrigger("CrouchWalk");
         CurCheckpoint();
-        player.transform.position = respawner.position;
+        if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Caught"))
+            playerSprite.GetComponent<Animator>().SetTrigger("Caught");
+        //player.transform.position = respawner.position;
     }
 
     public void loseOxygenRespawn()
