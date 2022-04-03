@@ -99,7 +99,9 @@ public class WorldSwap : MonoBehaviour
                 playerSprite.GetComponent<Animator>().ResetTrigger("CrouchWalk");
 
                 if (!this.gameObject.GetComponent<PlayerAnimations>().isCrouch)
+                {
                     playerSprite.GetComponent<Animator>().SetTrigger("Shift");
+                }
                 else
                 {
                     playerSprite.GetComponent<Animator>().SetTrigger("CrouchShift");
