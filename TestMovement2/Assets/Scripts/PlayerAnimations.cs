@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerAnimations : MonoBehaviour
 {
     Rigidbody rb;
-    CapsuleCollider c, unc;
     Animator ani;
     public bool isCrouch;
     // Start is called before the first frame update
@@ -13,15 +12,6 @@ public class PlayerAnimations : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         ani = gameObject.GetComponentInChildren<Animator>();
-        c = this.gameObject.GetComponent<CapsuleCollider>();
-        unc = this.gameObject.GetComponent<CapsuleCollider>();
-        c.center = new Vector3(0.009f, -0.53f, 0);
-        c.radius = 0.569f;
-        c.height = 1.844f;
-        unc.center = new Vector3(-0.00898f, -0.04421f, 0);
-        unc.radius = 0.569f;
-        unc.height = 2.815f;
-
     }
 
     void ResetTriggers()
@@ -33,9 +23,8 @@ public class PlayerAnimations : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
         //Idle
-        if (rb.velocity.x == 0 && rb.velocity.y == 0 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
+        if (rb.velocity.x == 0 && rb.velocity.y == 0 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch)
         {
             isCrouch = false;
             ani.ResetTrigger("Walk");
@@ -50,7 +39,7 @@ public class PlayerAnimations : MonoBehaviour
                 ani.SetTrigger("Idle");
         }
         //Walk
-        else if (((rb.velocity.x > 2 || rb.velocity.x < -2) && (rb.velocity.x < 8 && rb.velocity.x > -8)) && rb.velocity.y == 0 && !isCrouch)
+        else if ((rb.velocity.x == 6 || rb.velocity.x == -6) && rb.velocity.y == 0 && !isCrouch)
         {
             ani.ResetTrigger("Idle");
             ani.ResetTrigger("Sprint");
@@ -80,9 +69,6 @@ public class PlayerAnimations : MonoBehaviour
         //Check if player is not grounded
         else if (rb.velocity.y > 5)
         {
-            ani.ResetTrigger("Idle");
-            ani.ResetTrigger("Sprint");
-            ani.ResetTrigger("Fall");
             ani.ResetTrigger("Crouch");
             ani.ResetTrigger("CrouchIdle");
             ani.ResetTrigger("Uncrouch");
@@ -169,18 +155,6 @@ public class PlayerAnimations : MonoBehaviour
         } else if (ani.GetCurrentAnimatorStateInfo(0).IsName("Uncrouch"))
         {
             isCrouch = false;
-        }
-
-        if (ani.GetCurrentAnimatorStateInfo(0).IsName("Crouch"))
-        {
-            this.gameObject.GetComponent<CapsuleCollider>().center = new Vector3(-0.009f, -0.529f, 0);
-            this.gameObject.GetComponent<CapsuleCollider>().height = 1.844f;
-            this.gameObject.GetComponent<CapsuleCollider>().radius = 0.5689f;
-        } else if (ani.GetCurrentAnimatorStateInfo(0).IsName("Uncrouch"))
-        {
-            this.gameObject.GetComponent<CapsuleCollider>().center = new Vector3(-0.009f, -0.04421f, 0);
-            this.gameObject.GetComponent<CapsuleCollider>().height = 2.815f;
-            this.gameObject.GetComponent<CapsuleCollider>().radius = 0.5689f;
         }
     }
 }
