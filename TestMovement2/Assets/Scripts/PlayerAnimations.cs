@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerAnimations : MonoBehaviour
 {
     Rigidbody rb;
+    CapsuleCollider c, unc;
     Animator ani;
     public bool isCrouch;
     // Start is called before the first frame update
@@ -12,6 +13,15 @@ public class PlayerAnimations : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         ani = gameObject.GetComponentInChildren<Animator>();
+        c = this.gameObject.GetComponent<CapsuleCollider>();
+        unc = this.gameObject.GetComponent<CapsuleCollider>();
+        c.center = new Vector3(0.009f, -0.53f, 0);
+        c.radius = 0.569f;
+        c.height = 1.844f;
+        unc.center = new Vector3(-0.00898f, -0.04421f, 0);
+        unc.radius = 0.569f;
+        unc.height = 2.815f;
+
     }
 
     void ResetTriggers()
@@ -23,6 +33,7 @@ public class PlayerAnimations : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
         //Idle
         if (rb.velocity.x == 0 && rb.velocity.y == 0 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
         {
@@ -160,12 +171,16 @@ public class PlayerAnimations : MonoBehaviour
             isCrouch = false;
         }
 
-        if (isCrouch)
+        if (ani.GetCurrentAnimatorStateInfo(0).IsName("Crouch"))
         {
-
-        } else
+            this.gameObject.GetComponent<CapsuleCollider>().center = new Vector3(-0.009f, -0.529f, 0);
+            this.gameObject.GetComponent<CapsuleCollider>().height = 1.844f;
+            this.gameObject.GetComponent<CapsuleCollider>().radius = 0.5689f;
+        } else if (ani.GetCurrentAnimatorStateInfo(0).IsName("Uncrouch"))
         {
-
+            this.gameObject.GetComponent<CapsuleCollider>().center = new Vector3(-0.009f, -0.04421f, 0);
+            this.gameObject.GetComponent<CapsuleCollider>().height = 2.815f;
+            this.gameObject.GetComponent<CapsuleCollider>().radius = 0.5689f;
         }
     }
 }
