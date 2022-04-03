@@ -5,6 +5,7 @@ using UnityEngine;
 public class referenceRespawn : MonoBehaviour
 {
     public bool isStart = false;
+    public bool isReached = false;
     public GameObject respectiveSpawner;
 
     // Start is called before the first frame update
@@ -15,6 +16,7 @@ public class referenceRespawn : MonoBehaviour
 
     public void reachedCheckpoint()
     {
+        isReached = true;
         respectiveSpawner.GetComponent<RespawnPointAnim>().reached = true;
     }
 }

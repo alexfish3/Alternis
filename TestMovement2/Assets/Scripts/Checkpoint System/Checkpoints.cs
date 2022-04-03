@@ -7,6 +7,8 @@ public class Checkpoints : MonoBehaviour
     [SerializeField] private Transform curCheck;
     public bool debug;
 
+    EssentialGameObjects essentialGameObjects;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == ("Player"))
@@ -40,6 +42,7 @@ public class Checkpoints : MonoBehaviour
     }
     void Start()
     {
+        essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
         player = GameObject.FindGameObjectWithTag("Player");
         CheckpointMaker();
         curCheck = checkpoints[0];
@@ -53,10 +56,11 @@ public class Checkpoints : MonoBehaviour
         {
             if ((int)player.transform.position.x == (int)checkpoints[i].position.x)
             {
-                curCheck = checkpoints[i];
-                if(curCheck.GetComponent<referenceRespawn>().isStart == false)
-                {
+                if(checkpoints[i].GetComponent<referenceRespawn>().isStart == false && checkpoints[i].GetComponent<referenceRespawn>().isReached == false)
+                {                    
+                    curCheck = checkpoints[i];
                     curCheck.GetComponent<referenceRespawn>().reachedCheckpoint();
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(essentialGameObjects.checkpointReached);
                 }
             }
 
