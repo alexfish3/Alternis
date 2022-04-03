@@ -28,6 +28,7 @@ public class EssentialGameObjects : MonoBehaviour
     public AudioClip enter;
     public AudioClip exit;
     public AudioClip worldSwap;
+    public AudioClip checkpointReached;
 
     // Start is called before the first frame update
     void Start()
