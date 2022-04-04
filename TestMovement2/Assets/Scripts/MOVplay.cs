@@ -7,13 +7,21 @@ using UnityEngine.Video;
 public class MOVplay : MonoBehaviour
 {
     private IEnumerator c;
+    VideoPlayer VideoPlayer;
+    EssentialGameObjects essentialGameObjects;
 
     // Start is called before the first frame update
     void Start()
     {
+        essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
+
         Cursor.visible = false;
 
-        float timeToWait = (float)GameObject.Find("Video Player").GetComponent<VideoPlayer>().clip.length;
+        VideoPlayer = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
+        VideoPlayer.SetTargetAudioSource(0, essentialGameObjects.SFXObject.GetComponent<AudioSource>());
+        VideoPlayer.Play();
+
+        float timeToWait = (float)VideoPlayer.clip.length;
         c = waitTillVideoDone(timeToWait);
         StartCoroutine(c);
     }
