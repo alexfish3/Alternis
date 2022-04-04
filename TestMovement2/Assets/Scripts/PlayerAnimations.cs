@@ -35,7 +35,7 @@ public class PlayerAnimations : MonoBehaviour
     {
 
         //Idle
-        if (ani.GetCurrentAnimatorStateInfo(0).IsName("Death") || ani.GetCurrentAnimatorStateInfo(0).IsName("Caught") && this.gameObject.GetComponent<Respawn>().death)
+        if ((ani.GetCurrentAnimatorStateInfo(0).IsName("Death") || ani.GetCurrentAnimatorStateInfo(0).IsName("Caught")) && this.gameObject.GetComponent<Respawn>().death)
         {
             ani.ResetTrigger("Walk");
             ani.ResetTrigger("Sprint");
