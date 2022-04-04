@@ -248,6 +248,7 @@ public class WorldSwap : MonoBehaviour
     public void respawn()
     {
         oxygen = 100;
+        swappedWorlds = true;
         darkWorld = false;
         lightWorld = true;
         canSwitch = true;

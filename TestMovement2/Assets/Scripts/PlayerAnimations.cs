@@ -46,6 +46,7 @@ public class PlayerAnimations : MonoBehaviour
             ani.ResetTrigger("CrouchIdle");
             ani.ResetTrigger("Uncrouch");
             ani.ResetTrigger("CrouchWalk");
+            ani.ResetTrigger("Shift");
             if (!ani.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
                 ani.SetTrigger("Idle");
             else if (ani.GetCurrentAnimatorStateInfo(0).IsName("Idle"))

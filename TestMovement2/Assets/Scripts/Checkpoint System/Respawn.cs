@@ -10,6 +10,8 @@ public class Respawn : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private float maxFallHeight = -15;
     [SerializeField] private float timer = 0;
+    [SerializeField] GameObject UICanvas;
+    bool hazardDeath;
     public bool useFallHeight;
 
     private void CurCheckpoint()
@@ -24,9 +26,10 @@ public class Respawn : MonoBehaviour
             DoRespawn();
 
         }
-        if (other.gameObject.tag == "Death")
+        else if (other.gameObject.tag == "Death")
         {
             timer = 0;
+            hazardDeath = true;
             DoRespawn();
 
             //This is temporary because their is no animation;
@@ -61,11 +64,14 @@ public class Respawn : MonoBehaviour
     public void DoRespawn()
     {
         CurCheckpoint();
-        if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Caught"))
+        if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Caught") && !playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
         {
-            playerSprite.GetComponent<Animator>().SetTrigger("Caught");
-            player.transform.position = respawner.transform.position;
-
+            if (!hazardDeath)
+                playerSprite.GetComponent<Animator>().SetTrigger("Caught");
+            else
+            {
+                playerSprite.GetComponent<Animator>().SetTrigger("Death");
+            }
             StartCoroutine(Fade());
         }
 
@@ -73,8 +79,12 @@ public class Respawn : MonoBehaviour
 
     IEnumerator Fade()
     {
-       yield return new WaitForSeconds(3);
+       yield return new WaitForSeconds(1);
+       UICanvas.GetComponent<Animator>().SetTrigger("DarkToLight");
        player.transform.position = respawner.transform.position;
+       this.gameObject.GetComponent<WorldSwap>().respawn();
+       playerSprite.GetComponent<Animator>().ResetTrigger("Shift");
+       hazardDeath = false;
     }
 
     public void loseOxygenRespawn()
