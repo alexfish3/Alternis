@@ -11,6 +11,7 @@ public class Respawn : MonoBehaviour
     [SerializeField] private float maxFallHeight = -15;
     [SerializeField] private float timer = 0;
     [SerializeField] GameObject UICanvas;
+    public bool death;
     bool hazardDeath;
     public bool useFallHeight;
 
@@ -63,13 +64,32 @@ public class Respawn : MonoBehaviour
     }
     public void DoRespawn()
     {
+        death = true;
         CurCheckpoint();
         if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Caught") && !playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
         {
             if (!hazardDeath)
+            {
+                playerSprite.GetComponent<Animator>().ResetTrigger("Walk");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Sprint");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Fall");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Jump");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Crouch");
+                playerSprite.GetComponent<Animator>().ResetTrigger("CrouchIdle");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Uncrouch");
+                playerSprite.GetComponent<Animator>().ResetTrigger("CrouchWalk");
                 playerSprite.GetComponent<Animator>().SetTrigger("Caught");
+            }
             else
             {
+                playerSprite.GetComponent<Animator>().ResetTrigger("Walk");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Sprint");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Fall");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Jump");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Crouch");
+                playerSprite.GetComponent<Animator>().ResetTrigger("CrouchIdle");
+                playerSprite.GetComponent<Animator>().ResetTrigger("Uncrouch");
+                playerSprite.GetComponent<Animator>().ResetTrigger("CrouchWalk");
                 playerSprite.GetComponent<Animator>().SetTrigger("Death");
             }
             StartCoroutine(Fade());
@@ -79,12 +99,21 @@ public class Respawn : MonoBehaviour
 
     IEnumerator Fade()
     {
+       playerSprite.GetComponent<Animator>().ResetTrigger("Walk");
+       playerSprite.GetComponent<Animator>().ResetTrigger("Sprint");
+       playerSprite.GetComponent<Animator>().ResetTrigger("Fall");
+       playerSprite.GetComponent<Animator>().ResetTrigger("Jump");
+       playerSprite.GetComponent<Animator>().ResetTrigger("Crouch");
+       playerSprite.GetComponent<Animator>().ResetTrigger("CrouchIdle");
+       playerSprite.GetComponent<Animator>().ResetTrigger("Uncrouch");
+       playerSprite.GetComponent<Animator>().ResetTrigger("CrouchWalk");
        yield return new WaitForSeconds(1);
        UICanvas.GetComponent<Animator>().SetTrigger("DarkToLight");
        player.transform.position = respawner.transform.position;
        this.gameObject.GetComponent<WorldSwap>().respawn();
        playerSprite.GetComponent<Animator>().ResetTrigger("Shift");
        hazardDeath = false;
+       death = false;
     }
 
     public void loseOxygenRespawn()
