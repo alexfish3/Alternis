@@ -21,13 +21,13 @@ public class MOVplay : MonoBehaviour
     private IEnumerator waitTillVideoDone(float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
     void BreakPlay()
     {
         StopCoroutine(c);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
     void Update()

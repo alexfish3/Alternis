@@ -5,6 +5,7 @@ using UnityEngine;
 public class SceneTransitionLevel : MonoBehaviour
 {
     EssentialGameObjects essentialGameObjects;
+    [SerializeField] bool FadeInMusic = true;
     [SerializeField] float delay;
 
     // Start is called before the first frame update
@@ -24,6 +25,14 @@ public class SceneTransitionLevel : MonoBehaviour
     private IEnumerator fadeOut()
     {
         yield return new WaitForSeconds(delay);
-        essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade Out");
+
+        if(FadeInMusic == true)
+        {
+            essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade Out");
+        }
+        else
+        {
+            essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade Out Mute");
+        }
     }
 }
