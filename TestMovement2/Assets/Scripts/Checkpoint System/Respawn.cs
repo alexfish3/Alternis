@@ -64,19 +64,17 @@ public class Respawn : MonoBehaviour
         if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Caught"))
         {
             playerSprite.GetComponent<Animator>().SetTrigger("Caught");
-            while (timer >= 0)
-            {
-                timer += Time.deltaTime;
-                if (timer > 3000)
-                {
+            player.transform.position = respawner.transform.position;
 
-                    player.transform.position = respawner.transform.position;
-                    timer = -1;
-
-                }
-            }
+            StartCoroutine(Fade());
         }
 
+    }
+
+    IEnumerator Fade()
+    {
+       yield return new WaitForSeconds(3);
+       player.transform.position = respawner.transform.position;
     }
 
     public void loseOxygenRespawn()
