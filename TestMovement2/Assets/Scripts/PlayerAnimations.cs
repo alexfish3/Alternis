@@ -35,7 +35,18 @@ public class PlayerAnimations : MonoBehaviour
     {
 
         //Idle
-        if (rb.velocity.x < 1 && rb.velocity.x > -1 && rb.velocity.y < 1 && rb.velocity.y > -1 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
+        if (ani.GetCurrentAnimatorStateInfo(0).IsName("Death") || ani.GetCurrentAnimatorStateInfo(0).IsName("Caught") && this.gameObject.GetComponent<Respawn>().death)
+        {
+            ani.ResetTrigger("Walk");
+            ani.ResetTrigger("Sprint");
+            ani.ResetTrigger("Fall");
+            ani.ResetTrigger("Jump");
+            ani.ResetTrigger("Crouch");
+            ani.ResetTrigger("CrouchIdle");
+            ani.ResetTrigger("Uncrouch");
+            ani.ResetTrigger("CrouchWalk");
+        }
+        else if (rb.velocity.x < 1 && rb.velocity.x > -1 && rb.velocity.y < 1 && rb.velocity.y > -1 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
         {
             isCrouch = false;
             ani.ResetTrigger("Walk");
