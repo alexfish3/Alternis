@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 7887645521464466817}
   - component: {fileID: 7887645521464466846}
   - component: {fileID: 7887645521464466847}
+  - component: {fileID: 4907078883008449621}
   m_Layer: 7
   m_Name: Enemy_Walker
   m_TagString: Enemy
@@ -161,9 +162,29 @@ MonoBehaviour:
   walkSpeed: 2
   position1: {fileID: 0}
   position2: {fileID: 0}
+  ani: {fileID: 4907078883008449621}
   Right: 0
   Left: 0
   Delay: 0
+--- !u!95 &4907078883008449621
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7887645521464466819}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 72982517e05b24640b2981f6040e5d1c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &5108495547393794782
 PrefabInstance:
   m_ObjectHideFlags: 0

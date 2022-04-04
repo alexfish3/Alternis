@@ -8,6 +8,7 @@ public class Walker : MonoBehaviour
 
     public GameObject position1;
     public GameObject position2;
+    public Animator ani;
 
     public bool Right;
     public bool Left;
