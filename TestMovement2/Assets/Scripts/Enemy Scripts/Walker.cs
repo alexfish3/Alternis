@@ -5,6 +5,7 @@ using UnityEngine;
 public class Walker : MonoBehaviour
 {
     public float walkSpeed;
+    public SpriteRenderer s;
 
     public GameObject position1;
     public GameObject position2;
@@ -19,6 +20,7 @@ public class Walker : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        s.enabled = false;
         rb = GetComponent<Rigidbody>();
         Right = false;
         Left = true;
@@ -51,8 +53,10 @@ public class Walker : MonoBehaviour
 
         IEnumerator Wait()
         {
-            yield return new WaitForSeconds(3);
-
+            yield return new WaitForSeconds(2);
+            s.enabled = true;
+            yield return new WaitForSeconds(1);
+            s.enabled = false;
             if (Right) { 
             transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
             rb.velocity = new Vector3(walkSpeed, 0, 0);
