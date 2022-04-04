@@ -35,7 +35,7 @@ public class PlayerAnimations : MonoBehaviour
     {
 
         //Idle
-        if (rb.velocity.x < 1 && rb.velocity.x > -1 && rb.velocity.y == 0 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
+        if (rb.velocity.x < 1 && rb.velocity.x > -1 && rb.velocity.y < 1 && rb.velocity.y > -1 && !isCrouch && !this.gameObject.GetComponent<FinalMovement>().crouch && this.gameObject.GetComponent<FinalMovement>().isGrounded)
         {
             isCrouch = false;
             ani.ResetTrigger("Walk");
