@@ -27,10 +27,15 @@ public class elevator : MonoBehaviour
         }
         else if (triggered == false)
         {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, positionStart.transform.position, speed);
+            this.transform.position = positionStart.transform.position;
         }
 
         triggered = false;
+
+        if (!this.gameObject.activeInHierarchy)
+        {
+            this.transform.position = positionStart.transform.position;
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -41,7 +46,9 @@ public class elevator : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
+        {
             triggered = false;
+        }
     }
 
 }
