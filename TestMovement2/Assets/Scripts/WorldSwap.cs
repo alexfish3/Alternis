@@ -247,12 +247,13 @@ public class WorldSwap : MonoBehaviour
 
     public void respawn()
     {
-        oxygen = 100;
-        swappedWorlds = true;
+        changingLevel = true;
         darkWorld = false;
         lightWorld = true;
+        swappedWorlds = true;
         canSwitch = true;
         UICanvas.GetComponent<Animator>().SetTrigger("Respawn");
+        stopOxygenChange = true;
     }
 
 }
