@@ -1296,10 +1296,11 @@ MonoBehaviour:
   GasMaskHolder: {fileID: 0}
   MeterUI: {fileID: 0}
   Oxygen: {fileID: 0}
-  scroll: {fileID: 8300000, guid: e590815dd80dfdf40a3552593fa3b937, type: 3}
-  enter: {fileID: 8300000, guid: 808659167744bd24aa63a4b4184e9df6, type: 3}
-  exit: {fileID: 8300000, guid: fa7712ce1f7c9a644b71c083c0c9ebfc, type: 3}
+  scroll: {fileID: 8300000, guid: 60d11fd0b610ee94286854a963145555, type: 3}
+  enter: {fileID: 8300000, guid: 8057648bb46749c4ebbc501b0cb37cfb, type: 3}
+  exit: {fileID: 8300000, guid: e07d7b3ed27a7c04796a785b6860b1dd, type: 3}
   worldSwap: {fileID: 8300000, guid: 913dd7eba7078c44f84c49e5fe10520b, type: 3}
+  checkpointReached: {fileID: 8300000, guid: 9d5f3dbba3528144ab760b7df3707d1c, type: 3}
 --- !u!114 &5976621961054532034
 MonoBehaviour:
   m_ObjectHideFlags: 0

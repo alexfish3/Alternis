@@ -5,7 +5,7 @@ using UnityEngine;
 public class FinalMovement : MonoBehaviour
 {
     [SerializeField] GameObject playerSprite;
-
+    public bool respawnBool = false;
 
     public float walkSpeed;
     public float friction;
@@ -90,7 +90,7 @@ public class FinalMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(essentialGameObjects.GetComponent<PauseMenu>().isPaused == false)
+        if(essentialGameObjects.GetComponent<PauseMenu>().isPaused == false && respawnBool == false)
         {
             //Walk
             if (Input.GetAxis("Horizontal") > controllerSense && !crouch)

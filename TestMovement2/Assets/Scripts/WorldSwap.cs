@@ -6,17 +6,16 @@ using TMPro;
 
 public class WorldSwap : MonoBehaviour
 {
+    public bool respawnBool = false;
     [SerializeField] GameObject playerSprite;
     public GameObject blurCamera; 
 
     [Header("Oxygen Info")]
-    [SerializeField] int oxygen = 100;
+    [SerializeField] int oxygen = 120;
     [SerializeField] int maxOxygen = 120;
     [SerializeField] int oxygenRegainSpeed = 6;
     [SerializeField] float speed;
     public bool swappedWorlds;
-    public bool stopOxygenChange = false;
-    public bool changingLevel = false;
     public GameObject oxygenBar;
 
     [Header("Swapping Information")]
@@ -52,7 +51,13 @@ public class WorldSwap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (essentialGameObjects.GetComponent<PauseMenu>().isPaused == false)
+        if(oxygen > maxOxygen)
+        {
+            oxygen = maxOxygen;
+        }
+
+
+        if (essentialGameObjects.GetComponent<PauseMenu>().isPaused == false && respawnBool == false)
         {
             oxygenBar.GetComponent<Slider>().value = oxygen;
 
@@ -110,11 +115,6 @@ public class WorldSwap : MonoBehaviour
                 switchText.text = (cooldown * 10).ToString();
                 canSwitch = false;
 
-                if (changingLevel == true)
-                {
-                    stopOxygenChange = true;
-                }
-
                 // Currently light world, going to switch to dark
                 if (lightWorld == true && darkWorld == false)
                 {
@@ -171,36 +171,30 @@ public class WorldSwap : MonoBehaviour
 
     public IEnumerator looseOxygen()
     {
-        changingLevel = true;
         for (int i = oxygen; i > 0; i--)
         {
-            if (stopOxygenChange == true)
+            if (lightWorld == true)
             {
-                stopOxygenChange = false;
                 break;
             }
 
             oxygen--;
             yield return new WaitForSeconds(speed);
         }
-        changingLevel = false;
     }
 
     public IEnumerator gainOxygen()
     {
-        changingLevel = true;
         for (int i = oxygen; i < maxOxygen; i++)
         {
-            if (stopOxygenChange == true)
+            if (darkWorld == true)
             {
-                stopOxygenChange = false;
                 break;
             }
 
             oxygen++;
             yield return new WaitForSeconds(speed / oxygenRegainSpeed);
         }
-        changingLevel = false;
     }
 
     void OnTriggerStay(Collider other)
@@ -247,13 +241,12 @@ public class WorldSwap : MonoBehaviour
 
     public void respawn()
     {
-        changingLevel = true;
         darkWorld = false;
         lightWorld = true;
         swappedWorlds = true;
         canSwitch = true;
+        oxygen = maxOxygen;
         UICanvas.GetComponent<Animator>().SetTrigger("Respawn");
-        stopOxygenChange = true;
     }
 
 }

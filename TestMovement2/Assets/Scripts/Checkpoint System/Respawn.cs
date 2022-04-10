@@ -14,6 +14,8 @@ public class Respawn : MonoBehaviour
     public bool death;
     bool hazardDeath;
     public bool useFallHeight;
+    EssentialGameObjects essentialGameObjects;
+
 
     private void CurCheckpoint()
     {
@@ -65,6 +67,7 @@ public class Respawn : MonoBehaviour
     public void DoRespawn()
     {
         death = true;
+
         CurCheckpoint();
         if (!playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Caught") && !playerSprite.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
         {
@@ -99,21 +102,26 @@ public class Respawn : MonoBehaviour
 
     IEnumerator Fade()
     {
-       playerSprite.GetComponent<Animator>().ResetTrigger("Walk");
-       playerSprite.GetComponent<Animator>().ResetTrigger("Sprint");
-       playerSprite.GetComponent<Animator>().ResetTrigger("Fall");
-       playerSprite.GetComponent<Animator>().ResetTrigger("Jump");
-       playerSprite.GetComponent<Animator>().ResetTrigger("Crouch");
-       playerSprite.GetComponent<Animator>().ResetTrigger("CrouchIdle");
-       playerSprite.GetComponent<Animator>().ResetTrigger("Uncrouch");
-       playerSprite.GetComponent<Animator>().ResetTrigger("CrouchWalk");
-       yield return new WaitForSeconds(1);
-       UICanvas.GetComponent<Animator>().SetTrigger("DarkToLight");
-       player.transform.position = respawner.transform.position;
-       this.gameObject.GetComponent<WorldSwap>().respawn();
-       playerSprite.GetComponent<Animator>().ResetTrigger("Shift");
-       hazardDeath = false;
-       death = false;
+        player.GetComponent<WorldSwap>().respawnBool = true;
+        player.GetComponent<FinalMovement>().respawnBool = true;
+        playerSprite.GetComponent<Animator>().ResetTrigger("Walk");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Sprint");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Fall");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Jump");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Crouch");
+        playerSprite.GetComponent<Animator>().ResetTrigger("CrouchIdle");
+        playerSprite.GetComponent<Animator>().ResetTrigger("Uncrouch");
+        playerSprite.GetComponent<Animator>().ResetTrigger("CrouchWalk");
+        yield return new WaitForSeconds(1);
+        UICanvas.GetComponent<Animator>().SetTrigger("Respawn");
+        player.transform.position = respawner.transform.position;
+        this.gameObject.GetComponent<WorldSwap>().respawn();
+        playerSprite.GetComponent<Animator>().ResetTrigger("Shift");
+        hazardDeath = false;
+        death = false;
+        player.GetComponent<WorldSwap>().respawnBool = false;
+        player.GetComponent<FinalMovement>().respawnBool = false;
+        essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().pitchToOne();
     }
 
     public void loseOxygenRespawn()
@@ -128,6 +136,7 @@ public class Respawn : MonoBehaviour
     {
         CurCheckpoint();
         cp.GetComponent("Checkpoints");
+        essentialGameObjects = GameObject.FindWithTag("Dont Destroy").GetComponent<EssentialGameObjects>();
     }
 
     void Update()

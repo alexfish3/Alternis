@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class referenceRespawn : MonoBehaviour
 {
-    public bool isStart = false;
     public bool isReached = false;
     public GameObject respectiveSpawner;
 

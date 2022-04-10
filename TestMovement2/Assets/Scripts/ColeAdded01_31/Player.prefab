@@ -552,6 +552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c44158c5934f14d845953e81e12227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnBool: 0
   playerSprite: {fileID: 2452666365185197656}
   blurCamera: {fileID: 5438688030426049824}
   oxygen: 120
@@ -559,8 +560,6 @@ MonoBehaviour:
   oxygenRegainSpeed: 6
   speed: 0.06
   swappedWorlds: 0
-  stopOxygenChange: 0
-  changingLevel: 0
   oxygenBar: {fileID: 0}
   firstTimeSwap: 1
   canSwitch: 1
@@ -586,6 +585,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSprite: {fileID: 2452666365185197656}
+  respawnBool: 0
   walkSpeed: 6
   friction: 0.5
   maxGravity: -12
@@ -597,6 +597,7 @@ MonoBehaviour:
   controllerSense: 0.6
   distToGround: 1.4
   disToWall: 0.7
+  crouch: 0
   slide: 0
   isGrounded: 0
 --- !u!114 &1423965669
@@ -611,12 +612,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be67bd8defa2e0449a1fada2046de555, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSprite: {fileID: 2452666365185197656}
   cp: {fileID: 0}
   respawner: {fileID: 0}
   player: {fileID: 6612362450584727571}
   maxFallHeight: -15
-  anime: {fileID: 0}
   timer: 0
+  UICanvas: {fileID: 0}
+  death: 0
   useFallHeight: 1
 --- !u!136 &1423965677
 CapsuleCollider:
@@ -657,6 +660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49849f3c6183c114791fd9e1bca01e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCrouch: 0
 --- !u!1001 &8005537743883769807
 PrefabInstance:
   m_ObjectHideFlags: 0

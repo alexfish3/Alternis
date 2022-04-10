@@ -56,7 +56,7 @@ public class Checkpoints : MonoBehaviour
         {
             if ((int)player.transform.position.x == (int)checkpoints[i].position.x)
             {
-                if(checkpoints[i].GetComponent<referenceRespawn>().isStart == false && checkpoints[i].GetComponent<referenceRespawn>().isReached == false)
+                if(checkpoints[i].GetComponent<referenceRespawn>().isReached == false)
                 {                    
                     curCheck = checkpoints[i];
                     curCheck.GetComponent<referenceRespawn>().reachedCheckpoint();
