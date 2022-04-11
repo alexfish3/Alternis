@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1766117660109623282}
   - component: {fileID: 1766117660109623285}
   - component: {fileID: 1766117660109623284}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Middle
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 1766117660589976060}
   - component: {fileID: 1766117660589976063}
   - component: {fileID: 1766117660589976062}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Base
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 8192882264887483718}
   - component: {fileID: 5338109410452895642}
   - component: {fileID: 7402692516601857108}
-  m_Layer: 7
+  m_Layer: 11
   m_Name: Respawn Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 8919020828217909694}
   m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
   m_LocalPosition: {x: 13.7714, y: 10.988142, z: 1.1054993}
-  m_LocalScale: {x: 26.559948, y: 26.559944, z: 26.55993}
+  m_LocalScale: {x: 26.559963, y: 26.559954, z: 26.559942}
   m_Children:
   - {fileID: 1766117660109623287}
   - {fileID: 1766117660589976049}
@@ -363,7 +363,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 6b3a4590f794df2499964362ace01887,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b3a4590f794df2499964362ace01887, type: 3}
