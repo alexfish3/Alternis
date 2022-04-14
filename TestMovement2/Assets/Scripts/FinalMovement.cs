@@ -139,22 +139,22 @@ public class FinalMovement : MonoBehaviour
             }
 
             //Sprint
-            if (Input.GetButtonDown("Dash") && walking && !crouch && isGrounded)
+            if (Input.GetButton("Dash") && !crouch && isGrounded) //add & walking
             {
                 isSprinting = true;
                 airSpeed = sprintSpeed;
                 walking = false;
             }
-            if (rb.velocity.x > 0 && isSprinting) //facing right
+            if (isRight && isSprinting) //facing right
             {
                 rb.velocity = new Vector3(sprintSpeed, rb.velocity.y, 0);
             }
-            if (rb.velocity.x < 0 && isSprinting) // facing left
+            if (isLeft && isSprinting) // facing left
             {
                 rb.velocity = new Vector3(-sprintSpeed, rb.velocity.y, 0);
             }
 
-            if (Input.GetAxis("Horizontal") < 0.4 && Input.GetAxis("Horizontal") > -0.4)
+            if (!Input.GetButton("Dash"))
             {
                 isSprinting = false;
             }

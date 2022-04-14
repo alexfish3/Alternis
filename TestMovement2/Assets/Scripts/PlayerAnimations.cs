@@ -107,7 +107,7 @@ public class PlayerAnimations : MonoBehaviour
         }
         //Fall
         //Check if player is not grounded
-        else if (rb.velocity.y < -2 && !this.gameObject.GetComponent<FinalMovement>().isGrounded)
+        else if (rb.velocity.y < -3 && !this.gameObject.GetComponent<FinalMovement>().isGrounded)
         {
             ani.ResetTrigger("Walk");
             ani.ResetTrigger("Idle");
