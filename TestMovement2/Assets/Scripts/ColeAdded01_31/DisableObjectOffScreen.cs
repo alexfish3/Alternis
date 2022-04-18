@@ -7,7 +7,7 @@ public class DisableObjectOffScreen : MonoBehaviour
     GameObject Player;
     float playerPos;
     float objectPos;
-    int playerDistance = 70;
+    int playerDistance = 30;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,19 +15,20 @@ public class DisableObjectOffScreen : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         playerPos = Player.transform.position.x;
         objectPos = this.transform.position.x;
 
         if (playerPos - objectPos < playerDistance && playerPos - objectPos > -playerDistance)
         {
-            this.GetComponent<MeshRenderer>().enabled = true;
+            //this.GetComponent<MeshRenderer>().enabled = true;
             this.GetComponent<Light>().enabled = true;
         } else
         {
-            this.GetComponent<MeshRenderer>().enabled = false;
+            //this.GetComponent<MeshRenderer>().enabled = false;
             this.GetComponent<Light>().enabled = false;
+            //this.gameObject.SetActive(false);
         }
     }
 }
