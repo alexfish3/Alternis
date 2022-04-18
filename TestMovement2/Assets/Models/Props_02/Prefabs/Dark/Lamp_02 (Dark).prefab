@@ -380,7 +380,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.22352943, b: 0.52156866, a: 1}
+  m_Color: {r: 1, g: 0, b: 0.20994282, a: 1}
   m_Intensity: 4
   m_Range: 10
   m_SpotAngle: 133.66365
@@ -473,7 +473,7 @@ Light:
   serializedVersion: 10
   m_Type: 0
   m_Shape: 0
-  m_Color: {r: 1, g: 0.22352943, b: 0.52156866, a: 1}
+  m_Color: {r: 1, g: 0.07075471, b: 0.24194455, a: 1}
   m_Intensity: 4
   m_Range: 10
   m_SpotAngle: 133.66365
