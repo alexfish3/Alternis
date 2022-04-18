@@ -96,6 +96,7 @@ public class PlayerAnimations : MonoBehaviour
         else if (rb.velocity.y > 5)
         {
             ani.ResetTrigger("Idle");
+            ani.ResetTrigger("Walk");
             ani.ResetTrigger("Sprint");
             ani.ResetTrigger("Fall");
             ani.ResetTrigger("Crouch");
