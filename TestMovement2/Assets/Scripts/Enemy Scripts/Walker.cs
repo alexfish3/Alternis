@@ -37,8 +37,9 @@ public class Walker : MonoBehaviour
             rb.velocity = new Vector3(0, 0, 0);
             Left = false;
             Right = true;
-           // transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
-
+            // transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
+            ani.ResetTrigger("Walking");
+            ani.SetTrigger("Idle");
             StartCoroutine(Wait());
         }
         else if (transform.position.x > position2.transform.position.x && Right)
@@ -46,8 +47,9 @@ public class Walker : MonoBehaviour
             rb.velocity = new Vector3(0, 0, 0);
             Right = false;
             Left = true;
-           // transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
-
+            // transform.localScale = new Vector3(localX, transform.localScale.y, transform.localScale.z);
+            ani.ResetTrigger("Walking");
+            ani.SetTrigger("Idle");
             StartCoroutine(Wait());
         }
 
@@ -57,6 +59,8 @@ public class Walker : MonoBehaviour
             s.enabled = true;
             yield return new WaitForSeconds(1);
             s.enabled = false;
+            ani.ResetTrigger("Idle");
+            ani.SetTrigger("Walking");
             if (Right) { 
             transform.localScale = new Vector3(-localX, transform.localScale.y, transform.localScale.z);
             rb.velocity = new Vector3(walkSpeed, 0, 0);
