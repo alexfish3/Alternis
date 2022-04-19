@@ -13,6 +13,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject pauseMenuCanvas;
     [SerializeField] GameObject player;
     [SerializeField] GameObject lightWorldActive;
+    [SerializeField] AudioClip mainMenuMusic;
 
     // Start is called before the first frame update
     void Start()
@@ -97,7 +98,9 @@ public class PauseMenu : MonoBehaviour
     public void mainMenu()
     {
         StartCoroutine(resumeGameMainMenu());
-        
+        essentialGameObjects.BGMObject.GetComponent<AudioSource>().Stop();
+        essentialGameObjects.BGMObject.GetComponent<AudioSource>().clip = mainMenuMusic;
+        essentialGameObjects.BGMObject.GetComponent<AudioSource>().Play();
     }
 
     private IEnumerator resumeGameAfterAnim()

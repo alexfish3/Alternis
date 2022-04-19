@@ -4565,7 +4565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1620307040
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6278,6 +6278,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5976621961054532035, guid: dc341867dc0d99447a24640162a67fa9,
+        type: 3}
+      propertyPath: mainMenuMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 8b034f76ed3ca754dab73d4ee8a7830b, type: 3}
     - target: {fileID: 5976621961054532037, guid: dc341867dc0d99447a24640162a67fa9,
         type: 3}
       propertyPath: m_RootOrder
@@ -6338,5 +6343,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Essential Game Objects
       objectReference: {fileID: 0}
+    - target: {fileID: 6318616625245101091, guid: dc341867dc0d99447a24640162a67fa9,
+        type: 3}
+      propertyPath: mainMenuMusic
+      value: 
+      objectReference: {fileID: 8300000, guid: 8b034f76ed3ca754dab73d4ee8a7830b, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc341867dc0d99447a24640162a67fa9, type: 3}
