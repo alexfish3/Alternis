@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 7322204235128991383}
   m_Layer: 8
   m_Name: Frame
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -535,7 +535,7 @@ GameObject:
   - component: {fileID: 6998357784927595453}
   m_Layer: 8
   m_Name: Lamp_02 (Dark)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

@@ -129,7 +129,7 @@ QualitySettings:
     skinWeights: 2
     textureQuality: 0
     anisotropicTextures: 1
-    antiAliasing: 0
+    antiAliasing: 2
     softParticles: 0
     softVegetation: 1
     realtimeReflectionProbes: 1
@@ -224,7 +224,7 @@ QualitySettings:
       type: 2}
     excludedTargetPlatforms: []
   m_PerPlatformDefaultQuality:
-    Android: 3
-    Standalone: 3
-    Windows Store Apps: 3
-    iPhone: 3
+    Android: 1
+    Standalone: 1
+    Windows Store Apps: 1
+    iPhone: 1
