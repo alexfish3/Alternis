@@ -101,6 +101,7 @@ public class PauseMenu : MonoBehaviour
         essentialGameObjects.BGMObject.GetComponent<AudioSource>().Stop();
         essentialGameObjects.BGMObject.GetComponent<AudioSource>().clip = mainMenuMusic;
         essentialGameObjects.BGMObject.GetComponent<AudioSource>().Play();
+        essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().pitchToOne();
     }
 
     private IEnumerator resumeGameAfterAnim()

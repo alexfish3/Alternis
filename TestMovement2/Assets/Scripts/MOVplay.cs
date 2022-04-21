@@ -9,6 +9,9 @@ public class MOVplay : MonoBehaviour
     private IEnumerator c;
     VideoPlayer VideoPlayer;
     EssentialGameObjects essentialGameObjects;
+    [SerializeField] bool returnToMainMenu;
+    [SerializeField] int sceneToLoad;
+    [SerializeField] AudioClip mainMenuMusic;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +24,7 @@ public class MOVplay : MonoBehaviour
         VideoPlayer.SetTargetAudioSource(0, essentialGameObjects.SFXObject.GetComponent<AudioSource>());
         VideoPlayer.Play();
 
-        float timeToWait = (float)VideoPlayer.clip.length;
+        float timeToWait = ((float)VideoPlayer.clip.length) + 0.5f;
         c = waitTillVideoDone(timeToWait);
         StartCoroutine(c);
     }
@@ -29,13 +32,35 @@ public class MOVplay : MonoBehaviour
     private IEnumerator waitTillVideoDone(float timeToWait)
     {
         yield return new WaitForSeconds(timeToWait);
-        SceneManager.LoadScene(3);
+        if(returnToMainMenu == true)
+        {
+            essentialGameObjects.BGMObject.SetActive(true);
+            essentialGameObjects.BGMObject.GetComponent<AudioSource>().Stop();
+            essentialGameObjects.BGMObject.GetComponent<AudioSource>().clip = mainMenuMusic;
+            essentialGameObjects.BGMObject.GetComponent<AudioSource>().Play();
+            SceneManager.LoadScene(sceneToLoad);
+        }
+        else
+        {
+            essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In");
+        }
     }
 
     void BreakPlay()
     {
         StopCoroutine(c);
-        SceneManager.LoadScene(3);
+        if (returnToMainMenu == true)
+        {
+            essentialGameObjects.BGMObject.SetActive(true);
+            essentialGameObjects.BGMObject.GetComponent<AudioSource>().Stop();
+            essentialGameObjects.BGMObject.GetComponent<AudioSource>().clip = mainMenuMusic;
+            essentialGameObjects.BGMObject.GetComponent<AudioSource>().Play();
+            SceneManager.LoadScene(sceneToLoad);
+        }
+        else
+        {
+            essentialGameObjects.sceneTransition.GetComponent<Animator>().SetTrigger("Fade In");
+        }
     }
 
     void Update()
