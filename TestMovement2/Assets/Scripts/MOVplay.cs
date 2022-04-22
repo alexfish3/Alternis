@@ -38,6 +38,7 @@ public class MOVplay : MonoBehaviour
             essentialGameObjects.BGMObject.GetComponent<AudioSource>().Stop();
             essentialGameObjects.BGMObject.GetComponent<AudioSource>().clip = mainMenuMusic;
             essentialGameObjects.BGMObject.GetComponent<AudioSource>().Play();
+            essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().pitchToOne();
             SceneManager.LoadScene(sceneToLoad);
         }
         else

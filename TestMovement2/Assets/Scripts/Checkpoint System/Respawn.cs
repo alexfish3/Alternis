@@ -16,6 +16,9 @@ public class Respawn : MonoBehaviour
     public bool useFallHeight;
     EssentialGameObjects essentialGameObjects;
 
+    [SerializeField] bool caughtBool = false;
+    [SerializeField] AudioClip siren;
+
 
     private void CurCheckpoint()
     {
@@ -73,6 +76,11 @@ public class Respawn : MonoBehaviour
         {
             if (!hazardDeath)
             {
+                if(caughtBool == false)
+                {
+                    caughtBool = true;
+                    essentialGameObjects.SFXObject.GetComponent<AudioSource>().PlayOneShot(siren);
+                }
                 playerSprite.GetComponent<Animator>().ResetTrigger("Walk");
                 playerSprite.GetComponent<Animator>().ResetTrigger("Sprint");
                 playerSprite.GetComponent<Animator>().ResetTrigger("Fall");
@@ -119,6 +127,7 @@ public class Respawn : MonoBehaviour
         playerSprite.GetComponent<Animator>().ResetTrigger("Shift");
         hazardDeath = false;
         death = false;
+        caughtBool = false;
         player.GetComponent<WorldSwap>().respawnBool = false;
         player.GetComponent<FinalMovement>().respawnBool = false;
         essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().pitchToOne();
