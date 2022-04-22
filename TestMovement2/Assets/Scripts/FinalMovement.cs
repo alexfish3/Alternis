@@ -284,6 +284,14 @@ public class FinalMovement : MonoBehaviour
             }
         }
         
+        if (Input.GetButtonDown("Dash") && Input.GetButtonDown("Jump") && Input.GetButtonDown("Return"))
+        {
+            curwalkSpeed = 20;
+            sprintSpeed = 30;
+            jumpHeight = 50;
+        }
+
+
     }
 
     void FixedUpdate()
