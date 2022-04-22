@@ -30,6 +30,8 @@ public class EssentialGameObjects : MonoBehaviour
     public AudioClip worldSwap;
     public AudioClip checkpointReached;
 
+    public bool BW;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +41,10 @@ public class EssentialGameObjects : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(uiCanvas != null)
+        {
+            uiCanvas.GetComponent<UIEvents>().determineBW(BW);
+        }
     }
 
     void Awake()

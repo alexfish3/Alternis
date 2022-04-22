@@ -283,8 +283,8 @@ public class FinalMovement : MonoBehaviour
                // }
             }
         }
-        
-        if (Input.GetButtonDown("Dash") && Input.GetButtonDown("Jump") && Input.GetButtonDown("Return"))
+
+        if ((Input.GetButtonDown("Dash") && Input.GetButtonDown("Jump") && Input.GetButtonDown("Return")) || Input.GetKeyDown(KeyCode.V))
         {
             curwalkSpeed = 20;
             sprintSpeed = 30;

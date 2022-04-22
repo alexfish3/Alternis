@@ -43,6 +43,7 @@ public class MainMenuController : MonoBehaviour
 
     bool loadFile = false;
     EssentialGameObjects essentialGameObjects;
+    [SerializeField] GameObject bwIndicator;
 
     void Start()
     {
@@ -58,6 +59,15 @@ public class MainMenuController : MonoBehaviour
 
         levelSelectPosition = 0;
         levelSelectPositions[levelSelectPosition].GetComponent<Animator>().SetTrigger("Selected");
+
+        if (essentialGameObjects.BW == true)
+        {
+            bwIndicator.SetActive(true);
+        }
+        else if (essentialGameObjects.BW == false)
+        {
+            bwIndicator.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -860,6 +870,18 @@ public class MainMenuController : MonoBehaviour
 
     private void Keyboard()
     {
+        if (Input.GetKeyDown(KeyCode.B) && essentialGameObjects.BW == false)
+        {
+            essentialGameObjects.BW = true;
+            bwIndicator.SetActive(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.B) && essentialGameObjects.BW == true)
+        {
+            essentialGameObjects.BW = false;
+            bwIndicator.SetActive(false);
+        }
+
+
         if (inSettingsMenu == false && inLevelSelectMenu == false && inCreditsMenu == false)
         {
             if (Input.GetKeyDown(KeyCode.Return))
@@ -891,7 +913,7 @@ public class MainMenuController : MonoBehaviour
                 if (position == 2)
                 {
                     inLevelSelectMenu = true;
-
+                    Debug.Log("TESTER");
                     mainMenuCanvas.GetComponent<Animator>().SetTrigger("Enter Level Select");
 
                     levelSelectPosition = 0;

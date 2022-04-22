@@ -12,6 +12,13 @@ public class UIEvents : MonoBehaviour
     [SerializeField] Material darkWorldSkybox;
     [SerializeField] GameObject gasMaskGameobject;
 
+
+    [SerializeField] GameObject PP;
+    [SerializeField] GameObject PPWS;
+    [SerializeField] GameObject PPBW;
+    [SerializeField] GameObject PPWSBW;
+
+
     EssentialGameObjects essentialGameObjects;
     private void Start()
     {
@@ -72,5 +79,23 @@ public class UIEvents : MonoBehaviour
     public void pitchToOne()
     {
         essentialGameObjects.BGMObject.GetComponent<AdjustAudio>().pitchToOne();
+    }
+
+    public void determineBW(bool bw)
+    {
+        if(bw == true)
+        {
+            PP.SetActive(false);
+            PPWS.SetActive(false);
+            PPBW.SetActive(true);
+            PPWSBW.SetActive(true);
+        }
+        else if (bw == false)
+        {
+            PP.SetActive(true);
+            PPWS.SetActive(true);
+            PPBW.SetActive(false);
+            PPWSBW.SetActive(false);
+        }
     }
 }
