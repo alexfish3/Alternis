@@ -90,6 +90,14 @@ public class FinalMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Controller
+
+
+
+
+
+
+
         if(essentialGameObjects.GetComponent<PauseMenu>().isPaused == false && respawnBool == false)
         {
             //Walk
@@ -213,21 +221,6 @@ public class FinalMovement : MonoBehaviour
                 isSprinting = false;
                 rb.velocity = new Vector3(-crouchWalkSpeed, rb.velocity.y, 0);
             }
-
-            //Slide
-            //if (crouch && Input.GetAxis("Horizontal") > 0.2 && Input.GetButtonDown("Dash") && !slide)
-            // {
-            //     slide = true;
-            //    rb.velocity = new Vector3(slideSpeed, rb.velocity.y, 0);
-            // } else if (crouch && Input.GetAxis("Horizontal") < -0.2 && Input.GetButtonDown("Dash") && !slide)
-            //  {
-            //      slide = true;
-            //      rb.velocity = new Vector3(-slideSpeed, rb.velocity.y, 0);
-            //  }
-            //  if (slide && rb.velocity.x < 2 && rb.velocity.x > -2)
-            //  {
-            //     slide = false;
-            //  }
 
             //Disable Sprint
             if (rb.velocity.x <= walkSpeed && rb.velocity.x >= -walkSpeed && isSprinting)
